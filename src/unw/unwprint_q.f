@@ -47,8 +47,8 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
          if(erech)then
 
             if(i.eq.1)then
-               write(45,*)'HepMC::Version 2.06.11'
-               write(45,*)'HepMC::IO_GenEvent-START_EVENT_LISTING'
+               write(45,'(A)')'HepMC::Version 2.06.11'
+               write(45,'(A)')'HepMC::IO_GenEvent-START_EVENT_LISTING'
             endif
             
             do k=1,nup+2
@@ -157,8 +157,9 @@ c$$$            aqedup=alpha
            aqcdup=alphas(scalup**2)
            
            write(45,51)'E',i,0,scalup,aqcdup,aqedup,proc,0
-     &          ,nvert,1,2,0,0
+     &          ,nvert,1,2,0,1,1d0
            write(45,55)'U GEV CM'
+           write(45,'(A)')'N 1 "Default"'
            write(45,52)'F',nfl1,nfl2,x1,x2,scalup,0d0,0d0,0,0
 
            if(diff.eq.'el')then
@@ -312,10 +313,8 @@ c$$$         endif
             
             
 
-            write(45,*)''
-
             if(i.eq.nev)then
-               write(45,*)'HepMC::IO_GenEvent-END_EVENT_LISTING'
+               write(45,'(A)')'HepMC::IO_GenEvent-END_EVENT_LISTING'
             endif
             
             goto 500
@@ -336,7 +335,7 @@ c$$$ 55      format(8a)
 
  51      format(A1,' ',I0,' ',I0,' ',E15.9,' ',E15.9,' ',E15.9,' ',I0
      &        ,' ',I0
-     &        ,' ',I0,' ',I0,' ',I0,' ',I0,' ',I0,' ')
+     &        ,' ',I0,' ',I0,' ',I0,' ',I0,' ',I0,' ',E15.9)
  52      format(A1,' ',i0,' ',i0,' ',E15.9,' ',E15.9,' ',E15.9,' '
      &        ,E15.9,' ',E15.9,' ',i0,' ',i0)
  53      format(A1,' ',i0,' ',i0,' ',E15.9,' ',E15.9,' ',E15.9,' '
