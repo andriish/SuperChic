@@ -88,4 +88,4 @@ jobs:
          mkdir RUN
          cd RUN
          mkdir -p inputs
-         ../BUILD/bin/init < ../bin/input.DAT
+         ../BUILD/init < ../bin/input.DAT
