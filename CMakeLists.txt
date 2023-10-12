@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12.0 FATAL_ERROR)
 #----------------------------------------------------------------------------
-project(SuperChic LANGUAGES C Fortran)
+project(SuperChic LANGUAGES  Fortran)
 set(PROJECT_VERSION 4.2)
 option(SUPERCHIC_ENABLE_TESTS        "Enables building of tests." OFF)
 #set(CMAKE_VERBOSE_MAKEFILE OFF)
@@ -11,19 +11,19 @@ message(STATUS "SuperChic: LHAPDF_VERSION=${LHAPDF_VERSION} LHAPDF_LIBRARIES=${L
 find_package(APFEL REQUIRED)
 message(STATUS "SuperChic: APFEL_VERSION=${APFEL_VERSION} APFEL_LIBRARIES=${APFEL_LIBRARIES} APFEL_INCLUDE_DIRS=${APFEL_INCLUDE_DIRS}")
 #add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:SunPro>>:-e>")
-add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:PGI>>:-Mextend>")
-add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:NVHPC>>:-Mextend>")
-add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:Intel>>:-132>")
-add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:IntelLLVM>>:-132>")
-add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:LLVMFlang>>:-ffixed-line-length=132>")
-add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:Flang>>:-ffixed-line-length=132>")
-add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:GNU>>:-ffixed-line-length-132>")
+#add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:PGI>>:-Mextend>")
+#add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:NVHPC>>:-Mextend>")
+#add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:Intel>>:-132>")
+#add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:IntelLLVM>>:-132>")
+#add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:LLVMFlang>>:-ffixed-line-length=132>")
+#add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:Flang>>:-ffixed-line-length=132>")
+#add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:GNU>>:-ffixed-line-length-132>")
 add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:GNU>>:-std=legacy>")
 
 message(STATUS "SuperChic: CMAKE_Fortran_COMPILER_ID ${CMAKE_Fortran_COMPILER_ID} " )
 message(STATUS "SuperChic: CMAKE_Fortran_FLAGS ${CMAKE_Fortran_FLAGS} ${CMAKE_Fortran_FLAGS_${CMAKE_BUILD_TYPE}}  " )
-message(STATUS "SuperChic: CMAKE_C_COMPILER_ID ${CMAKE_C_COMPILER_ID} " )
-message(STATUS "SuperChic: CMAKE_C_FLAGS ${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_${CMAKE_BUILD_TYPE}}  " )
+#message(STATUS "SuperChic: CMAKE_C_COMPILER_ID ${CMAKE_C_COMPILER_ID} " )
+#message(STATUS "SuperChic: CMAKE_C_FLAGS ${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_${CMAKE_BUILD_TYPE}}  " )
 message(STATUS "SuperChic: SUPERCHIC_ENABLE_TESTS=${SUPERCHIC_ENABLE_TESTS}" )
 
 set(Dissf CLAS.f gd-fit-11.f CB.f Elastic.f F1F2.f F2ev.f rfit.f 
@@ -137,7 +137,8 @@ set(MG wwpol_match.f is_born.f matrix_uc.f matrix_ds.f matrix_ubcb.f
        matrix_aub.f matrix_ad.f matrix_adb.f )
 list(TRANSFORM MG PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/src/MG/")
 
-set(ENVVAR  ${CMAKE_CURRENT_SOURCE_DIR}/get_env_var.c)
+#set(ENVVAR  ${CMAKE_CURRENT_SOURCE_DIR}/get_env_var.c)
+set(ENVVAR  )
 
 set( sCODELHA ${Mainf} ${Mesf} ${EW} ${PDFsfLHA} ${Intf} ${Phasef} 
               ${Subampsf} ${Survf} ${Userf} ${sPDFsf} ${Unwf} ${Varf} 
