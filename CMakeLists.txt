@@ -142,9 +142,9 @@ add_executable(superchic ${CMAKE_CURRENT_SOURCE_DIR}/src/main/superchic.f  ${Ini
 target_include_directories(superchic PRIVATE  ${scincludes})
 target_link_libraries(superchic PRIVATE LHAPDF::LHAPDF APFEL::APFEL APFEL::APFELevol superchicLib)
 
-add_executable(init ${CMAKE_CURRENT_SOURCE_DIR}/src/init/init.f ${InitfLHA} )
+add_executable(init ${CMAKE_CURRENT_SOURCE_DIR}/src/init/init.f ${InitfLHA} ${ENVVAR} )
 target_include_directories(init PRIVATE  ${scincludes})
-target_link_libraries(init PRIVATE LHAPDF::LHAPDF APFEL::APFEL  APFEL::APFELevol)
+target_link_libraries(init PRIVATE LHAPDF::LHAPDF APFEL::APFEL  APFEL::APFELevol )
 
 
 install(TARGETS superchic init DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT bin)
