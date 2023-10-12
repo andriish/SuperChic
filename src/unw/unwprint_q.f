@@ -160,6 +160,7 @@ c$$$            aqedup=alpha
      &          ,nvert,1,2,0,1,1d0
            write(45,55)'U GEV CM'
            write(45,'(A)')'N 1 "Default"'
+           write(45,56)'C',1.0d0,0.1d0 !FIXME
            write(45,52)'F',nfl1,nfl2,x1,x2,scalup,0d0,0d0,0,0
 
            if(diff.eq.'el')then
@@ -344,7 +345,7 @@ c$$$ 55      format(8a)
      &        ,' ',E15.9,' ',E15.9,' ',i0,' ',E15.9,' ',E15.9,' ',i0
      &        ,' ',i0,' ',i0)
  55      format(8a)
-
+ 56      format(A1,' ',E15.9,' ',E15.9)
 ccccccccccccccccccccccccccccccccccccccccccccccc
 ccccc Les Houches
 ccccccccccccccccccccccccccccccccccccccccccccccc
