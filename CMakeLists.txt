@@ -122,9 +122,13 @@ set(MG wwpol_match.f is_born.f matrix_uc.f matrix_ds.f matrix_ubcb.f
        matrix_aub.f matrix_ad.f matrix_adb.f )
 list(TRANSFORM MG PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/src/MG/")
 
+set(ENVVAR  ${CMAKE_CURRENT_SOURCE_DIR}/get_env_var.c)
+
 set( sCODELHA ${Mainf} ${Mesf} ${EW} ${PDFsfLHA} ${Intf} ${Phasef} 
               ${Subampsf} ${Survf} ${Userf} ${sPDFsf} ${Unwf} ${Varf} 
-              ${LbyLf} ${InitfION} ${Dissf} ${Helas} ${Model} ${MG})
+              ${LbyLf} ${InitfION} ${Dissf} ${Helas} ${Model} ${MG}
+              ${ENVVAR}
+              )
 set(scincludes  
                ${CMAKE_CURRENT_SOURCE_DIR}/src/main
                ${CMAKE_CURRENT_SOURCE_DIR}/src/inc
