@@ -18,7 +18,15 @@ message(STATUS "SuperChic: APFEL_VERSION=${APFEL_VERSION} APFEL_LIBRARIES=${APFE
 #add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:LLVMFlang>>:-ffixed-line-length=132>")
 #add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:Flang>>:-ffixed-line-length=132>")
 #add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:GNU>>:-ffixed-line-length-132>")
-add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:GNU>>:-std=legacy>")
+add_compile_options("$<$<Fortran_COMPILER_ID:GNU>:-std=legacy>")
+add_compile_options("$<$<Fortran_COMPILER_ID:GNU>:-fno-automatic>")
+add_compile_options("$<$<Fortran_COMPILER_ID:Intel>:-noauto>")
+add_compile_options("$<$<Fortran_COMPILER_ID:IntelLLVM>:-noauto>")
+add_compile_options("$<$<Fortran_COMPILER_ID:NVHPC>:-Msave>")
+add_compile_options("$<$<Fortran_COMPILER_ID:PGI>:-Msave>")
+add_compile_options("$<$<Fortran_COMPILER_ID:XL>:-qsave>")
+add_compile_options("$<$<Fortran_COMPILER_ID:LLVMFlang>:-Msave>")
+add_compile_options("$<$<Fortran_COMPILER_ID:Flang>:-Msave>")
 
 message(STATUS "SuperChic: CMAKE_Fortran_COMPILER_ID ${CMAKE_Fortran_COMPILER_ID} " )
 message(STATUS "SuperChic: CMAKE_Fortran_FLAGS ${CMAKE_Fortran_FLAGS} ${CMAKE_Fortran_FLAGS_${CMAKE_BUILD_TYPE}}  " )
@@ -153,14 +161,18 @@ set(scincludes
 add_library(superchicLib SHARED ${sCODELHA})
 target_include_directories(superchicLib PRIVATE  ${scincludes})
 target_link_libraries(superchicLib PRIVATE LHAPDF::LHAPDF APFEL::APFEL APFEL::APFELevol)
+target_compile_options(superchicLib PRIVATE "$<$<Fortran_COMPILER_ID:GNU>:-mcmodel=large>")
 
 add_executable(superchic ${CMAKE_CURRENT_SOURCE_DIR}/src/main/superchic.f  ${InitfLHA} )
 target_include_directories(superchic PRIVATE  ${scincludes})
 target_link_libraries(superchic PRIVATE LHAPDF::LHAPDF APFEL::APFEL APFEL::APFELevol superchicLib)
+target_compile_options(superchic PRIVATE "$<$<Fortran_COMPILER_ID:GNU>:-mcmodel=large>")
+
 
 add_executable(init ${CMAKE_CURRENT_SOURCE_DIR}/src/init/init.f ${InitfLHA} ${ENVVAR} )
 target_include_directories(init PRIVATE  ${scincludes})
 target_link_libraries(init PRIVATE LHAPDF::LHAPDF APFEL::APFEL  APFEL::APFELevol )
+target_compile_options(init PRIVATE "$<$<Fortran_COMPILER_ID:GNU>:-mcmodel=large>")
 
 
 install(TARGETS superchic init DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT bin)
