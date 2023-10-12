@@ -9,7 +9,7 @@ include("GNUInstallDirs")
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules ${CMAKE_MODULE_PATH})
 find_package(LHAPDF REQUIRED)
 find_package(APFEL REQUIRED)
-set(CMAKE_Fortran_FLAGS  "${CMAKE_Fortran_FLAGS} -ffixed-line-length-132 -std=legacy" )
+set(CMAKE_Fortran_FLAGS  "${CMAKE_Fortran_FLAGS} -ffixed-line-length-132 -std=legacy -O2" )
 
 set(Dissf CLAS.f gd-fit-11.f CB.f Elastic.f F1F2.f F2ev.f rfit.f 
           alphaEM.f qinit.f apfelinit.f )

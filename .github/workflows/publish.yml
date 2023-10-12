@@ -61,7 +61,7 @@ jobs:
          ls -lah bin
          mkdir RUN
          cd RUN
-         mkdir -p inputs
+         mkdir -p inputs evrecs
          cp -r ../bin/init ./
          ../bin/init < ../bin/input.DAT
          ../bin/superchic < ../bin/input.DAT
@@ -81,13 +81,15 @@ jobs:
           fetch-depth: 3 
     - name: Run
       run : |
-         cmake -S . -B BUILD
+         cmake -S . -B BUILD -DCMAKE_INSTALL_PREFIX=$(pwd)/INSTALL
          cmake --build BUILD -j 2
+         cmake --install BUILD 
          ls -lah 
          ls -lah bin
          ls -lah BUILD
+         find INSTALL
          mkdir RUN
          cd RUN
-         mkdir -p inputs
+         mkdir -p inputs evrecs
          ../BUILD/init < ../bin/input.DAT
          ../BUILD/superchic < ../bin/input.DAT
