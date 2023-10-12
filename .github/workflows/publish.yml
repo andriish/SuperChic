@@ -61,7 +61,7 @@ jobs:
          ls -lah bin
          mkdir RUN
          cd RUN
-         mkdir -p inputs evrecs
+         mkdir -p inputs evrecs outputs
          cp -r ../bin/init ./
          ../bin/init < ../bin/input.DAT
          ../bin/superchic < ../bin/input.DAT
@@ -90,6 +90,6 @@ jobs:
          find INSTALL
          mkdir RUN
          cd RUN
-         mkdir -p inputs evrecs
+         mkdir -p inputs evrecs outputs
          ../BUILD/init < ../bin/input.DAT
          ../BUILD/superchic < ../bin/input.DAT
