@@ -38,7 +38,7 @@ jobs:
          docker run ghcr.io/andriish/superchic:latest
          docker push ghcr.io/andriish/superchic
 
-  run-in-superchic-docker-image:
+  run-in-superchic-docker-image-gmake:
     name: Run in superchic Docker image
     runs-on: ubuntu-latest
     needs: build-superchic-docker-image
@@ -64,3 +64,28 @@ jobs:
          mkdir -p inputs
          cp -r ../bin/init ./
          ../bin/init < ../bin/input.DAT
+  run-in-superchic-docker-image-cmake:
+    name: Run in superchic Docker image
+    runs-on: ubuntu-latest
+    needs: build-superchic-docker-image
+    container:
+            image: ghcr.io/andriish/superchic:latest
+            credentials:
+               username: ${{ github.actor }}
+               password: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+          fetch-depth: 3 
+    - name: Run
+      run : |
+         cmake -S . -B BUILD
+         cmake --build BUILD -j 2
+         ls -lah 
+         ls -lah bin
+         ls -lah BUILD
+         mkdir RUN
+         cd RUN
+         mkdir -p inputs
+         ../BUILD/bin/init < ../bin/input.DAT
