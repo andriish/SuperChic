@@ -39,7 +39,7 @@ jobs:
          docker push ghcr.io/andriish/superchic
 
   run-in-superchic-docker-image-gmake:
-    name: Run in superchic Docker image
+    name: Run in superchic Docker image  with gmake
     runs-on: ubuntu-latest
     needs: build-superchic-docker-image
     container:
@@ -65,7 +65,7 @@ jobs:
          cp -r ../bin/init ./
          ../bin/init < ../bin/input.DAT
   run-in-superchic-docker-image-cmake:
-    name: Run in superchic Docker image
+    name: Run in superchic Docker image with cmake
     runs-on: ubuntu-latest
     needs: build-superchic-docker-image
     container:
