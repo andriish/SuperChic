@@ -64,6 +64,7 @@ jobs:
          mkdir -p inputs
          cp -r ../bin/init ./
          ../bin/init < ../bin/input.DAT
+         ../bin/superchic < ../bin/input.DAT
   run-in-superchic-docker-image-cmake:
     name: Run in superchic Docker image with cmake
     runs-on: ubuntu-latest
@@ -89,3 +90,4 @@ jobs:
          cd RUN
          mkdir -p inputs
          ../BUILD/init < ../bin/input.DAT
+         ../BUILD/superchic < ../bin/input.DAT
