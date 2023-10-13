@@ -14,7 +14,6 @@
       integer length
       character*500 valuepath
       length = 500
-!      CALL GET_ENV_VAR('SUPERCHIC_SOURCE_PATH', valuepath, length)
       length=0
       CALL GETENV('SUPERCHIC_SOURCE_PATH', valuepath)
       length=len(trim(valuepath))
