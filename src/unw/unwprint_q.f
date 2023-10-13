@@ -174,7 +174,6 @@ c$$$            aqedup=alpha
            vv=1
            if(diff.eq.'el')then
 
-
               istup(3)=3
               istup(4)=3
 
@@ -337,8 +336,6 @@ c$$$            enddo
 c$$$            
 c$$$         endif
 
-            
-            
 
             if(i.eq.nev)then
                write(45,'(A)')'HepMC::IO_GenEvent-END_EVENT_LISTING'
