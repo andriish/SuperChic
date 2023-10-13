@@ -179,7 +179,7 @@ target_link_libraries(superchicLib PRIVATE LHAPDF::LHAPDF APFEL::APFEL APFEL::AP
 target_compile_options(superchicLib PRIVATE "$<$<Fortran_COMPILER_ID:GNU>:-mcmodel=large>")
 target_compile_options(superchicLib PRIVATE "$<$<Fortran_COMPILER_ID:Intel>:-mcmodel=large>")
 target_compile_options(superchicLib PRIVATE "$<$<Fortran_COMPILER_ID:IntelLLVM>:-mcmodel=large>")
-target_compile_options(superchicLib PRIVATE "$<$<Fortran_COMPILER_ID:NVHPC>:-mcmodel=large>")
+target_compile_options(superchicLib PRIVATE "$<$<Fortran_COMPILER_ID:NVHPC>:-mcmodel=medium>")
 target_compile_options(superchicLib PRIVATE "$<$<Fortran_COMPILER_ID:PGI>:-mcmodel=large>")
 
 add_executable(superchic ${CMAKE_CURRENT_SOURCE_DIR}/src/main/superchic.f  ${InitfLHA} )
@@ -188,7 +188,7 @@ target_link_libraries(superchic PRIVATE LHAPDF::LHAPDF APFEL::APFEL APFEL::APFEL
 target_compile_options(superchic PRIVATE "$<$<Fortran_COMPILER_ID:GNU>:-mcmodel=large>")
 target_compile_options(superchic PRIVATE "$<$<Fortran_COMPILER_ID:Intel>:-mcmodel=large>")
 target_compile_options(superchic PRIVATE "$<$<Fortran_COMPILER_ID:IntelLLVM>:-mcmodel=large>")
-target_compile_options(superchic PRIVATE "$<$<Fortran_COMPILER_ID:NVHPC>:-mcmodel=large>")
+target_compile_options(superchic PRIVATE "$<$<Fortran_COMPILER_ID:NVHPC>:-mcmodel=medium>")
 target_compile_options(superchic PRIVATE "$<$<Fortran_COMPILER_ID:PGI>:-mcmodel=large>")
 
 
@@ -198,7 +198,7 @@ target_link_libraries(init PRIVATE LHAPDF::LHAPDF APFEL::APFEL  APFEL::APFELevol
 target_compile_options(init PRIVATE "$<$<Fortran_COMPILER_ID:GNU>:-mcmodel=large>")
 target_compile_options(init PRIVATE "$<$<Fortran_COMPILER_ID:Intel>:-mcmodel=large>")
 target_compile_options(init PRIVATE "$<$<Fortran_COMPILER_ID:IntelLLVM>:-mcmodel=large>")
-target_compile_options(init PRIVATE "$<$<Fortran_COMPILER_ID:NVHPC>:-mcmodel=large>")
+target_compile_options(init PRIVATE "$<$<Fortran_COMPILER_ID:NVHPC>:-mcmodel=medium>")
 target_compile_options(init PRIVATE "$<$<Fortran_COMPILER_ID:PGI>:-mcmodel=large>")
 
 
