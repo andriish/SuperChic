@@ -21,14 +21,6 @@ find_package(LHAPDF REQUIRED)
 message(STATUS "SuperChic: LHAPDF_VERSION=${LHAPDF_VERSION} LHAPDF_LIBRARIES=${LHAPDF_LIBRARIES} LHAPDF_INCLUDE_DIRS=${LHAPDF_INCLUDE_DIRS}")
 find_package(APFEL REQUIRED)
 message(STATUS "SuperChic: APFEL_VERSION=${APFEL_VERSION} APFEL_LIBRARIES=${APFEL_LIBRARIES} APFEL_INCLUDE_DIRS=${APFEL_INCLUDE_DIRS}")
-#add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:SunPro>>:-e>")
-#add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:PGI>>:-Mextend>")
-#add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:NVHPC>>:-Mextend>")
-#add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:Intel>>:-132>")
-#add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:IntelLLVM>>:-132>")
-#add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:LLVMFlang>>:-ffixed-line-length=132>")
-#add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:Flang>>:-ffixed-line-length=132>")
-#add_compile_options("$<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<Fortran_COMPILER_ID:GNU>>:-ffixed-line-length-132>")
 add_compile_options("$<$<Fortran_COMPILER_ID:GNU>:-std=legacy>")
 add_compile_options("$<$<Fortran_COMPILER_ID:GNU>:-fno-automatic>")
 add_compile_options("$<$<Fortran_COMPILER_ID:Intel>:-noauto>")
@@ -38,10 +30,6 @@ add_compile_options("$<$<Fortran_COMPILER_ID:PGI>:-Msave>")
 add_compile_options("$<$<Fortran_COMPILER_ID:XL>:-qsave>")
 add_compile_options("$<$<Fortran_COMPILER_ID:LLVMFlang>:-Msave>")
 add_compile_options("$<$<Fortran_COMPILER_ID:Flang>:-Msave>")
-
-macro(HI)
-message(STATUS "SuperChic: SAYS HI")
-endmacro()
 
 message(STATUS "SuperChic: CMAKE_Fortran_COMPILER_ID ${CMAKE_Fortran_COMPILER_ID} " )
 message(STATUS "SuperChic: CMAKE_Fortran_FLAGS ${CMAKE_Fortran_FLAGS} ${CMAKE_Fortran_FLAGS_${CMAKE_BUILD_TYPE}}  " )
@@ -160,13 +148,9 @@ set(MG wwpol_match.f is_born.f matrix_uc.f matrix_ds.f matrix_ubcb.f
        matrix_aub.f matrix_ad.f matrix_adb.f )
 list(TRANSFORM MG PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/src/MG/")
 
-#set(ENVVAR  ${CMAKE_CURRENT_SOURCE_DIR}/get_env_var.c)
-set(ENVVAR  )
-
 set( sCODELHA ${Mainf} ${Mesf} ${EW} ${PDFsfLHA} ${Intf} ${Phasef} 
               ${Subampsf} ${Survf} ${Userf} ${sPDFsf} ${Unwf} ${Varf} 
               ${LbyLf} ${InitfION} ${Dissf} ${Helas} ${Model} ${MG}
-              ${ENVVAR}
               )
 set(scincludes  
                ${CMAKE_CURRENT_SOURCE_DIR}/src/main
@@ -192,7 +176,7 @@ target_compile_options(superchic PRIVATE "$<$<Fortran_COMPILER_ID:NVHPC>:-mcmode
 target_compile_options(superchic PRIVATE "$<$<Fortran_COMPILER_ID:PGI>:-mcmodel=large>")
 
 
-add_executable(init ${CMAKE_CURRENT_SOURCE_DIR}/src/init/init.f ${InitfLHA} ${ENVVAR} )
+add_executable(init ${CMAKE_CURRENT_SOURCE_DIR}/src/init/init.f ${InitfLHA})
 target_include_directories(init PRIVATE  ${scincludes})
 target_link_libraries(init PRIVATE LHAPDF::LHAPDF APFEL::APFEL  APFEL::APFELevol )
 target_compile_options(init PRIVATE "$<$<Fortran_COMPILER_ID:GNU>:-mcmodel=large>")
