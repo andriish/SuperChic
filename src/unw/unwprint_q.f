@@ -2,7 +2,7 @@ ccc   randomizes order of VEGAS unweighted events and
 ccc   prints nev events to record
       subroutine unwprintq
       implicit double precision(a-y)
-      integer i,j,k,l,m,n,bar
+      integer i,j,k,l,m,n,bar,vv,pp
       integer evfill(2000000)
 
       include 'pdg.f'
@@ -157,26 +157,57 @@ c$$$            aqedup=alpha
            aqcdup=alphas(scalup**2)
            
            write(45,51)'E',i,0,scalup,aqcdup,aqedup,proc,0
-     &          ,nvert,1,2,0,1,1d0
+     &          ,nvert+2,1,2,0,1,1d0
            write(45,55)'U GEV CM'
            write(45,'(A)')'N 1 "Default"'
            write(45,56)'C',1.0d0,0.1d0 !FIXME
            write(45,52)'F',nfl1,nfl2,x1,x2,scalup,0d0,0d0,0,0
-
+           pp=1
+          write(45,54)'P',pp,idup(1),pup(1,1)
+     &                ,pup(2,1),pup(3,1),pup(4,1),pup(5,1),
+     &                4,0d0,0d0,1,0,0
+          pp=pp+1
+          write(45,54)'P',pp,idup(2),pup(1,2)
+     &                ,pup(2,2),pup(3,2),pup(4,2),pup(5,2),
+     &                4,0d0,0d0,2,0,0
+          pp=pp+1          
+           vv=1
            if(diff.eq.'el')then
 
-              write(45,53)'V',1,0,0d0,0d0,0d0,0d0,
-     &             2,2
 
               istup(3)=3
               istup(4)=3
 
               do m=3,nup+1
-                 bar=1
+                 bar=3
                  if(m.gt.4)bar=0
-                 write(45,54)'P',m-2,idup(m),pup(1,m)
+                 if (vv.eq.3) then
+                   write(45,53)'V',vv,0,0d0,0d0,0d0,0d0,2,2
+                   vv=vv+1
+                 endif
+                 if (pp.eq.3) then
+                   write(45,53)'V',vv,0,0d0,0d0,0d0,0d0,1,2
+                   write(45,54)'P',pp,idup(1),pup(1,1)-pup(1,3)
+     &                ,pup(2,1)-pup(2,3),pup(3,1)-pup(3,3),
+     &                 pup(4,1),pup(5,1),
+     &                1,0d0,0d0,0,0,0
+                   pp=pp+1
+                   vv=vv+1
+                 endif
+                 if (pp.eq.5) then
+                   write(45,53)'V',vv,0,0d0,0d0,0d0,0d0,1,2
+                   write(45,54)'P',pp,idup(2),pup(1,2)-pup(1,4)
+     &                ,pup(2,2)-pup(2,4),pup(3,2)-pup(3,4),
+     &                 pup(4,2),pup(5,2),
+     &                1,0d0,0d0,0,0,0
+                   pp=pp+1
+                   vv=vv+1
+                 endif
+
+                 write(45,54)'P',pp,idup(m),pup(1,m)
      &                ,pup(2,m),pup(3,m),pup(4,m),pup(5,m),
      &                istup(m),0d0,0d0,bar,0,0
+                 pp=pp+1
               enddo
 
 c$$$                            do m=3,nup+1
@@ -188,8 +219,7 @@ c$$$                  enddo
               
            elseif(diff.eq.'dd')then
               
-              write(45,53)'V',1,0,0d0,0d0,0d0,0d0,
-     &             1,2
+              write(45,53)'V',1,0,0d0,0d0,0d0,0d0,1,2
 
               istup(3)=3
               istup(4)=3
@@ -209,8 +239,7 @@ c$$$                  enddo
      &                2,0d0,0d0,3,0,0
 
               
-              write(45,53)'V',2,0,0d0,0d0,0d0,0d0,
-     &             1,2
+              write(45,53)'V',2,0,0d0,0d0,0d0,0d0,1,2
 
 
               massgam=(pup(4,6)-pup(4,4))**2-(pup(3,6)-pup(3,4))**2
@@ -228,8 +257,7 @@ c$$$                  enddo
      &             2,0d0,0d0,3,0,0
 
 
-              write(45,53)'V',3,0,0d0,0d0,0d0,0d0,
-     &             0,2
+              write(45,53)'V',3,0,0d0,0d0,0d0,0d0,0,2
               massgam=(pup(4,5)-pup(4,3))**2-(pup(3,5)-pup(3,3))**2
      &             -(pup(2,5)-pup(2,3))**2-(pup(1,5)-pup(1,3))**2
               massgam=-dsqrt(-massgam)
@@ -257,8 +285,7 @@ c$$$                  enddo
               istup(3)=3
               istup(4)=3
               
-             write(45,53)'V',1,0,0d0,0d0,0d0,0d0,
-     &             1,2
+             write(45,53)'V',1,0,0d0,0d0,0d0,0d0,1,2
 
               massgam=(pup(4,5)-pup(4,4))**2-(pup(3,5)-pup(3,4))**2
      &             -(pup(2,5)-pup(2,4))**2-(pup(1,5)-pup(1,4))**2
@@ -274,8 +301,7 @@ c$$$                  enddo
      &             ,pup(4,4)-pup(4,5),massgam,
      &             2,0d0,0d0,2,0,0
 
-              write(45,53)'V',2,0,0d0,0d0,0d0,0d0,
-     &             1,2
+              write(45,53)'V',2,0,0d0,0d0,0d0,0d0,1,2
               massgam=(pup(4,5)-pup(4,4))**2-(pup(3,5)-pup(3,4))**2
      &             -(pup(2,5)-pup(2,4))**2-(pup(1,5)-pup(1,4))**2
               massgam=-dsqrt(-massgam)
