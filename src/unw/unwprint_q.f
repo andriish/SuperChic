@@ -155,197 +155,119 @@ c$$$            aqedup=alpha
            endif
            
            aqcdup=alphas(scalup**2)
-           
-           write(45,51)'E',i,0,scalup,aqcdup,aqedup,proc,0
-     &          ,nvert+2,1,2,0,1,1d0
-           write(45,55)'U GEV CM'
-           write(45,'(A)')'N 1 "Default"'
-           write(45,56)'C',1.0d0,0.1d0 !FIXME
-           write(45,52)'F',nfl1,nfl2,x1,x2,scalup,0d0,0d0,0,0
-           pp=1
-          write(45,54)'P',pp,idup(1),pup(1,1)
-     &                ,pup(2,1),pup(3,1),pup(4,1),pup(5,1),
-     &                4,0d0,0d0,1,0,0
-          pp=pp+1
-          write(45,54)'P',pp,idup(2),pup(1,2)
-     &                ,pup(2,2),pup(3,2),pup(4,2),pup(5,2),
-     &                4,0d0,0d0,2,0,0
-          pp=pp+1          
-           vv=1
-           if(diff.eq.'el')then
 
-              istup(3)=3
-              istup(4)=3
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+       if(diff.eq.'el')then
+         istup(3)=3
+         istup(4)=3
+         write(45,51)'E',i,0,scalup,aqcdup,aqedup,proc,0,3,1,4,0,1,1d0
+         write(45,55)'U GEV CM'                                         !Units
+         write(45,'(A)')'N 1 "Default"'                                 !Weight names
+         write(45,56)'C',1.0d0,0.1d0 !FIXME                             !Cross-section
+         write(45,52)'F',nfl1,nfl2,x1,x2,scalup,0d0,0d0,0,0             !PDF
+         write(45,53)'V',-1,0,0d0,0d0,0d0,0d0,1,2,0                     !First extraction vertex
+         write(45,54)'P',1,idup(1),pup(1,1),pup(2,1),pup(3,1),pup(4,1), !First beam particle
+     &    pup(5,1),4,0d0,0d0,-1,0
+         write(45,54)'P',2,idup(1),pup(1,1)-pup(1,3),pup(2,1)-pup(2,3)  !First remnant
+     &   ,pup(3,1)-pup(3,3),pup(4,1),pup(5,1),1,0d0,0d0,0,0
+         write(45,54)'P',3,idup(3),pup(1,3),pup(2,3),pup(3,3),          !First parton
+     & pup(4,3),pup(5,3),istup(3),0d0,0d0,-3,0
+         write(45,53)'V',-2,0,0d0,0d0,0d0,0d0,1,2,0                     !Second extraction vertex
+         write(45,54)'P',4,idup(2),pup(1,2),pup(2,2),pup(3,2),          !Second beam particle
+     & pup(4,2),pup(5,2), 4,0d0,0d0,-2,0
+         write(45,54)'P',5,idup(2),pup(1,2)-pup(1,4),pup(2,2)-pup(2,4), !Second remnant
+     &     pup(3,2)-pup(3,4),pup(4,2),pup(5,2),1,0d0,0d0,0,0
+         write(45,54)'P',6,idup(4),pup(1,4),pup(2,4),pup(3,4),pup(4,4), !Second parton
+     &    pup(5,4),istup(4),0d0,0d0,-3,0
+         write(45,53)'V',-3,0,0d0,0d0,0d0,0d0,2,nup+1-5+1,0             !Interaction vertex
+         do m=5,nup+1                                              
+           write(45,54)'P',7+m-5,idup(m),pup(1,m),pup(2,m),pup(3,m),    !Loop over outgoing particles
+     &     pup(4,m),pup(5,m), istup(m),0d0,0d0,0,0
+          enddo              
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+       elseif(diff.eq.'dd')then
+       istup(3)=3
+       istup(4)=3       
+       write(45,51)'E',i,0,scalup,aqcdup,aqedup,proc,0,3,1,2,0,1,1d0
+       write(45,55)'U GEV CM'
+       write(45,'(A)')'N 1 "Default"'
+       write(45,56)'C',1.0d0,0.1d0 !FIXME
+       write(45,52)'F',nfl1,nfl2,x1,x2,scalup,0d0,0d0,0,0
+       write(45,53)'V',-1,0,0d0,0d0,0d0,0d0,1,2,0
+       massgam=(pup(4,5)-pup(4,3))**2-(pup(3,5)-pup(3,3))**2
+     &        -(pup(2,5)-pup(2,3))**2-(pup(1,5)-pup(1,3))**2
+       massgam=-dsqrt(-massgam)
+       write(45,54)'P',1,idup(3),pup(1,3),pup(2,3),pup(3,3),pup(4,3),
+     &   pup(5,3),istup(3),0d0,0d0,-1,0
+       write(45,54)'P',2,idup(5),pup(1,5),pup(2,5),pup(3,5),pup(4,5),
+     &   pup(5,5),istup(5),0d0,0d0,0,0
+       write(45,54)'P',3,22,pup(1,3)-pup(1,5),pup(2,3)-pup(2,5),
+     &   pup(3,3)-pup(3,5) ,pup(4,3)-pup(4,5),massgam,2,0d0,0d0,-3,0
+       write(45,53)'V',-2,0,0d0,0d0,0d0,0d0,1,2,0
+       massgam=(pup(4,6)-pup(4,4))**2-(pup(3,6)-pup(3,4))**2
+     &        -(pup(2,6)-pup(2,4))**2-(pup(1,6)-pup(1,4))**2
+       massgam=-dsqrt(-massgam)
+       write(45,54)'P',4,idup(4),pup(1,4),pup(2,4),pup(3,4),pup(4,4),
+     &   pup(5,4),istup(4),0d0,0d0,-2,0
+       write(45,54)'P',5,idup(6),pup(1,6),pup(2,6),pup(3,6),pup(4,6),
+     &   pup(5,6),istup(6),0d0,0d0,0,0
+       write(45,54)'P',6,22,pup(1,4)-pup(1,6),pup(2,4)-pup(2,6),
+     &  pup(3,4)-pup(3,6),pup(4,4)-pup(4,6),massgam,2,0d0,0d0,-3,0
+       write(45,53)'V',-3,0,0d0,0d0,0d0,0d0,0,2,0
+       massgam=(pup(4,5)-pup(4,3))**2-(pup(3,5)-pup(3,3))**2
+     &        -(pup(2,5)-pup(2,3))**2-(pup(1,5)-pup(1,3))**2
+       massgam=-dsqrt(-massgam)
+       write(45,54)'P',3,22,pup(1,3)-pup(1,5),pup(2,3)-pup(2,5),
+     &  pup(3,3)-pup(3,5),pup(4,3)-pup(4,5),massgam,2,0d0,0d0,-3,0
+       massgam=(pup(4,6)-pup(4,4))**2-(pup(3,6)-pup(3,4))**2
+     &        -(pup(2,6)-pup(2,4))**2-(pup(1,6)-pup(1,4))**2
+       massgam=-dsqrt(-massgam)
+       write(45,54)'P',6,22,pup(1,4)-pup(1,6),pup(2,4)-pup(2,6),
+     &  pup(3,4)-pup(3,6),pup(4,4)-pup(4,6),massgam,2,0d0,0d0,-3,0
+       write(45,54)'P',7,idup(7),pup(1,7),pup(2,7),pup(3,7),pup(4,7),
+     &  pup(5,7),istup(7),0d0,0d0,0,0
+       write(45,54)'P',8,idup(8),pup(1,8),pup(2,8),pup(3,8),pup(4,8),
+     &  pup(5,8),istup(8),0d0,0d0,0,0
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+      elseif(diff.eq.'sd'.or.diff.eq.'sda'.or.diff.eq.'sdb')then
+       istup(3)=3
+       istup(4)=3
+       write(45,51)'E',i,0,scalup,aqcdup,aqedup,proc,0
+     &          ,nvert+3,1,2,0,1,1d0
+       write(45,55)'U GEV CM'
+       write(45,'(A)')'N 1 "Default"'
+       write(45,56)'C',1.0d0,0.1d0 !FIXME
+       write(45,52)'F',nfl1,nfl2,x1,x2,scalup,0d0,0d0,0,0
+       write(45,53)'V',-1,0,0d0,0d0,0d0,0d0,1,2,0
+       massgam=(pup(4,5)-pup(4,4))**2-(pup(3,5)-pup(3,4))**2
+     &        -(pup(2,5)-pup(2,4))**2-(pup(1,5)-pup(1,4))**2
+       massgam=-dsqrt(-massgam)
+       write(45,54)'P',1,idup(4),pup(1,4),pup(2,4),pup(3,4),pup(4,4),
+     &   pup(5,4),istup(4),0d0,0d0,-1,0
+       write(45,54)'P',2,idup(5),pup(1,5),pup(2,5),pup(3,5),pup(4,5),
+     &   pup(5,5),istup(5),0d0,0d0,0,0
+       write(45,54)'P',3,22,pup(1,4)-pup(1,5),pup(2,4)-pup(2,5),
+     &   pup(3,4)-pup(3,5),pup(4,4)-pup(4,5),massgam,2,0d0,0d0,-2,0
+       write(45,53)'V',-2,0,0d0,0d0,0d0,0d0,1,2,0
+       massgam=(pup(4,5)-pup(4,4))**2-(pup(3,5)-pup(3,4))**2
+     &        -(pup(2,5)-pup(2,4))**2-(pup(1,5)-pup(1,4))**2
+       massgam=-dsqrt(-massgam)
+       write(45,54)'P',3,22,pup(1,4)-pup(1,5),pup(2,4)-pup(2,5),
+     &   pup(3,4)-pup(3,5),pup(4,4)-pup(4,5),massgam,2,0d0,0d0,-2,0
+       write(45,54)'P',4,22,pup(1,3),pup(2,3),pup(3,3),pup(4,3),0d0,
+     &   istup(3),0d0,0d0,-2,0
+       write(45,54)'P',5,idup(6),pup(1,6),pup(2,6),pup(3,6),pup(4,6),
+     &   pup(5,6),istup(6),0d0,0d0,0,0
+       write(45,54)'P',6,idup(7),pup(1,7),pup(2,7),pup(3,7),pup(4,7),
+     & pup(5,7),istup(7),0d0,0d0,0,0
+       endif
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+       if(i.eq.nev)then
+         write(45,'(A)')'HepMC::IO_GenEvent-END_EVENT_LISTING'
+       endif
 
-              do m=3,nup+1
-                 bar=3
-                 if(m.gt.4)bar=0
-                 if (vv.eq.3) then
-                   write(45,53)'V',vv,0,0d0,0d0,0d0,0d0,2,2
-                   vv=vv+1
-                 endif
-                 if (pp.eq.3) then
-                   write(45,53)'V',vv,0,0d0,0d0,0d0,0d0,1,2
-                   write(45,54)'P',pp,idup(1),pup(1,1)-pup(1,3)
-     &                ,pup(2,1)-pup(2,3),pup(3,1)-pup(3,3),
-     &                 pup(4,1),pup(5,1),
-     &                1,0d0,0d0,0,0,0
-                   pp=pp+1
-                   vv=vv+1
-                 endif
-                 if (pp.eq.5) then
-                   write(45,53)'V',vv,0,0d0,0d0,0d0,0d0,1,2
-                   write(45,54)'P',pp,idup(2),pup(1,2)-pup(1,4)
-     &                ,pup(2,2)-pup(2,4),pup(3,2)-pup(3,4),
-     &                 pup(4,2),pup(5,2),
-     &                1,0d0,0d0,0,0,0
-                   pp=pp+1
-                   vv=vv+1
-                 endif
-
-                 write(45,54)'P',pp,idup(m),pup(1,m)
-     &                ,pup(2,m),pup(3,m),pup(4,m),pup(5,m),
-     &                istup(m),0d0,0d0,bar,0,0
-                 pp=pp+1
-              enddo
-
-c$$$                            do m=3,nup+1
-c$$$                     write(45,303)idup(m),istup(m),mothup(1,m),
-c$$$     &                    mothup(2,m),icolup(1,m),icolup(2,m),pup(1,m)
-c$$$     &                    ,pup(2,m),pup(3,m),pup(4,m),pup(5,m),vtimup(m)
-c$$$     &                 ,spinup(m)
-c$$$                  enddo    
-              
-           elseif(diff.eq.'dd')then
-              
-              write(45,53)'V',1,0,0d0,0d0,0d0,0d0,1,2
-
-              istup(3)=3
-              istup(4)=3
-
-              massgam=(pup(4,5)-pup(4,3))**2-(pup(3,5)-pup(3,3))**2
-     &             -(pup(2,5)-pup(2,3))**2-(pup(1,5)-pup(1,3))**2
-              massgam=-dsqrt(-massgam)
-              write(45,54)'P',1,idup(3),pup(1,3)
-     &                ,pup(2,3),pup(3,3),pup(4,3),pup(5,3),
-     &             istup(3),0d0,0d0,1,0,0
-              write(45,54)'P',2,idup(5),pup(1,5)
-     &                ,pup(2,5),pup(3,5),pup(4,5),pup(5,5),
-     &             istup(5),0d0,0d0,0,0,0
-              write(45,54)'P',3,22,pup(1,3)-pup(1,5)
-     &             ,pup(2,3)-pup(2,5),pup(3,3)-pup(3,5)
-     &             ,pup(4,3)-pup(4,5),massgam,
-     &                2,0d0,0d0,3,0,0
-
-              
-              write(45,53)'V',2,0,0d0,0d0,0d0,0d0,1,2
-
-
-              massgam=(pup(4,6)-pup(4,4))**2-(pup(3,6)-pup(3,4))**2
-     &             -(pup(2,6)-pup(2,4))**2-(pup(1,6)-pup(1,4))**2
-              massgam=-dsqrt(-massgam)
-              write(45,54)'P',4,idup(4),pup(1,4)
-     &                ,pup(2,4),pup(3,4),pup(4,4),pup(5,4),
-     &             istup(4),0d0,0d0,2,0,0
-              write(45,54)'P',5,idup(6),pup(1,6)
-     &                ,pup(2,6),pup(3,6),pup(4,6),pup(5,6),
-     &             istup(6),0d0,0d0,0,0,0
-              write(45,54)'P',6,22,pup(1,4)-pup(1,6)
-     &             ,pup(2,4)-pup(2,6),pup(3,4)-pup(3,6)
-     &             ,pup(4,4)-pup(4,6),massgam,
-     &             2,0d0,0d0,3,0,0
-
-
-              write(45,53)'V',3,0,0d0,0d0,0d0,0d0,0,2
-              massgam=(pup(4,5)-pup(4,3))**2-(pup(3,5)-pup(3,3))**2
-     &             -(pup(2,5)-pup(2,3))**2-(pup(1,5)-pup(1,3))**2
-              massgam=-dsqrt(-massgam)
-              write(45,54)'P',3,22,pup(1,3)-pup(1,5)
-     &             ,pup(2,3)-pup(2,5),pup(3,3)-pup(3,5)
-     &             ,pup(4,3)-pup(4,5),massgam,
-     &             2,0d0,0d0,3,0,0
-              massgam=(pup(4,6)-pup(4,4))**2-(pup(3,6)-pup(3,4))**2
-     &             -(pup(2,6)-pup(2,4))**2-(pup(1,6)-pup(1,4))**2
-              massgam=-dsqrt(-massgam)
-              write(45,54)'P',6,22,pup(1,4)-pup(1,6)
-     &             ,pup(2,4)-pup(2,6),pup(3,4)-pup(3,6)
-     &             ,pup(4,4)-pup(4,6),massgam,
-     &             2,0d0,0d0,3,0,0
-              write(45,54)'P',7,idup(7),pup(1,7)
-     &                ,pup(2,7),pup(3,7),pup(4,7),pup(5,7),
-     &             istup(7),0d0,0d0,0,0,0
-              write(45,54)'P',8,idup(8),pup(1,8)
-     &                ,pup(2,8),pup(3,8),pup(4,8),pup(5,8),
-     &             istup(8),0d0,0d0,0,0,0
-
-              
-           elseif(diff.eq.'sd'.or.diff.eq.'sda'.or.diff.eq.'sdb')then
-
-              istup(3)=3
-              istup(4)=3
-              
-             write(45,53)'V',1,0,0d0,0d0,0d0,0d0,1,2
-
-              massgam=(pup(4,5)-pup(4,4))**2-(pup(3,5)-pup(3,4))**2
-     &             -(pup(2,5)-pup(2,4))**2-(pup(1,5)-pup(1,4))**2
-              massgam=-dsqrt(-massgam)
-              write(45,54)'P',1,idup(4),pup(1,4)
-     &                ,pup(2,4),pup(3,4),pup(4,4),pup(5,4),
-     &             istup(4),0d0,0d0,1,0,0
-              write(45,54)'P',2,idup(5),pup(1,5)
-     &                ,pup(2,5),pup(3,5),pup(4,5),pup(5,5),
-     &             istup(5),0d0,0d0,0,0,0
-              write(45,54)'P',3,22,pup(1,4)-pup(1,5)
-     &             ,pup(2,4)-pup(2,5),pup(3,4)-pup(3,5)
-     &             ,pup(4,4)-pup(4,5),massgam,
-     &             2,0d0,0d0,2,0,0
-
-              write(45,53)'V',2,0,0d0,0d0,0d0,0d0,1,2
-              massgam=(pup(4,5)-pup(4,4))**2-(pup(3,5)-pup(3,4))**2
-     &             -(pup(2,5)-pup(2,4))**2-(pup(1,5)-pup(1,4))**2
-              massgam=-dsqrt(-massgam)
-              write(45,54)'P',3,22,pup(1,4)-pup(1,5)
-     &             ,pup(2,4)-pup(2,5),pup(3,4)-pup(3,5)
-     &             ,pup(4,4)-pup(4,5),massgam,
-     &             2,0d0,0d0,2,0,0
-              write(45,54)'P',4,22,pup(1,3)
-     &                ,pup(2,3),pup(3,3),pup(4,3),0d0,
-     &             istup(3),0d0,0d0,2,0,0
-              write(45,54)'P',5,idup(6),pup(1,6)
-     &                ,pup(2,6),pup(3,6),pup(4,6),pup(5,6),
-     &             istup(6),0d0,0d0,0,0,0
-              write(45,54)'P',6,idup(7),pup(1,7)
-     &                ,pup(2,7),pup(3,7),pup(4,7),pup(5,7),
-     &             istup(7),0d0,0d0,0,0,0
-
-              
-           endif
-              
-c$$$              do n=1,nvert
-c$$$                 
-c$$$                 write(45,53)'V',vert(n),0,0d0,0d0,0d0,0d0,
-c$$$     &                orph(n),nout(n)
-c$$$                 
-c$$$                 do m=1,orph(n)+nout(n)
-c$$$                    write(45,54)'P',barv(n,m,1),pdgv(n,m),momv(n,m,1)
-c$$$     &                  ,momv(n,m,2),momv(n,m,3),momv(n,m,4),massv(n,m),
-c$$$     &                   statv(n,m),0d0,0d0,barv(n,m,2),0,0
-c$$$                 enddo
-c$$$                 
-c$$$            enddo
-c$$$            
-c$$$         endif
-
-
-            if(i.eq.nev)then
-               write(45,'(A)')'HepMC::IO_GenEvent-END_EVENT_LISTING'
-            endif
-            
-            goto 500
-
-
-            
-         endif
+        goto 500
+       endif
 
 c$$$ 51      format(1a,1x,i8,1x,i4,1x,E16.9,1x,E16.9,1x,E16.9,1x,i4,1x,i1
 c$$$     &        ,1x,i4,1x,i1,1x,i1,1x,i1,1x,i1,1x)
@@ -358,15 +280,14 @@ c$$$     &        ,E16.9,1x,i2,1x,E16.9,1x,E16.9,1x,i4,1x,i1,1x,i1)
 c$$$ 55      format(8a)
 
  51      format(A1,' ',I0,' ',I0,' ',E15.9,' ',E15.9,' ',E15.9,' ',I0
-     &        ,' ',I0
-     &        ,' ',I0,' ',I0,' ',I0,' ',I0,' ',I0,' ',E15.9)
+     &        ,' ',I0,' ',I0,' ',I0,' ',I0,' ',I0,' ',I0,' ',E15.9)
  52      format(A1,' ',i0,' ',i0,' ',E15.9,' ',E15.9,' ',E15.9,' '
      &        ,E15.9,' ',E15.9,' ',i0,' ',i0)
  53      format(A1,' ',i0,' ',i0,' ',E15.9,' ',E15.9,' ',E15.9,' '
-     &        ,E15.9,' ',i0,' ',i0)
+     &        ,E15.9,' ',i0,' ',i0,' ',i0)
  54      format(A1,' ',i0,' ',i0,' ',E15.9,' ',E15.9,' ',E15.9
      &        ,' ',E15.9,' ',E15.9,' ',i0,' ',E15.9,' ',E15.9,' ',i0
-     &        ,' ',i0,' ',i0)
+     &        ,' ',i0)
  55      format(8a)
  56      format(A1,' ',E15.9,' ',E15.9)
 ccccccccccccccccccccccccccccccccccccccccccccccc

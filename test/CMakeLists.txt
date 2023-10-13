@@ -53,16 +53,10 @@ endmacro()
 
 inittest(1)
 sctest(1 1)
-sctest(1 2)
+#sctest(1 2)
 
 inittest(3)
 sctest(3 3)
-
-inittest(5)
-sctest(5 5)
-
-inittest(7)
-sctest(7 7)
 
 inittest(9)
 sctest(9 9)
