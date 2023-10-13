@@ -66,19 +66,19 @@ jobs:
          ../bin/init < ../test/input.DAT_1
          ../bin/superchic < ../test/input.DAT_1
          find ./
-         cat evrecs/evrectest.dat
+         cat evrecs/evrectest1.dat
          ../bin/superchic < ../test/input.DAT_3
          find ./
-         cat evrecs/evrectest.dat
+         cat evrecs/evrectest3.dat
          ../bin/superchic < ../test/input.DAT_5
          find ./
-         cat evrecs/evrectest.dat
+         cat evrecs/evrectest5.dat
          ../bin/superchic < ../test/input.DAT_7
          find ./
-         cat evrecs/evrectest.dat
+         cat evrecs/evrectest7.dat
          ../bin/superchic < ../test/input.DAT_9
          find ./
-         cat evrecs/evrectest.dat
+         cat evrecs/evrectest9.dat
   run-in-superchic-docker-image-cmake:
     name: Run in superchic Docker image with cmake
     runs-on: ubuntu-latest
