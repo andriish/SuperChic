@@ -1,20 +1,9 @@
 cmake_minimum_required(VERSION 3.12.0 FATAL_ERROR)
 #----------------------------------------------------------------------------
-if (NOT SUPERCHIC_HELP)
 project(SuperChic LANGUAGES  Fortran)
 set(PROJECT_VERSION 4.2)
-endif()
-set(all_options "SuperChic Options:\n")
-macro(scoption n t d)
-  option(n t d)
-  string(APPEND all_options "${n}: ${t} Default value is ${d}.\n")
-endmacro()
-scoption(SUPERCHIC_ENABLE_TESTS        "Enables building of tests." OFF)
-scoption(SUPERCHIC_DOWNLOAD_PDFS       "Enables downloading of PDFs for tests." OFF)
-if (SUPERCHIC_HELP)
-  message(STATUS "${all_options}")
-else()
-#set(CMAKE_VERBOSE_MAKEFILE OFF)
+option(SUPERCHIC_ENABLE_TESTS        "Enables building of tests." OFF)
+option(SUPERCHIC_DOWNLOAD_PDFS       "Enables downloading of PDFs for tests." OFF)
 include("GNUInstallDirs")
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules ${CMAKE_MODULE_PATH})
 find_package(LHAPDF REQUIRED)
@@ -33,9 +22,8 @@ add_compile_options("$<$<Fortran_COMPILER_ID:Flang>:-Msave>")
 
 message(STATUS "SuperChic: CMAKE_Fortran_COMPILER_ID ${CMAKE_Fortran_COMPILER_ID} " )
 message(STATUS "SuperChic: CMAKE_Fortran_FLAGS ${CMAKE_Fortran_FLAGS} ${CMAKE_Fortran_FLAGS_${CMAKE_BUILD_TYPE}}  " )
-#message(STATUS "SuperChic: CMAKE_C_COMPILER_ID ${CMAKE_C_COMPILER_ID} " )
-#message(STATUS "SuperChic: CMAKE_C_FLAGS ${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_${CMAKE_BUILD_TYPE}}  " )
 message(STATUS "SuperChic: SUPERCHIC_ENABLE_TESTS=${SUPERCHIC_ENABLE_TESTS}" )
+message(STATUS "SuperChic: SUPERCHIC_DOWNLOAD_PDFS=${SUPERCHIC_DOWNLOAD_PDFS}" )
 
 set(Dissf CLAS.f gd-fit-11.f CB.f Elastic.f F1F2.f F2ev.f rfit.f 
           alphaEM.f qinit.f apfelinit.f )
@@ -73,7 +61,6 @@ set(Subampsf chi0.f chi1.f chi2.f etaq.f higgs.f higgsinit.f pipi.f
              monop.f lloff.f spinors.f wwoff.f wwoff_amp.f )
 list(TRANSFORM Subampsf PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/src/subamps/")
 
-
 set(Survf initparsr.f formfac.f formfacphot.f formfacgam.f seik.f 
           seikphot.f seikgam.f screeningint.f readscreen.f 
           formfacgamel.f formfacgamion.f formfacgamionp.f tpint.f 
@@ -100,7 +87,6 @@ list(TRANSFORM Unwf PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/src/unw/")
          
 set(Varf mu.f nf.f string.f varfuncs.f gaminit.f gauss.f )
 list(TRANSFORM Varf PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/src/var/")
-
 
 set(InitfLHA PDFs/alphas.f init/initsud.f var/nf.f 
              var/string.f 
@@ -150,41 +136,27 @@ list(TRANSFORM MG PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/src/MG/")
 
 set( sCODELHA ${Mainf} ${Mesf} ${EW} ${PDFsfLHA} ${Intf} ${Phasef} 
               ${Subampsf} ${Survf} ${Userf} ${sPDFsf} ${Unwf} ${Varf} 
-              ${LbyLf} ${InitfION} ${Dissf} ${Helas} ${Model} ${MG}
-              )
-set(scincludes  
-               ${CMAKE_CURRENT_SOURCE_DIR}/src/main
-               ${CMAKE_CURRENT_SOURCE_DIR}/src/inc
-)
-
+              ${LbyLf} ${InitfION} ${Dissf} ${Helas} ${Model} ${MG})
+set(scincludes ${CMAKE_CURRENT_SOURCE_DIR}/src/main ${CMAKE_CURRENT_SOURCE_DIR}/src/inc)
+set(sccompile_options "$<$<Fortran_COMPILER_ID:GNU>:-mcmodel=large>" 
+                      "$<$<Fortran_COMPILER_ID:Intel>:-mcmodel=large>"
+                      "$<$<Fortran_COMPILER_ID:IntelLLVM>:-mcmodel=large>" 
+                      "$<$<Fortran_COMPILER_ID:NVHPC>:-mcmodel=medium>"
+                      "$<$<Fortran_COMPILER_ID:PGI>:-mcmodel=medium>")
 add_library(superchicLib SHARED ${sCODELHA})
 target_include_directories(superchicLib PRIVATE  ${scincludes})
 target_link_libraries(superchicLib PRIVATE LHAPDF::LHAPDF APFEL::APFEL APFEL::APFELevol)
-target_compile_options(superchicLib PRIVATE "$<$<Fortran_COMPILER_ID:GNU>:-mcmodel=large>")
-target_compile_options(superchicLib PRIVATE "$<$<Fortran_COMPILER_ID:Intel>:-mcmodel=large>")
-target_compile_options(superchicLib PRIVATE "$<$<Fortran_COMPILER_ID:IntelLLVM>:-mcmodel=large>")
-target_compile_options(superchicLib PRIVATE "$<$<Fortran_COMPILER_ID:NVHPC>:-mcmodel=medium>")
-target_compile_options(superchicLib PRIVATE "$<$<Fortran_COMPILER_ID:PGI>:-mcmodel=large>")
+target_compile_options(superchicLib PRIVATE ${sccompile_options})
 
 add_executable(superchic ${CMAKE_CURRENT_SOURCE_DIR}/src/main/superchic.f  ${InitfLHA} )
 target_include_directories(superchic PRIVATE  ${scincludes})
 target_link_libraries(superchic PRIVATE LHAPDF::LHAPDF APFEL::APFEL APFEL::APFELevol superchicLib)
-target_compile_options(superchic PRIVATE "$<$<Fortran_COMPILER_ID:GNU>:-mcmodel=large>")
-target_compile_options(superchic PRIVATE "$<$<Fortran_COMPILER_ID:Intel>:-mcmodel=large>")
-target_compile_options(superchic PRIVATE "$<$<Fortran_COMPILER_ID:IntelLLVM>:-mcmodel=large>")
-target_compile_options(superchic PRIVATE "$<$<Fortran_COMPILER_ID:NVHPC>:-mcmodel=medium>")
-target_compile_options(superchic PRIVATE "$<$<Fortran_COMPILER_ID:PGI>:-mcmodel=large>")
-
+target_compile_options(superchic PRIVATE ${sccompile_options})
 
 add_executable(init ${CMAKE_CURRENT_SOURCE_DIR}/src/init/init.f ${InitfLHA})
 target_include_directories(init PRIVATE  ${scincludes})
 target_link_libraries(init PRIVATE LHAPDF::LHAPDF APFEL::APFEL  APFEL::APFELevol )
-target_compile_options(init PRIVATE "$<$<Fortran_COMPILER_ID:GNU>:-mcmodel=large>")
-target_compile_options(init PRIVATE "$<$<Fortran_COMPILER_ID:Intel>:-mcmodel=large>")
-target_compile_options(init PRIVATE "$<$<Fortran_COMPILER_ID:IntelLLVM>:-mcmodel=large>")
-target_compile_options(init PRIVATE "$<$<Fortran_COMPILER_ID:NVHPC>:-mcmodel=medium>")
-target_compile_options(init PRIVATE "$<$<Fortran_COMPILER_ID:PGI>:-mcmodel=large>")
-
+target_compile_options(init PRIVATE ${sccompile_options})
 
 install(TARGETS superchic init DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT bin)
 install(TARGETS superchicLib   DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libs)
@@ -195,5 +167,4 @@ install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/doc/superchic4.2.pdf DESTINATION  ${CM
 if (SUPERCHIC_ENABLE_TESTS)
   ENABLE_TESTING()
   add_subdirectory(test)
-endif()
 endif()
