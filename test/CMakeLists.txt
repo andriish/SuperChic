@@ -7,6 +7,7 @@ target_link_libraries(validator PRIVATE ${HEPMC3_LIBRARIES})
 target_include_directories(validator PRIVATE ${HEPMC3_INCLUDE_DIRS})
 target_compile_features(validator PRIVATE cxx_std_11)
 
+
 find_package(Pythia8 8.3 REQUIRED)
 add_executable(shower ${CMAKE_CURRENT_SOURCE_DIR}/shower.cxx)
 target_link_libraries(shower PRIVATE ${HEPMC3_LIBRARIES} Pythia8::Pythia8 )
@@ -16,6 +17,7 @@ message(STATUS "SuperChic test: PYTHIA8_VERSION=${PYTHIA8_VERSION} PYTHIA8_LIBRA
 
 
 set(STANDARDENVIRONMENT "SUPERCHIC_SOURCE_PATH=${PROJECT_SOURCE_DIR};PYTHIA8_XMLDOC_DIR=${PYTHIA8_XMLDOC_DIR}")
+
 if (SUPERCHIC_DOWNLOAD_PDFS)
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/PDFS)
   file(DOWNLOAD https://superchic.hepforge.org/SF_MSHT20qed_nnlo.tar.gz ${CMAKE_CURRENT_BINARY_DIR}/PDFS/SF_MSHT20qed_nnlo.tar.gz)
@@ -33,6 +35,7 @@ if (SUPERCHIC_DOWNLOAD_PDFS)
   LIST(APPEND STANDARDENVIRONMENT "LHAPDF_DATA_PATH=${CMAKE_CURRENT_BINARY_DIR}/PDFS")
 endif()
 message(STATUS "SuperChic test: STANDARDENVIRONMENT=${STANDARDENVIRONMENT}")
+
 
 macro(inittest NN)
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN})
@@ -59,6 +62,7 @@ macro(sctesthepmc NN MM)
   set_tests_properties( VALIDATE_${MM} PROPERTIES DEPENDS validator)
   set_property(TEST VALIDATE_${MM} PROPERTY  DEPENDS SUPERCHIC_${MM}) 
 endmacro()
+
 
 
 

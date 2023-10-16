@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 #include "HepMC3/ReaderFactory.h"
 #include "HepMC3/ReaderAsciiHepMC2.h"
 int main (int argc, char** argv) {
     if (argc!=2) return 1;
     auto inputA = HepMC3::deduce_reader(argv[1]);
+=======
+#include "HepMC3/ReaderAsciiHepMC2.h"
+int main (int argc, char** argv) {
+    if (argc!=2) return 1;
+    auto inputA = std::make_shared<HepMC3::ReaderAsciiHepMC2>(argv[1]);
+>>>>>>> origin/main
     if (!inputA||inputA->failed()) return 1;
 
     while( !inputA->failed() )
@@ -20,4 +27,8 @@ int main (int argc, char** argv) {
     }
     inputA->close();
     return 0;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/main
