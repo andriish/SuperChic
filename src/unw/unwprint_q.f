@@ -229,7 +229,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
        write(45,54)'P',8,idup(8),pup(1,8),pup(2,8),pup(3,8),pup(4,8),
      &  pup(5,8),istup(8),0d0,0d0,0,0
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-      elseif(diff.eq.'sd'.or.diff.eq.'sda'.or.diff.eq.'sdb')then
+           elseif(diff.eq.'sd'.or.diff.eq.'sda'.or.diff.eq.'sdb')then
        istup(3)=3
        istup(4)=3
        write(45,51)'E',i,0,scalup,aqcdup,aqedup,proc,0
