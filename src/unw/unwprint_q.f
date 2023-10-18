@@ -1,3 +1,151 @@
+      subroutine write_particle(i)
+      implicit none
+      integer i
+      integer vert(20,4)
+      integer prodv(20)
+      integer endv(20)
+      integer nvert
+      integer ii
+      COMMON /HM/nvert,vert,prodv,endv
+      include 'leshouches.f'
+      ii = istup(i)
+      if ( i.lt. 3 ) ii = 4
+      write(45,154)'P',i,idup(i),pup(1,i),pup(2,i),pup(3,i),pup(4,i)
+     & ,0d0,ii,0d0,0d0,-endv(i),0
+
+ 154      format(A1,' ',i0,' ',i0,' ',E15.9,' ',E15.9,' ',E15.9
+     &        ,' ',E15.9,' ',E15.9,' ',i0,' ',E15.9,' ',E15.9,' ',i0
+     &        ,' ',i0)
+
+      end
+
+
+      subroutine write_vertex(i)
+      implicit none
+      integer i
+      integer vert(20,4)
+      integer prodv(20)
+      integer endv(20)
+      integer nvert
+      COMMON /HM/nvert,vert,prodv,endv
+      include 'leshouches.f'      
+      write(45,153)'V',-i,0,0d0,0d0,0d0,0d0,vert(i,3),vert(i,4),0
+ 153      format(A1,' ',i0,' ',i0,' ',E15.9,' ',E15.9,' ',E15.9,' '
+     &        ,E15.9,' ',i0,' ',i0,' ',i0)
+      end
+     
+      subroutine hmout(last,enr,nfl1,nfl2,x1,x2,proc)
+!      ,scalup,aqcdup,aqedup,proc,
+!     & nfl1,nfl2,x1,x2)
+      implicit none
+      integer enr,nfl1,nfl2,proc
+      !double precision scalup,aqcdup,aqedup, x1,x2, xsecup,xerrup
+      double precision x1,x2 !,xsecup,xerrup, scalup
+      integer vert(20,4)
+      integer mom(20,2)
+      integer prodv(20)
+      integer endv(20)
+      integer nvert
+      integer i,j
+      COMMON /HM/nvert,vert,prodv,endv
+      integer st,last     
+      LOGICAL found
+      include 'leshouches.f'      
+      nvert=0
+      st=1
+      do i = 1,20      
+       vert(i,1)=0
+       vert(i,2)=0
+       vert(i,3)=0
+       vert(i,4)=0
+       prodv(i)=0
+       endv(i)=0
+       mom(i,1)=0
+       mom(i,2)=0
+      end do    
+      do i = 5,last
+        mom(i,1)=mothup(1,i)+2
+        mom(i,2)=mothup(2,i)+2
+      end do
+      mom(3,1)=1
+      mom(3,2)=1
+      mom(4,1)=2
+      mom(4,2)=2
+  
+      do i = 1,last
+      found = .FALSE.
+      do j=1,nvert
+      if (prodv(i) .ne. 0 ) then
+        found = .TRUE.
+        continue
+      endif
+      if (mom(i,1) .eq.vert(j,1).and.mom(i,2) .eq.vert(j,2))then
+      prodv(i) = j
+      found = .TRUE.
+      endif
+      end do
+      if ( .not. found )  then
+      nvert = nvert +1
+      prodv(i) = nvert
+      vert(nvert,1) = mom(i,1)
+      vert(nvert,2) = mom(i,2)
+      endif
+      end do
+ 
+      do i = 1,last
+      do j = 1,last
+      if  (i .ge. mom(j,1) .and. i .le. mom(j,2) ) then
+      endv(i) = prodv(j)
+      endif
+      end do
+      end do
+     
+      do i = 1,last
+      vert(endv(i),3)=vert(prodv(i),3)+1
+      vert(prodv(i),4)=vert(prodv(i),4)+1
+      end do
+
+!      do i=1,last
+!       write(45,*)mothup(1,i),mothup(2,i)
+!      end do
+!      write(45,*)'==========='
+!      do i=1,last
+!       write(45,*)mom(i,1),mom(i,2)
+!      end do
+
+
+
+!      do i=1,nvert
+!       write(45,*)vert(i,1),vert(i,2),vert(i,3),vert(i,4)
+!      end do
+      write(45,151)'E',enr,0,scalup,aqcdup,aqedup,proc,
+     &0,nvert,1,2,0,1,1d0
+      write(45,155)'U GEV CM'
+      write(45,'(A)')'N 1 "Default"'
+      write(45,156)'C',xsecup(1),xerrup(1)
+      write(45,152)'F',nfl1,nfl2,x1,x2,scalup,0d0,0d0,0,0 
+      do i=1,nvert
+      call write_vertex(i)
+      do j=1,last
+      if ((prodv(j).eq. i) .or. (prodv(j) .eq. 0 .and. i .eq. 1))  then
+      call write_particle(j)
+      endif
+      enddo
+      end do
+
+ 151      format(A1,' ',I0,' ',I0,' ',E15.9,' ',E15.9,' ',E15.9,' ',I0
+     &        ,' ',I0,' ',I0,' ',I0,' ',I0,' ',I0,' ',I0,' ',E15.9)
+ 152      format(A1,' ',i0,' ',i0,' ',E15.9,' ',E15.9,' ',E15.9,' '
+     &        ,E15.9,' ',E15.9,' ',i0,' ',i0)
+ 156      format(A1,' ',E15.9,' ',E15.9)
+ 155      format(8a)     
+      end
+
+ 
+
+
+
+
 ccc   randomizes order of VEGAS unweighted events and
 ccc   prints nev events to record
       subroutine unwprintq
@@ -156,103 +304,7 @@ c$$$            aqedup=alpha
            
            aqcdup=alphas(scalup**2)
 
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-       if(diff.eq.'el')then
-         istup(3)=3
-         istup(4)=3
-         write(45,51)'E',i,0,scalup,aqcdup,aqedup,proc,0,3,1,4,0,1,1d0
-         write(45,55)'U GEV CM'                                         !Units
-         write(45,'(A)')'N 1 "Default"'                                 !Weight names
-         write(45,56)'C',xsecup(1),xerrup(1)                         !Cross-section
-         write(45,52)'F',nfl1,nfl2,x1,x2,scalup,0d0,0d0,0,0             !PDF
-         write(45,53)'V',-1,0,0d0,0d0,0d0,0d0,1,2,0                     !First extraction vertex
-         write(45,54)'P',1,idup(1),pup(1,1),pup(2,1),pup(3,1),pup(4,1), !First beam particle
-     &    pup(5,1),4,0d0,0d0,-1,0
-         write(45,54)'P',2,idup(1),pup(1,1)-pup(1,3),pup(2,1)-pup(2,3)  !First remnant
-     &   ,pup(3,1)-pup(3,3),pup(4,1),pup(5,1),1,0d0,0d0,0,0
-         write(45,54)'P',3,idup(3),pup(1,3),pup(2,3),pup(3,3),          !First parton
-     & pup(4,3),pup(5,3),istup(3),0d0,0d0,-3,0
-         write(45,53)'V',-2,0,0d0,0d0,0d0,0d0,1,2,0                     !Second extraction vertex
-         write(45,54)'P',4,idup(2),pup(1,2),pup(2,2),pup(3,2),          !Second beam particle
-     & pup(4,2),pup(5,2), 4,0d0,0d0,-2,0
-         write(45,54)'P',5,idup(2),pup(1,2)-pup(1,4),pup(2,2)-pup(2,4), !Second remnant
-     &     pup(3,2)-pup(3,4),pup(4,2),pup(5,2),1,0d0,0d0,0,0
-         write(45,54)'P',6,idup(4),pup(1,4),pup(2,4),pup(3,4),pup(4,4), !Second parton
-     &    pup(5,4),istup(4),0d0,0d0,-3,0
-         write(45,53)'V',-3,0,0d0,0d0,0d0,0d0,2,nup+1-5+1,0             !Interaction vertex
-         do m=5,nup+1                                              
-           write(45,54)'P',7+m-5,idup(m),pup(1,m),pup(2,m),pup(3,m),    !Loop over outgoing particles
-     &     pup(4,m),pup(5,m), istup(m),0d0,0d0,0,0
-          enddo              
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-       elseif(diff.eq.'dd')then
-       istup(3)=3
-       istup(4)=3       
-       write(45,51)'E',i,0,scalup,aqcdup,aqedup,proc,0,3,1,2,0,1,1d0
-       write(45,55)'U GEV CM'
-       write(45,'(A)')'N 1 "Default"'
-       write(45,56)'C',xsecup(1),xerrup(1)
-       write(45,52)'F',nfl1,nfl2,x1,x2,scalup,0d0,0d0,0,0
-       write(45,53)'V',-1,0,0d0,0d0,0d0,0d0,1,2,0
-       massgam=(pup(4,5)-pup(4,3))**2-(pup(3,5)-pup(3,3))**2
-     &        -(pup(2,5)-pup(2,3))**2-(pup(1,5)-pup(1,3))**2
-       massgam=-dsqrt(-massgam)
-       write(45,54)'P',1,idup(3),pup(1,3),pup(2,3),pup(3,3),pup(4,3),
-     &   pup(5,3),istup(3),0d0,0d0,-1,0
-       write(45,54)'P',2,idup(5),pup(1,5),pup(2,5),pup(3,5),pup(4,5),
-     &   pup(5,5),istup(5),0d0,0d0,0,0
-       write(45,54)'P',3,22,pup(1,3)-pup(1,5),pup(2,3)-pup(2,5),
-     &   pup(3,3)-pup(3,5) ,pup(4,3)-pup(4,5),massgam,2,0d0,0d0,-3,0
-       write(45,53)'V',-2,0,0d0,0d0,0d0,0d0,1,2,0
-       massgam=(pup(4,6)-pup(4,4))**2-(pup(3,6)-pup(3,4))**2
-     &        -(pup(2,6)-pup(2,4))**2-(pup(1,6)-pup(1,4))**2
-       massgam=-dsqrt(-massgam)
-       write(45,54)'P',4,idup(4),pup(1,4),pup(2,4),pup(3,4),pup(4,4),
-     &   pup(5,4),istup(4),0d0,0d0,-2,0
-       write(45,54)'P',5,idup(6),pup(1,6),pup(2,6),pup(3,6),pup(4,6),
-     &   pup(5,6),istup(6),0d0,0d0,0,0
-       write(45,54)'P',6,22,pup(1,4)-pup(1,6),pup(2,4)-pup(2,6),
-     &  pup(3,4)-pup(3,6),pup(4,4)-pup(4,6),massgam,2,0d0,0d0,-3,0
-       write(45,53)'V',-3,0,0d0,0d0,0d0,0d0,0,2,0
-       massgam=(pup(4,5)-pup(4,3))**2-(pup(3,5)-pup(3,3))**2
-     &        -(pup(2,5)-pup(2,3))**2-(pup(1,5)-pup(1,3))**2
-       massgam=-dsqrt(-massgam)
-       write(45,54)'P',7,idup(7),pup(1,7),pup(2,7),pup(3,7),pup(4,7),
-     &  pup(5,7),istup(7),0d0,0d0,0,0
-       write(45,54)'P',8,idup(8),pup(1,8),pup(2,8),pup(3,8),pup(4,8),
-     &  pup(5,8),istup(8),0d0,0d0,0,0
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-           elseif(diff.eq.'sd'.or.diff.eq.'sda'.or.diff.eq.'sdb')then
-       istup(3)=3
-       istup(4)=3
-       write(45,51)'E',i,0,scalup,aqcdup,aqedup,proc,0
-     &          ,nvert+3,1,2,0,1,1d0
-       write(45,55)'U GEV CM'
-       write(45,'(A)')'N 1 "Default"'
-       write(45,56)'C',xsecup(1),xerrup(1)
-       write(45,52)'F',nfl1,nfl2,x1,x2,scalup,0d0,0d0,0,0
-       write(45,53)'V',-1,0,0d0,0d0,0d0,0d0,1,2,0
-       massgam=(pup(4,5)-pup(4,4))**2-(pup(3,5)-pup(3,4))**2
-     &        -(pup(2,5)-pup(2,4))**2-(pup(1,5)-pup(1,4))**2
-       massgam=-dsqrt(-massgam)
-       write(45,54)'P',1,idup(4),pup(1,4),pup(2,4),pup(3,4),pup(4,4),
-     &   pup(5,4),istup(4),0d0,0d0,-1,0
-       write(45,54)'P',2,idup(5),pup(1,5),pup(2,5),pup(3,5),pup(4,5),
-     &   pup(5,5),istup(5),0d0,0d0,0,0
-       write(45,54)'P',3,22,pup(1,4)-pup(1,5),pup(2,4)-pup(2,5),
-     &   pup(3,4)-pup(3,5),pup(4,4)-pup(4,5),massgam,2,0d0,0d0,-2,0
-       write(45,53)'V',-2,0,0d0,0d0,0d0,0d0,1,2,0
-       massgam=(pup(4,5)-pup(4,4))**2-(pup(3,5)-pup(3,4))**2
-     &        -(pup(2,5)-pup(2,4))**2-(pup(1,5)-pup(1,4))**2
-       massgam=-dsqrt(-massgam)
-       write(45,54)'P',4,22,pup(1,3),pup(2,3),pup(3,3),pup(4,3),0d0,
-     &   istup(3),0d0,0d0,-2,0
-       write(45,54)'P',5,idup(6),pup(1,6),pup(2,6),pup(3,6),pup(4,6),
-     &   pup(5,6),istup(6),0d0,0d0,0,0
-       write(45,54)'P',6,idup(7),pup(1,7),pup(2,7),pup(3,7),pup(4,7),
-     & pup(5,7),istup(7),0d0,0d0,0,0
-       endif
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+       call hmout(nup+1,i,nfl1,nfl2,x1,x2,proc) 
        if(i.eq.nev)then
          write(45,'(A)')'HepMC::IO_GenEvent-END_EVENT_LISTING'
        endif
@@ -270,17 +322,7 @@ c$$$ 54      format(1a,1x,i2,1x,i10,1x,E16.9,1x,E16.9,1x,E16.9,1x,E16.9,1x
 c$$$     &        ,E16.9,1x,i2,1x,E16.9,1x,E16.9,1x,i4,1x,i1,1x,i1)
 c$$$ 55      format(8a)
 
- 51      format(A1,' ',I0,' ',I0,' ',E15.9,' ',E15.9,' ',E15.9,' ',I0
-     &        ,' ',I0,' ',I0,' ',I0,' ',I0,' ',I0,' ',I0,' ',E15.9)
- 52      format(A1,' ',i0,' ',i0,' ',E15.9,' ',E15.9,' ',E15.9,' '
-     &        ,E15.9,' ',E15.9,' ',i0,' ',i0)
- 53      format(A1,' ',i0,' ',i0,' ',E15.9,' ',E15.9,' ',E15.9,' '
-     &        ,E15.9,' ',i0,' ',i0,' ',i0)
- 54      format(A1,' ',i0,' ',i0,' ',E15.9,' ',E15.9,' ',E15.9
-     &        ,' ',E15.9,' ',E15.9,' ',i0,' ',E15.9,' ',E15.9,' ',i0
-     &        ,' ',i0)
- 55      format(8a)
- 56      format(A1,' ',E15.9,' ',E15.9)
+
 ccccccccccccccccccccccccccccccccccccccccccccccc
 ccccc Les Houches
 ccccccccccccccccccccccccccccccccccccccccccccccc
