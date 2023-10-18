@@ -312,17 +312,6 @@ c$$$            aqedup=alpha
         goto 500
        endif
 
-c$$$ 51      format(1a,1x,i8,1x,i4,1x,E16.9,1x,E16.9,1x,E16.9,1x,i4,1x,i1
-c$$$     &        ,1x,i4,1x,i1,1x,i1,1x,i1,1x,i1,1x)
-c$$$ 52      format(1a,1x,i4,1x,i4,1x,E16.9,1x,E16.9,1x,E16.9,1x,E16.9,1x
-c$$$     &        ,E16.9,1x,i1,1x,i1)
-c$$$ 53      format(1a,1x,i2,1x,i1,1x,E16.9,1x,E16.9,1x,E16.9,1x,E16.9,1x
-c$$$     &        ,i2,1x,i2)
-c$$$ 54      format(1a,1x,i2,1x,i10,1x,E16.9,1x,E16.9,1x,E16.9,1x,E16.9,1x
-c$$$     &        ,E16.9,1x,i2,1x,E16.9,1x,E16.9,1x,i4,1x,i1,1x,i1)
-c$$$ 55      format(8a)
-
-
 ccccccccccccccccccccccccccccccccccccccccccccccc
 ccccc Les Houches
 ccccccccccccccccccccccccccccccccccccccccccccccc
