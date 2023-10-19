@@ -99,8 +99,8 @@
       end do
      
       do i = 1,last
-      vert(endv(i),3)=vert(prodv(i),3)+1
-      vert(prodv(i),4)=vert(prodv(i),4)+1
+      if (endv(i).ne.0) vert(endv(i),3)=vert(endv(i),3)+1
+      if (prodv(i).ne.0) vert(prodv(i),4)=vert(prodv(i),4)+1
       end do
 
 !      do i=1,last
