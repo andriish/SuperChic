@@ -35,8 +35,6 @@
       end
      
       subroutine hmout(last,enr,nfl1,nfl2,x1,x2,proc)
-!      ,scalup,aqcdup,aqedup,proc,
-!     & nfl1,nfl2,x1,x2)
       implicit none
       integer enr,nfl1,nfl2,proc
       !double precision scalup,aqcdup,aqedup, x1,x2, xsecup,xerrup
