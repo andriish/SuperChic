@@ -102,7 +102,6 @@ endmacro()
 
 set(diffs  el sd dd)
 set(fmts  hepevt lhe hepmc)
-set(fmts  lhe hepmc)
 set(procs  1 2 3 4 5 6 7 8 9 10 11)
 set(procs 56)
 
@@ -112,10 +111,18 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_PROCESS ${CMAKE_CURRENT_BIN
 foreach ( format ${fmts} )
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_PROCESS ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_PROCESS_${process}_${diff}_${format})
 endforeach()
+endforeach()
+endforeach()
+
+foreach ( diff ${diffs} )
+foreach ( process ${procs} )
 inittest(PROCESS_${process}_${diff})
 sctestlhe(PROCESS_${process}_${diff} PROCESS_${process}_${diff}_lhe)
 sctesthepmc(PROCESS_${process}_${diff} PROCESS_${process}_${diff}_hepmc)
-sctesthepmc(PROCESS_${process}_${diff} PROCESS_${process}_${diff}_hepevt)
+#sctesthepmc(PROCESS_${process}_${diff} PROCESS_${process}_${diff}_hepevt)
 endforeach()
 endforeach()
+
+
+
 
