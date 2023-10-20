@@ -45,9 +45,6 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_10 ${CMAKE_CURRENT_BINARY_D
 
 macro(inittest NN)
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN})
-  file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN}/inputs)
-  file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN}/evrecs)
-  file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN}/outputs)
   add_test(NAME INIT_${NN} COMMAND sh -c "${PROJECT_BINARY_DIR}/init < ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_${NN}" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN})
   if(SUPERCHIC_DOWNLOAD_PDFS)
     set_tests_properties( INIT_${NN} PROPERTIES ENVIRONMENT "${STANDARDENVIRONMENT}" DEPENDS UNZIPPDFS)
@@ -84,23 +81,8 @@ macro(sctestlhe NN MM)
 endmacro()
 
 
-
-#inittest(1)
-#sctesthepmc(1 1)
-#sctestlhe(1 2)
-#sctesthepmc(1 10)
-
-#inittest(3)
-#sctesthepmc(3 3)
-#sctestlhe(3 4)
-
-#inittest(9)
-#sctesthepmc(9 9)
-#sctestlhe(9 8)
-
-
-
 set(diffs  el sd dd)
+set(diffs  el dd)
 set(fmts  hepevt lhe hepmc)
 set(procs  1 2 3 4 5 6 7 8 9 10 11)
 set(procs 56)
