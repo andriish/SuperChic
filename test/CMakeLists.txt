@@ -35,14 +35,6 @@ if (SUPERCHIC_DOWNLOAD_PDFS)
 endif()
 message(STATUS "SuperChic test: STANDARDENVIRONMENT=${STANDARDENVIRONMENT}")
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_1 ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_1)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_2 ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_2)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_3 ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_3)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_4 ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_4)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_8 ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_8)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_9 ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_9)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_10 ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_10)
-
 macro(inittest NN)
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN})
   add_test(NAME INIT_${NN} COMMAND sh -c "${PROJECT_BINARY_DIR}/init < ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_${NN}" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN})
@@ -83,6 +75,7 @@ endmacro()
 
 set(diffs  el sd dd)
 set(diffs  el dd)
+#sd does not work so far
 set(fmts  hepevt lhe hepmc)
 set(procs  1 2 3 4 5 6 7 8 9 10 11)
 set(procs 56)
@@ -96,15 +89,12 @@ endforeach()
 endforeach()
 endforeach()
 
+
 foreach ( diff ${diffs} )
 foreach ( process ${procs} )
 inittest(PROCESS_${process}_${diff})
 sctestlhe(PROCESS_${process}_${diff} PROCESS_${process}_${diff}_lhe)
 sctesthepmc(PROCESS_${process}_${diff} PROCESS_${process}_${diff}_hepmc)
-#sctesthepmc(PROCESS_${process}_${diff} PROCESS_${process}_${diff}_hepevt)
+# FIXME sctesthepmc(PROCESS_${process}_${diff} PROCESS_${process}_${diff}_hepevt)
 endforeach()
 endforeach()
-
-
-
-
