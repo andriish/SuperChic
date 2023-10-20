@@ -167,16 +167,22 @@ add_library(superchicLib SHARED ${sCODELHA})
 target_include_directories(superchicLib PRIVATE  ${scincludes})
 target_link_libraries(superchicLib PRIVATE LHAPDF::LHAPDF APFEL::APFEL APFEL::APFELevol)
 target_compile_options(superchicLib PRIVATE ${sccompile_options})
-
+set_target_properties(superchicLib PROPERTIES 
+  ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}/$<0:>
+  LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}/$<0:>
+  RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}/$<0:>
+  )
 add_executable(superchic ${CMAKE_CURRENT_SOURCE_DIR}/src/main/superchic.f  ${InitfLHA} )
 target_include_directories(superchic PRIVATE  ${scincludes})
 target_link_libraries(superchic PRIVATE LHAPDF::LHAPDF APFEL::APFEL APFEL::APFELevol superchicLib)
 target_compile_options(superchic PRIVATE ${sccompile_options})
+set_target_properties(superchic PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}/$<0:>)
 
 add_executable(init ${CMAKE_CURRENT_SOURCE_DIR}/src/init/init.f ${InitfLHA})
 target_include_directories(init PRIVATE  ${scincludes})
 target_link_libraries(init PRIVATE LHAPDF::LHAPDF APFEL::APFEL  APFEL::APFELevol )
 target_compile_options(init PRIVATE ${sccompile_options})
+set_target_properties(init PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}/$<0:>)
 
 install(TARGETS superchic init DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT bin)
 install(TARGETS superchicLib   DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libs)
@@ -184,17 +190,15 @@ install(TARGETS superchicLib   DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Cards/ DESTINATION  ${CMAKE_INSTALL_DOCDIR}/Cards COMPONENT doc)
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/doc/superchic4.2.pdf DESTINATION  ${CMAKE_INSTALL_DOCDIR}/ COMPONENT doc)
 
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/SplinesWithVariableKnots.dat
-              ${CMAKE_CURRENT_SOURCE_DIR}/data/Carlos_106_440.dat
-              ${CMAKE_CURRENT_SOURCE_DIR}/data/gampgamn.dat
-              ${CMAKE_CURRENT_SOURCE_DIR}/data/Veyssiere_singleneut.dat
-              ${CMAKE_CURRENT_SOURCE_DIR}/data/Muccifora.dat
-              ${CMAKE_CURRENT_SOURCE_DIR}/data/Lepretre25_103.dat
-              ${CMAKE_CURRENT_SOURCE_DIR}/data/Caldwell.dat
-              ${CMAKE_CURRENT_SOURCE_DIR}/data/Lepretre_25_103.dat 
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/share/SuperChic/SplinesWithVariableKnots.dat
+              ${CMAKE_CURRENT_SOURCE_DIR}/share/SuperChic/Carlos_106_440.dat
+              ${CMAKE_CURRENT_SOURCE_DIR}/share/SuperChic/gampgamn.dat
+              ${CMAKE_CURRENT_SOURCE_DIR}/share/SuperChic/Veyssiere_singleneut.dat
+              ${CMAKE_CURRENT_SOURCE_DIR}/share/SuperChic/Muccifora.dat
+              ${CMAKE_CURRENT_SOURCE_DIR}/share/SuperChic/Lepretre25_103.dat
+              ${CMAKE_CURRENT_SOURCE_DIR}/share/SuperChic/Caldwell.dat
+              ${CMAKE_CURRENT_SOURCE_DIR}/share/SuperChic/Lepretre_25_103.dat 
               DESTINATION ${CMAKE_INSTALL_DATADIR}/SuperChic COMPONENT data)
-
-
 
 if (SUPERCHIC_ENABLE_TESTS)
   ENABLE_TESTING()
