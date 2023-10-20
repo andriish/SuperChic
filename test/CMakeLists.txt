@@ -35,6 +35,7 @@ if (SUPERCHIC_DOWNLOAD_PDFS)
 endif()
 message(STATUS "SuperChic test: STANDARDENVIRONMENT=${STANDARDENVIRONMENT}")
 
+
 macro(inittest NN)
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN})
   add_test(NAME INIT_${NN} COMMAND sh -c "${PROJECT_BINARY_DIR}/init < ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_${NN}" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN})
@@ -74,7 +75,7 @@ endmacro()
 
 
 set(diffs  el sd dd)
-set(diffs  el dd)
+set(diffs  el  dd) 
 #sd does not work so far
 set(fmts  hepevt lhe hepmc)
 set(procs  1 2 3 4 5 6 7 8 9 10 11)
