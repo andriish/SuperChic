@@ -189,6 +189,17 @@ install(TARGETS superchicLib   DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib
 
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Cards/ DESTINATION  ${CMAKE_INSTALL_DOCDIR}/Cards COMPONENT doc)
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/doc/superchic4.2.pdf DESTINATION  ${CMAKE_INSTALL_DOCDIR}/ COMPONENT doc)
+if ( NOT "${CMAKE_CURRENT_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_BINARY_DIR}")
+   file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/share/SuperChic/SplinesWithVariableKnots.dat
+              ${CMAKE_CURRENT_SOURCE_DIR}/share/SuperChic/Carlos_106_440.dat
+              ${CMAKE_CURRENT_SOURCE_DIR}/share/SuperChic/gampgamn.dat
+              ${CMAKE_CURRENT_SOURCE_DIR}/share/SuperChic/Veyssiere_singleneut.dat
+              ${CMAKE_CURRENT_SOURCE_DIR}/share/SuperChic/Muccifora.dat
+              ${CMAKE_CURRENT_SOURCE_DIR}/share/SuperChic/Lepretre25_103.dat
+              ${CMAKE_CURRENT_SOURCE_DIR}/share/SuperChic/Caldwell.dat
+              ${CMAKE_CURRENT_SOURCE_DIR}/share/SuperChic/Lepretre_25_103.dat 
+              DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/share/SuperChic/)
+endif()
 
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/share/SuperChic/SplinesWithVariableKnots.dat
               ${CMAKE_CURRENT_SOURCE_DIR}/share/SuperChic/Carlos_106_440.dat
