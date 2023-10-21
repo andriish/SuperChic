@@ -75,7 +75,7 @@ endmacro()
 
 
 set(diffs  el sd dd)
-set(diffs  el  dd) 
+#set(diffs  el  dd) 
 #sd does not work so far
 set(fmts  hepevt lhe hepmc)
 set(procs  1 2 3 4 5 6 7 8 9 10 11)
@@ -96,6 +96,7 @@ foreach ( process ${procs} )
 inittest(PROCESS_${process}_${diff})
 sctestlhe(PROCESS_${process}_${diff} PROCESS_${process}_${diff}_lhe)
 sctesthepmc(PROCESS_${process}_${diff} PROCESS_${process}_${diff}_hepmc)
-# FIXME sctesthepmc(PROCESS_${process}_${diff} PROCESS_${process}_${diff}_hepevt)
+# FIXME 
+sctesthepmc(PROCESS_${process}_${diff} PROCESS_${process}_${diff}_hepevt)
 endforeach()
 endforeach()
