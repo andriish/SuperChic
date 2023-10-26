@@ -196,7 +196,6 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
                write(45,'(A)')'HepMC::Version 2.06.11'
                write(45,'(A)')'HepMC::IO_GenEvent-START_EVENT_LISTING'
             endif
-            
             do k=1,nup+2
                idup(k)=pdgid(k)
             enddo
@@ -219,54 +218,6 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
               endif
            endif
 
-c$$$            if(beam.eq.'prot')then
-c$$$              if(pup(5,3).gt.1d0)idup(3)=92
-c$$$              if(pup(5,4).gt.1d0)idup(4)=92
-c$$$           endif
-c$$$
-c$$$cccccc incoming proton vertices
-c$$$
-c$$$            call vertinc(1,barv,vert,orph,nout,momv,statv,pdgv,massv)
-c$$$            call vertinc(2,barv,vert,orph,nout,momv,statv,pdgv,massv)
-c$$$
-c$$$cccccccccc Central production vertex
-c$$$
-c$$$            call vertcent(3,barv,vert,orph,nout,momv,statv,pdgv,massv)
-c$$$
-c$$$ccccccccc Outgoing vertices
-c$$$
-c$$$            nvert=3
-c$$$            mv1=0
-c$$$            mv2=0
-c$$$            
-c$$$            do m=6,nup+2
-c$$$               
-c$$$               vert(nvert+1)=nvert+1
-c$$$               orph(nvert+1)=0
-c$$$               nout(nvert+1)=0
-c$$$               
-c$$$               if(mothup(1,m).eq.mv1.and.mothup(2,m).eq.mv2)then
-c$$$                  ip=ip+1
-c$$$                  call passign(m,ip,nvert,nout,barv,pdgv,momv,
-c$$$     &                 massv,statv)                  
-c$$$               else
-c$$$                  mv1=mothup(1,m)
-c$$$                  mv2=mothup(2,m)
-c$$$                  ip=1
-c$$$                  call passign(m,ip,nvert+1,nout,barv,pdgv,momv,
-c$$$     &                 cmassv,statv)
-c$$$                  nvert=nvert+1
-c$$$               endif
-c$$$                  
-c$$$            enddo
-c$$$
-c$$$ccccccccc            
-c$$$
-c$$$            call vertidscan(nvert,orph,nout,barv)   ! Assign vertex barcodes
-                        
-c$$$            scalup=mx
-c$$$            aqcdup=alphas(mx**2)
-c$$$            aqedup=alpha
            
            if(diff.eq.'dd')then
               
@@ -339,7 +290,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
            endif
 
             if(i.eq.1)then
-               write(45,*)'<LesHouchesEvents version="3.0">'
+               write(45,*)'<LesHouchesEvents version="1.0">'
                write(45,*)'<header>'
                call headerlhe
                write(45,*)'</header>'
@@ -451,19 +402,12 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
                   enddo
                endif
             elseif(beam.eq.'ion'.or.beam.eq.'ionp')then
-c$$$               do m=3,nup+2
-c$$$                  write(45,203)idup(m),istup(m),mothup(1,m),
-c$$$     &                 mothup(2,m),icolup(1,m),icolup(2,m),pup(1,m)
-c$$$     &                 ,pup(2,m),pup(3,m),pup(4,m),pup(5,m),vtimup(m)
-c$$$     &                 ,spinup(m)
-c$$$               enddo
                do m=3,nup+1
                   write(45,203)idup(m),istup(m),mothup(1,m),
      &                 mothup(2,m),icolup(1,m),icolup(2,m),pup(1,m)
      &                 ,pup(2,m),pup(3,m),pup(4,m),pup(5,m),vtimup(m)
      &                 ,spinup(m)
                enddo
-               
             endif
             write(45,*)'</event>'
 
@@ -495,7 +439,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
               if(phep(5,3).gt.1d0)idhep(3)=92
               if(phep(5,4).gt.1d0)idhep(4)=92
            endif
-              
+
             do k=1,2
                do m=5,nhep
                   jmohep(k,m)=mothup(k,m)

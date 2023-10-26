@@ -23,7 +23,6 @@ ccc   prints nev events to record
       include 'pvert.f'
       include 'rech.f'
       include 'ion.f'
-
       
       do i=1,evnum
          evfill(i)=1
@@ -43,14 +42,12 @@ ccc   prints nev events to record
 ccccccccccccccccccccccccccccccccccccccccccccccc
 ccccc HepMC
 ccccccccccccccccccccccccccccccccccccccccccccccc
-
          
          if(erech)then
 
-
             if(i.eq.1)then
-               write(45,*)'HepMC::Version 2.06.11'
-               write(45,*)'HepMC::IO_GenEvent-START_EVENT_LISTING'
+               write(45,'(A)')'HepMC::Version 2.06.11'
+               write(45,'(A)')'HepMC::IO_GenEvent-START_EVENT_LISTING'
             endif
             
            do k=3,nup+2
@@ -153,19 +150,7 @@ ccccccccc
             
             goto 500
 
-
-            
          endif
-
-c$$$ 51      format(1a,1x,i8,1x,i4,1x,E16.9,1x,E16.9,1x,E16.9,1x,i4,1x,i1
-c$$$     &        ,1x,i4,1x,i1,1x,i1,1x,i1,1x,i1,1x)
-c$$$ 52      format(1a,1x,i4,1x,i4,1x,E16.9,1x,E16.9,1x,E16.9,1x,E16.9,1x
-c$$$     &        ,E16.9,1x,i1,1x,i1)
-c$$$ 53      format(1a,1x,i2,1x,i1,1x,E16.9,1x,E16.9,1x,E16.9,1x,E16.9,1x
-c$$$     &        ,i2,1x,i2)
-c$$$ 54      format(1a,1x,i2,1x,i10,1x,E16.9,1x,E16.9,1x,E16.9,1x,E16.9,1x
-c$$$     &        ,E16.9,1x,i2,1x,E16.9,1x,E16.9,1x,i4,1x,i1,1x,i1)
-c$$$ 55      format(8a)
 
  51      format(A1,' ',I0,' ',I0,' ',E15.9,' ',E15.9,' ',E15.9,' ',I0
      &        ,' ',I0
@@ -266,8 +251,6 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
                enddo
             endif
             write(45,*)'</event>'
-            
-c            write(45,*)''
 
  304        format(i2,4x,i1,3x,F2.0,3x,E16.9,3x,E16.9,3x,E16.9)
             
@@ -343,7 +326,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
             enddo
             endif
                
-            !write(45,*)''
+            write(45,*)''
             
          endif
                
@@ -355,6 +338,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
             write(45,*)'</LesHouchesEvents>'
          endif
       endif
+
  201  format(A1,i8,1x,i8)
 
  200  format(i8,i8,i8,i8,i8,i8,E19.8,E19.8
