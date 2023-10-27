@@ -50,7 +50,6 @@ ccc   prints histograms
       character *(*) labin
       integer outl
       character*1 regel(30),blank,star
-      integer ih,ib,i,iv,ix,ib1
       dimension h(20,100),hx(20),io(20),iu(20),ii(20)
       dimension y0(20),y1(20),ic(20)
       data regel / 30*' ' /,blank /' ' /,star /'*'/
@@ -60,7 +59,7 @@ ccc   prints histograms
       include 'iteration.f'
       include 'lab.f'
       include 'nhist.f'
-!      write(*,*)'1a->ih=',ih
+
       if(nhist.lt.ih)nhist=ih
 
       lab(ih)=labin
@@ -74,12 +73,10 @@ ccc   prints histograms
       if(x.gt.x1 .or. isnan(x) ) goto 12
     
       ix=idint((x-x0)/(x1-x0)*dble(ib))+1
-!      write(*,*)'1b->ih=',ih,x,x0,x1,ib
+
       
       h(ih,ix)=h(ih,ix)+w
-!            write(*,*)'1c->ih=',ih
       if(h(ih,ix).gt.hx(ih)) hx(ih)=h(ih,ix)
-!            write(*,*)'1d->ih=',ih
       ii(ih)=ii(ih)+1
 
          
@@ -89,7 +86,6 @@ ccc   prints histograms
    12 io(ih)=io(ih)+1
       return
       entry histo2(ih,il)
-!      write(*,*)'12->ih=',ih
 
       call length(outtag,outl)
       open(10,file='outputs/output'//outtag(1:outl)//'.dat',
@@ -145,7 +141,6 @@ ccc   prints histograms
       return
 
       entry histo3(ih)
-!      write(*,*)'3->ih=',ih
       do 31 i=1,100
    31 h(ih,i)=0.
       hx(ih)=0.

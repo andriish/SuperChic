@@ -196,6 +196,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
                write(45,'(A)')'HepMC::Version 2.06.11'
                write(45,'(A)')'HepMC::IO_GenEvent-START_EVENT_LISTING'
             endif
+            
             do k=1,nup+2
                idup(k)=pdgid(k)
             enddo
@@ -439,7 +440,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
               if(phep(5,3).gt.1d0)idhep(3)=92
               if(phep(5,4).gt.1d0)idhep(4)=92
            endif
-
+              
             do k=1,2
                do m=5,nhep
                   jmohep(k,m)=mothup(k,m)

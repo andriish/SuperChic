@@ -17,6 +17,7 @@ ccc   interpolates gg-->MM amplitude in cos(theta)
 !        write(*,*) 'cmain=',cmin,'cinc=',cinc
         i=1
       end if
+
       m=(mesamp(pol,2,j,i+1)-mesamp(pol,2,j,i))/cinc
       out=mesamp(pol,2,j,i)+m*(cost-mesamp(pol,1,j,i))
 
