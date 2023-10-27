@@ -13,7 +13,7 @@
       include 'ion.f'
       include 'p0Xn.f'
 
-      
+
       pi=dacos(-1d0)
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -25,30 +25,30 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccc
       if(faa.eq.'0X'.or.faa.eq.'X0')then
          if(ionbreakup)pAAvar=.true.
       endif
-      
+
       call ionpars
-      
+
 
       if(ionbreakup)call gdrin
       call opacpars(rtsnn)
-      call rhonorm      
-      call rhoxycalc      
+      call rhonorm
+      call rhoxycalc
       call tpcalc
       print*,'gdrset...'
-      if(ionbreakup)call gdrset      
+      if(ionbreakup)call gdrset
       print*,'...done'
 
       call opacpcalc
       if(beam.eq.'ion')then
 
          if(pAAvar)then
-         
+
             do ifaa=1,3
 c               print*,'ifaa = ',ifaa
                call opacpbcalc
                call screencalc
             enddo
-         
+
          return
          endif
 
@@ -72,7 +72,7 @@ c               print*,'ifaa = ',ifaa
       else
          call screencalc
       endif
-      
+
       print*,'...finished!'
 
       return

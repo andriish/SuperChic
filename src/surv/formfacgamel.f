@@ -10,9 +10,9 @@ ccccc EPA form factors (electron)
       include 'pi.f'
       include 'x.f'
       include 'mom.f'
-      
+
       qsq=(x1**2*me**2+t1)/(1d0-x1)
-      qsqp=(x2**2*me**2+t2)/(1d0-x2)      
+      qsqp=(x2**2*me**2+t2)/(1d0-x2)
 
       fe=1d0
       fm=1d0
@@ -38,7 +38,7 @@ ccccccccccc
 
       ww2p=ww2p/pi*alpha
       ww2pa=ww2pa/pi*alpha
-      
+
       if(io.eq.1)then
          out=dsqrt(ww1*ww2)
       elseif(io.eq.2)then

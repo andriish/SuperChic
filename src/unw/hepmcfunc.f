@@ -1,7 +1,7 @@
       subroutine passign(m,ip,nv,nout,barv,pdgv,momv,massv,statv)
       implicit double precision(a-y)
       integer m,n
-      
+
       include 'vertex.f'
       include 'pvert.f'
       include 'leshouches.f'
@@ -15,7 +15,7 @@
       enddo
       massv(nv,ip)=pup(5,m)
       statv(nv,ip)=istup(m)
-      
+
       return
       end
 
@@ -26,31 +26,31 @@
       include 'vertex.f'
       include 'pvert.f'
       include 'leshouches.f'
-      
+
       do m=6,nup+2
-         
+
          mv1=mothup(1,m)
-         
+
          do n=4,nvert
             do k=1,orph(n)+nout(n)
 
                if(barv(n,k,1).eq.m)nv=n
-               
+
             enddo
          enddo
-         
+
          do n=4,nvert
             do k=1,orph(n)+nout(n)
-               
+
                if(barv(n,k,1).eq.mv1)then
                   barv(n,k,2)=nv
                endif
-               
+
             enddo
          enddo
-         
+
       enddo
-      
+
 
       return
       end
@@ -64,18 +64,18 @@
       include 'leshouches.f'
       include 'mom.f'
       include 'mp.f'
-      
+
       vert(i)=i
       orph(i)=1
       nout(i)=2
-      
+
       barv(i,1,1)=i
       barv(i,2,1)=i+2
       barv(i,1,2)=vert(i)
       barv(i,2,2)=vert(i)
       pdgv(i,1)=idup(i)
       pdgv(i,2)=idup(i+2)
-      
+
       do m=1,4
          momv(i,1,m)=q(m,i)
       enddo
@@ -92,11 +92,11 @@ c     massv(i,2)=mp
       massv(i,2)=dsqrt(pup(4,i+2)**2-pup(3,i+2)**2
      &     -pup(2,i+2)**2-pup(1,i+2)**2)
       massv(i,3)=0d0
-      
+
       barv(i,3,1)=-i
       barv(i,3,2)=0
       pdgv(i,3)=22
-      
+
       return
       end
 
@@ -113,7 +113,7 @@ c     massv(i,2)=mp
       vert(i)=i
       orph(i)=0
       nout(i)=1
-      
+
       barv(i,1,1)=5
       barv(i,1,2)=1
       pdgv(i,1)=idup(5)
@@ -124,6 +124,6 @@ c     massv(i,2)=mp
      &     -pup(2,5)**2-pup(1,5)**2)
 
       statv(i,1)=1
-      
+
       return
       end

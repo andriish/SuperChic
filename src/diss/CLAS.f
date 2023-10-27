@@ -10,7 +10,7 @@ CCCCCCC
 CCCCCCC               QM2 = SQUARED FOUR-MOMENTUM TRANSFER (GEV/C)**2
 CCCCCCC               XN  = BJORKEN VARIABLE
 CCCCCCC
-CCCCCCC               OUTPUT: F2 = STRUCTURE FUNCTION F2               
+CCCCCCC               OUTPUT: F2 = STRUCTURE FUNCTION F2
 CCCCCCC
 
 
@@ -34,7 +34,7 @@ CCCCCCC
       F2=0.D0
       W=DSQRT(DM*DM+QM2*(1.D0-XN)/XN)
       IF(W.LE.WPI) RETURN
-      F2=F2SLAC(IN,XN,QM2)    
+      F2=F2SLAC(IN,XN,QM2)
       IF(IN.NE.2) THEN
        CALL RESBKG(QM2,W,F2BKG,F2RES)
       ELSE
@@ -43,7 +43,7 @@ CCCCCCC
       F2=F2*(F2BKG+F2RES)
       RETURN
       END
-      
+
 
 
 
@@ -228,4 +228,3 @@ CCCCCCC
       RESN=0.5D0*RESN*(1.D0-B1)*BKG2/(DM*PGRECO)
       RETURN
       END
-      

@@ -28,12 +28,12 @@
       integer endv(20)
       integer nvert
       COMMON /HM/nvert,vert,prodv,endv
-      include 'leshouches.f'      
+      include 'leshouches.f'
       write(45,153)'V',-i,0,0d0,0d0,0d0,0d0,vert(i,3),vert(i,4),0
  153      format(A1,' ',i0,' ',i0,' ',E15.9,' ',E15.9,' ',E15.9,' '
      &        ,E15.9,' ',i0,' ',i0,' ',i0)
       end
-     
+
       subroutine hmout(last,enr,nfl1,nfl2,x1,x2,proc)
       implicit none
       integer enr,nfl1,nfl2,proc
@@ -46,12 +46,12 @@
       integer nvert
       integer i,j
       COMMON /HM/nvert,vert,prodv,endv
-      integer st,last     
+      integer st,last
       LOGICAL found
-      include 'leshouches.f'      
+      include 'leshouches.f'
       nvert=0
       st=1
-      do i = 1,20      
+      do i = 1,20
        vert(i,1)=0
        vert(i,2)=0
        vert(i,3)=0
@@ -60,7 +60,7 @@
        endv(i)=0
        mom(i,1)=0
        mom(i,2)=0
-      end do    
+      end do
       do i = 5,last
         mom(i,1)=mothup(1,i)+2
         mom(i,2)=mothup(2,i)+2
@@ -69,7 +69,7 @@
       mom(3,2)=1
       mom(4,1)=2
       mom(4,2)=2
-  
+
       do i = 1,last
       found = .FALSE.
       do j=1,nvert
@@ -89,7 +89,7 @@
       vert(nvert,2) = mom(i,2)
       endif
       end do
- 
+
       do i = 1,last
       do j = 1,last
       if  (i .ge. mom(j,1) .and. i .le. mom(j,2) ) then
@@ -97,7 +97,7 @@
       endif
       end do
       end do
-     
+
       do i = 1,last
       vert(endv(i),3)=vert(prodv(i),3)+1
       vert(prodv(i),4)=vert(prodv(i),4)+1
@@ -108,7 +108,7 @@
       write(45,155)'U GEV CM'
       write(45,'(A)')'N 1 "Default"'
       write(45,156)'C',xsecup(1),xerrup(1)
-      write(45,152)'F',nfl1,nfl2,x1,x2,scalup,0d0,0d0,0,0 
+      write(45,152)'F',nfl1,nfl2,x1,x2,scalup,0d0,0d0,0,0
       do i=1,nvert
       call write_vertex(i)
       do j=1,last
@@ -123,10 +123,10 @@
  152      format(A1,' ',i0,' ',i0,' ',E15.9,' ',E15.9,' ',E15.9,' '
      &        ,E15.9,' ',E15.9,' ',i0,' ',i0)
  156      format(A1,' ',E15.9,' ',E15.9)
- 155      format(8a)     
+ 155      format(8a)
       end
 
- 
+
 
 
 
@@ -156,8 +156,8 @@ ccc   prints nev events to record
       include 'pvert.f'
       include 'rech.f'
       include 'ion.f'
-      include 'diff.f'  
-      
+      include 'diff.f'
+
       do i=1,evnum
          evfill(i)=1
       enddo
@@ -172,22 +172,22 @@ ccc   prints nev events to record
          if(dble(j).lt.r*range)j=j+1
          if(evfill(j).eq.0)goto 555
          evfill(j)=0
-         
+
 ccccccccccccccccccccccccccccccccccccccccccccccc
 ccccc HepMC
 ccccccccccccccccccccccccccccccccccccccccccccccc
-         
+
          if(erech)then
 
             if(i.eq.1)then
                write(45,'(A)')'HepMC::Version 2.06.11'
                write(45,'(A)')'HepMC::IO_GenEvent-START_EVENT_LISTING'
             endif
-            
+
             do k=1,nup+2
                idup(k)=pdgid(k)
             enddo
-            
+
            do k=3,nup+2
                do l=1,4
                   pup(l,k)=evrec(j,k,l)
@@ -225,17 +225,17 @@ c$$$
 c$$$            nvert=3
 c$$$            mv1=0
 c$$$            mv2=0
-c$$$            
+c$$$
 c$$$            do m=6,nup+2
-c$$$               
+c$$$
 c$$$               vert(nvert+1)=nvert+1
 c$$$               orph(nvert+1)=0
 c$$$               nout(nvert+1)=0
-c$$$               
+c$$$
 c$$$               if(mothup(1,m).eq.mv1.and.mothup(2,m).eq.mv2)then
 c$$$                  ip=ip+1
 c$$$                  call passign(m,ip,nvert,nout,barv,pdgv,momv,
-c$$$     &                 massv,statv)                  
+c$$$     &                 massv,statv)
 c$$$               else
 c$$$                  mv1=mothup(1,m)
 c$$$                  mv2=mothup(2,m)
@@ -244,49 +244,49 @@ c$$$                  call passign(m,ip,nvert+1,nout,barv,pdgv,momv,
 c$$$     &                 cmassv,statv)
 c$$$                  nvert=nvert+1
 c$$$               endif
-c$$$                  
+c$$$
 c$$$            enddo
 c$$$
-c$$$ccccccccc            
+c$$$ccccccccc
 c$$$
 c$$$            call vertidscan(nvert,orph,nout,barv)   ! Assign vertex barcodes
-                        
+
 c$$$            scalup=mx
 c$$$            aqcdup=alphas(mx**2)
 c$$$            aqedup=alpha
-           
+
            if(diff.eq.'dd')then
-              
+
               qsq1=(pup(4,5)-pup(4,3))**2-(pup(3,5)-pup(3,3))**2
      &             -(pup(2,5)-pup(2,3))**2-(pup(1,5)-pup(1,3))**2
               qsq1=-qsq1
-              
+
               qsq2=(pup(4,6)-pup(4,4))**2-(pup(3,6)-pup(3,4))**2
      &             -(pup(2,6)-pup(2,4))**2-(pup(1,6)-pup(1,4))**2
               qsq2=-qsq2
-              
+
               if(qsq1.gt.qsq2)then
                  scalup=dsqrt(qsq1)
                  aqcdup=alphas(scalup**2)
               else
                  scalup=dsqrt(qsq2)
               endif
-              
+
            elseif(diff.eq.'sd')then
-              
+
               qsq=(pup(4,5)-pup(4,4))**2-(pup(3,5)-pup(3,4))**2
      &             -(pup(2,5)-pup(2,4))**2-(pup(1,5)-pup(1,4))**2
               qsq=-qsq
-               
+
               scalup=dsqrt(qsq)
-              
+
            elseif(diff.eq.'el')then
 
               scalup=dsqrt((pup(4,5)+pup(4,6))**2-(pup(3,5)+pup(3,6))**2
      &             -(pup(2,5)+pup(2,6))**2-(pup(1,5)+pup(1,6))**2)
-              
+
            endif
-           
+
            aqcdup=alphas(scalup**2)
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
@@ -313,14 +313,14 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
          write(45,54)'P',6,idup(4),pup(1,4),pup(2,4),pup(3,4),pup(4,4), !Second parton
      &    pup(5,4),istup(4),0d0,0d0,-3,0
          write(45,53)'V',-3,0,0d0,0d0,0d0,0d0,2,nup+1-5+1,0             !Interaction vertex
-         do m=5,nup+1                                              
+         do m=5,nup+1
            write(45,54)'P',7+m-5,idup(m),pup(1,m),pup(2,m),pup(3,m),    !Loop over outgoing particles
      &     pup(4,m),pup(5,m), istup(m),0d0,0d0,0,0
-          enddo              
+          enddo
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
        elseif(diff.eq.'dd')then
        istup(3)=3
-       istup(4)=3       
+       istup(4)=3
        write(45,51)'E',i,0,scalup,aqcdup,aqedup,proc,0,3,1,2,0,1,1d0
        write(45,55)'U GEV CM'
        write(45,'(A)')'N 1 "Default"'
@@ -386,20 +386,20 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
      & pup(5,7),istup(7),0d0,0d0,0,0
        endif
 
-              
+
 c$$$              do n=1,nvert
-c$$$                 
+c$$$
 c$$$                 write(45,53)'V',vert(n),0,0d0,0d0,0d0,0d0,
 c$$$     &                orph(n),nout(n)
-c$$$                 
+c$$$
 c$$$                 do m=1,orph(n)+nout(n)
 c$$$                    write(45,54)'P',barv(n,m,1),pdgv(n,m),momv(n,m,1)
 c$$$     &                  ,momv(n,m,2),momv(n,m,3),momv(n,m,4),massv(n,m),
 c$$$     &                   statv(n,m),0d0,0d0,barv(n,m,2),0,0
 c$$$                 enddo
-c$$$                 
+c$$$
 c$$$            enddo
-c$$$            
+c$$$
 c$$$         endif
 
 
@@ -436,11 +436,11 @@ ccccc Les Houches
 ccccccccccccccccccccccccccccccccccccccccccccccc
 
          if(erec.eq.'lhe')then
-            
+
             do k=1,nup+2
                idup(k)=pdgid(k)
             enddo
-            
+
            do k=3,nup+2
                do l=1,4
                   pup(l,k)=evrec(j,k,l)
@@ -484,48 +484,48 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
 
  202        format(5x,i10,2x,i10,2x,E16.9,2x,E16.9,2x,i5,2x,i5,2x,i6,2x
      &           ,i6,2x,i1,2x,i1)
-            
+
  302        format(5x,i4,2x,i4,2x,E16.9,2x,E16.9,2x,i5,2x,i5,2x,i6,2x,i6
      &           ,2x,i1,2x,i1)
 
  312        format(E16.9,2x,E16.9,2x,E16.9,2x,i1)
-            
+
             scalup=mx
 
             if(diff.eq.'dd')then
-               
+
                qsq1=(pup(4,5)-pup(4,3))**2-(pup(3,5)-pup(3,3))**2
      &              -(pup(2,5)-pup(2,3))**2-(pup(1,5)-pup(1,3))**2
                qsq1=-qsq1
-               
+
                qsq2=(pup(4,6)-pup(4,4))**2-(pup(3,6)-pup(3,4))**2
      &              -(pup(2,6)-pup(2,4))**2-(pup(1,6)-pup(1,4))**2
                qsq2=-qsq2
-               
+
                if(qsq1.gt.qsq2)then
                   scalup=dsqrt(qsq1)
                   aqcdup=alphas(scalup**2)
                else
                   scalup=dsqrt(qsq2)
                endif
-               
+
             elseif(diff.eq.'sd')then
-               
+
                qsq=(pup(4,5)-pup(4,4))**2-(pup(3,5)-pup(3,4))**2
      &              -(pup(2,5)-pup(2,4))**2-(pup(1,5)-pup(1,4))**2
                qsq=-qsq
-               
+
                scalup=dsqrt(qsq)
 
             elseif(diff.eq.'el')then
 
               scalup=dsqrt((pup(4,5)+pup(4,6))**2-(pup(3,5)+pup(3,6))**2
      &              -(pup(2,5)+pup(2,6))**2-(pup(1,5)+pup(1,6))**2)
-               
+
             endif
 
             aqcdup=alphas(scalup**2)
-               
+
             write(45,*)'<event>'
             write(45,304)nup-1,idprup,xwgtup,scalup,aqedup,aqcdup
             if(beam.eq.'prot'.or.beam.eq.'el')then
@@ -584,26 +584,26 @@ c$$$               enddo
      &                 ,pup(2,m),pup(3,m),pup(4,m),pup(5,m),vtimup(m)
      &                 ,spinup(m)
                enddo
-               
+
             endif
             write(45,*)'</event>'
 
  304        format(i2,4x,i1,3x,F2.0,3x,E16.9,3x,E16.9,3x,E16.9)
-            
+
          endif
-         
+
 ccccccccccccccccccccccccccccccccccccccccccccccc
 cccc  HEPEVT
 ccccccccccccccccccccccccccccccccccccccccccccccc
-         
+
          if(erec.eq.'hepevt')then
-            
+
             nevhep=nev
-            
+
             do k=1,nhep
                idhep(k)=pdgid(k)
             enddo
-            
+
            do k=3,nhep
               do l=1,4
                  phep(l,k)=evrec(j,k,l)
@@ -616,13 +616,13 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
               if(phep(5,3).gt.1d0)idhep(3)=92
               if(phep(5,4).gt.1d0)idhep(4)=92
            endif
-              
+
             do k=1,2
                do m=5,nhep
                   jmohep(k,m)=mothup(k,m)
                enddo
             enddo
-               
+
             write(45,201)'E ',i,nhep
             isthep(1)=4
             isthep(2)=4
@@ -649,11 +649,11 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
      &              ,phep(5,m),vhep(1,m),vhep(2,m),vhep(3,m),vhep(4,m)
             enddo
             endif
-               
+
             write(45,*)''
-            
+
          endif
-               
+
  500  enddo
 
       if(erec.eq.'lhe')then

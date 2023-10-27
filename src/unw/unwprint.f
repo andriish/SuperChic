@@ -24,7 +24,7 @@ ccc   prints nev events to record
       include 'rech.f'
       include 'ion.f'
 
-      
+
       do i=1,evnum
          evfill(i)=1
       enddo
@@ -39,12 +39,12 @@ ccc   prints nev events to record
          if(dble(j).lt.r*range)j=j+1
          if(evfill(j).eq.0)goto 555
          evfill(j)=0
-         
+
 ccccccccccccccccccccccccccccccccccccccccccccccc
 ccccc HepMC
 ccccccccccccccccccccccccccccccccccccccccccccccc
 
-         
+
          if(erech)then
 
 
@@ -52,7 +52,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
                write(45,*)'HepMC::Version 2.06.11'
                write(45,*)'HepMC::IO_GenEvent-START_EVENT_LISTING'
             endif
-            
+
            do k=3,nup+2
                do l=1,4
                   pup(l,k)=evrec(j,k,l)
@@ -96,17 +96,17 @@ ccccccccc Outgoing vertices
             nvert=3
             mv1=0
             mv2=0
-            
+
             do m=6,nup+2
-               
+
                vert(nvert+1)=nvert+1
                orph(nvert+1)=0
                nout(nvert+1)=0
-               
+
                if(mothup(1,m).eq.mv1.and.mothup(2,m).eq.mv2)then
                   ip=ip+1
                   call passign(m,ip,nvert,nout,barv,pdgv,momv,
-     &                 massv,statv)                  
+     &                 massv,statv)
                else
                   mv1=mothup(1,m)
                   mv2=mothup(2,m)
@@ -115,22 +115,22 @@ ccccccccc Outgoing vertices
      &                 massv,statv)
                   nvert=nvert+1
                endif
-                  
+
             enddo
 
-ccccccccc            
+ccccccccc
 
             call vertidscan(nvert,orph,nout,barv)   ! Assign vertex barcodes
-                        
+
             scalup=mx
             aqcdup=alphas(mx**2)
             aqedup=alpha
-            
+
             write(45,51)'E',i,0,scalup,aqcdup,aqedup,proc,0
      &           ,nvert,1,2,0,0
             write(45,55)'U GEV CM'
             write(45,52)'F',nfl1,nfl2,x1,x2,scalup,0d0,0d0,0,0
-            
+
             do n=1,nvert
 
                write(45,53)'V',vert(n),0,0d0,0d0,0d0,0d0,
@@ -141,20 +141,20 @@ ccccccccc
      &                 ,momv(n,m,2),momv(n,m,3),momv(n,m,4),massv(n,m),
      &                 statv(n,m),0d0,0d0,barv(n,m,2),0,0
                enddo
-               
+
             enddo
-            
+
 
             write(45,*)''
 
             if(i.eq.nev)then
                write(45,*)'HepMC::IO_GenEvent-END_EVENT_LISTING'
             endif
-            
+
             goto 500
 
 
-            
+
          endif
 
 c$$$ 51      format(1a,1x,i8,1x,i4,1x,E16.9,1x,E16.9,1x,E16.9,1x,i4,1x,i1
@@ -184,11 +184,11 @@ ccccc Les Houches
 ccccccccccccccccccccccccccccccccccccccccccccccc
 
          if(erec.eq.'lhe')then
-            
+
             do k=1,nup+2
                idup(k)=pdgid(k)
             enddo
-            
+
            do k=3,nup+2
                do l=1,4
                   pup(l,k)=evrec(j,k,l)
@@ -239,15 +239,15 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
 
  202        format(5x,i10,2x,i10,2x,E16.9,2x,E16.9,2x,i5,2x,i5,2x,i6,2x
      &           ,i6,2x,i1,2x,i1)
-            
+
  302        format(5x,i4,2x,i4,2x,E16.9,2x,E16.9,2x,i5,2x,i5,2x,i6,2x,i6
      &           ,2x,i1,2x,i1)
 
  312        format(E16.9,2x,E16.9,2x,E16.9,2x,i1)
-            
+
             scalup=mx
             aqcdup=alphas(mx**2)
-            
+
             write(45,*)'<event>'
             write(45,304)nup,idprup,xwgtup,scalup,aqedup,aqcdup
             if(beam.eq.'prot'.or.beam.eq.'el')then
@@ -266,25 +266,25 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
                enddo
             endif
             write(45,*)'</event>'
-            
+
 c            write(45,*)''
 
  304        format(i2,4x,i1,3x,F2.0,3x,E16.9,3x,E16.9,3x,E16.9)
-            
+
          endif
-         
+
 ccccccccccccccccccccccccccccccccccccccccccccccc
 cccc  HEPEVT
 ccccccccccccccccccccccccccccccccccccccccccccccc
-         
+
          if(erec.eq.'hepevt')then
-            
+
             nevhep=nev
-            
+
             do k=1,nhep
                idhep(k)=pdgid(k)
             enddo
-            
+
            do k=3,nhep
               do l=1,4
                  phep(l,k)=evrec(j,k,l)
@@ -315,7 +315,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
                   jmohep(k,m)=mothup(k,m)
                enddo
             enddo
-               
+
             write(45,201)'E ',i,nhep
             isthep(1)=4
             isthep(2)=4
@@ -342,11 +342,11 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
      &              ,phep(5,m),vhep(1,m),vhep(2,m),vhep(3,m),vhep(4,m)
             enddo
             endif
-               
+
             !write(45,*)''
-            
+
          endif
-               
+
  500  enddo
 
       if(erec.eq.'lhe')then
