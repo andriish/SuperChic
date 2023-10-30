@@ -28,6 +28,8 @@ int main(int argc, char ** argv) {
 
   // Initialize Les Houches Event File run. List initialization information.
   pythia.readString("Beams:frameType = 4");
+  pythia.readString(" Check:event = off");
+  pythia.readString("PartonLevel:Remnants = off");
   pythia.readString(std::string("Beams:LHEF = ")+argv[1]);
   pythia.init();
   size_t events=0;
