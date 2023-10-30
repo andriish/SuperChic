@@ -117,7 +117,6 @@ ccc   calculates single PDF xg and dxg/dQ^2
          
       return
       end
-
       subroutine fglow1 (q0,lam,lamt,q,gluin,glout)
       implicit double precision (a-z)
       u= dlog(gluin)-(lam+lamt)*dlog(q0)+
@@ -136,4 +135,3 @@ ccc   calculates single PDF xg and dxg/dQ^2
 
       return
       end
-
