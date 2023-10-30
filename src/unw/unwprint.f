@@ -123,30 +123,12 @@ ccccccccc
             aqcdup=alphas(mx**2)
             aqedup=alpha
             
-            write(45,51)'E',i,0,scalup,aqcdup,aqedup,proc,0
-     &           ,nvert,1,2,0,0
-            write(45,55)'U GEV CM'
-            write(45,52)'F',nfl1,nfl2,x1,x2,scalup,0d0,0d0,0,0
-            
-            do n=1,nvert
-
-               write(45,53)'V',vert(n),0,0d0,0d0,0d0,0d0,
-     &           orph(n),nout(n)
-
-               do m=1,orph(n)+nout(n)
-                  write(45,54)'P',barv(n,m,1),pdgv(n,m),momv(n,m,1)
-     &                 ,momv(n,m,2),momv(n,m,3),momv(n,m,4),massv(n,m),
-     &                 statv(n,m),0d0,0d0,barv(n,m,2),0,0
-               enddo
-               
-            enddo
             
 
-            write(45,*)''
-
-            if(i.eq.nev)then
-               write(45,*)'HepMC::IO_GenEvent-END_EVENT_LISTING'
-            endif
+       call hmout(nup+1,i,nfl1,nfl2,x1,x2,proc) 
+       if(i.eq.nev)then
+         write(45,'(A)')'HepMC::IO_GenEvent-END_EVENT_LISTING'
+       endif
             
             goto 500
 
