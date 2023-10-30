@@ -8,8 +8,9 @@
       integer ii
       COMMON /HM/nvert,vert,prodv,endv
       include 'leshouches.f'
-      ii = istup(i)
-      if ( i.lt. 3 ) ii = 4
+      include 'hepevt.f'      
+      ii = isthep(i)
+!      if ( i.lt. 3 ) ii = 4
       write(45,154)'P',i,idup(i),pup(1,i),pup(2,i),pup(3,i),pup(4,i)
      & ,0d0,ii,0d0,0d0,-endv(i),0
 
@@ -28,7 +29,8 @@
       integer endv(20)
       integer nvert
       COMMON /HM/nvert,vert,prodv,endv
-      include 'leshouches.f'      
+      include 'leshouches.f'
+      include 'hepevt.f'        
       write(45,153)'V',-i,0,0d0,0d0,0d0,0d0,vert(i,3),vert(i,4),0
  153      format(A1,' ',i0,' ',i0,' ',E15.9,' ',E15.9,' ',E15.9,' '
      &        ,E15.9,' ',i0,' ',i0,' ',i0)
@@ -49,6 +51,7 @@
       integer st,last     
       LOGICAL found
       include 'leshouches.f'      
+      include 'hepevt.f'      
       nvert=0
       st=1
       do i = 1,20      
@@ -61,16 +64,30 @@
        mom(i,1)=0
        mom(i,2)=0
       end do    
-      do i = 5,last
-        mom(i,1)=mothup(1,i)+2
-        mom(i,2)=mothup(2,i)+2
+      do i = 1,nhep
+        if (jdahep(2,i).eq.0) jdahep(2,i)=jdahep(1,i)
+      enddo
+      do i = 1,nhep
+      do j = jdahep(1,i),jdahep(2,i)
+        if (j.ne.0) then
+        if (jmohep(1,j).eq.0) jmohep(1,j) = i
+        if (jmohep(2,j).eq.0) jmohep(2,j) = i
+         jmohep(1,j) = min(i,jmohep(1,j))
+         jmohep(2,j) = max(i,jmohep(2,j))
+        endif
+      enddo
+      enddo
+      
+      do i = 1,nhep
+        mom(i,1)=jmohep(1,i)
+        mom(i,2)=jmohep(2,i)
       end do
-      mom(3,1)=1
-      mom(3,2)=1
-      mom(4,1)=2
-      mom(4,2)=2
+!      mom(3,1)=1
+!      mom(3,2)=1
+!      mom(4,1)=2
+!      mom(4,2)=2
   
-      do i = 1,last
+      do i = 1,nhep
       found = .FALSE.
       do j=1,nvert
       if (prodv(i) .ne. 0 ) then
@@ -90,15 +107,15 @@
       endif
       end do
  
-      do i = 1,last
-      do j = 1,last
+      do i = 1,nhep
+      do j = 1,nhep
       if  (i .ge. mom(j,1) .and. i .le. mom(j,2) ) then
       endv(i) = prodv(j)
       endif
       end do
       end do
      
-      do i = 1,last
+      do i = 1,nhep
       if (endv(i).ne.0) vert(endv(i),3)=vert(endv(i),3)+1
       if (prodv(i).ne.0) vert(prodv(i),4)=vert(prodv(i),4)+1
       end do
@@ -124,7 +141,7 @@
       write(45,152)'F',nfl1,nfl2,x1,x2,scalup,0d0,0d0,0,0 
       do i=1,nvert
       call write_vertex(i)
-      do j=1,last
+      do j=1,nhep
       if ((prodv(j).eq. i) .or. (prodv(j) .eq. 0 .and. i .eq. 1))  then
       call write_particle(j)
       endif
