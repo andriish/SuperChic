@@ -230,7 +230,6 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
                  idup(4)=92
               endif
            endif
-
            
            if(diff.eq.'dd')then
               
