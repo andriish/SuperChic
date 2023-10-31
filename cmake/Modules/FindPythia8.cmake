@@ -20,8 +20,6 @@ set(PYTHIA8_ROOT_DIR  "/usr/local")
 else()
 set(PYTHIA8_ROOT_DIR  "/usr")
 endif()
-
-endif()
 endif()
 endif()
 
