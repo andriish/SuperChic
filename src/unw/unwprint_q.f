@@ -10,7 +10,6 @@
       include 'leshouches.f'
       include 'hepevt.f'      
       ii = isthep(i)
-!      if ( i.lt. 3 ) ii = 4
       write(45,154)'P',i,idup(i),pup(1,i),pup(2,i),pup(3,i),pup(4,i)
      & ,0d0,ii,0d0,0d0,-endv(i),0
 
@@ -82,10 +81,6 @@
         mom(i,1)=jmohep(1,i)
         mom(i,2)=jmohep(2,i)
       end do
-!      mom(3,1)=1
-!      mom(3,2)=1
-!      mom(4,1)=2
-!      mom(4,2)=2
   
       do i = 1,nhep
       found = .FALSE.

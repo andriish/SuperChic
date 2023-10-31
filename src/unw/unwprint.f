@@ -308,7 +308,6 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
             enddo
             endif
                
-            write(45,*)''
             
          endif
                
