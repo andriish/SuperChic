@@ -340,7 +340,7 @@ ccccccccc
       if(erec.eq.'hepmc')then
          erech=.true.
          erec='lhe'
-      endif
+      endifsrc/main/superchic.f
 
       iw=0
 
