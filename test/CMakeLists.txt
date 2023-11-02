@@ -141,33 +141,3 @@ else()
 set(ee_procs 56 )
 set(ee_procs_dd 56 )
 endif()
-
-
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_FCC350eeunw ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_FCC350eeunw) # for init
-foreach ( diff ${diffs} )
-foreach ( process ${ee_procs} )
-foreach ( format ${fmts} )
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_FCC350eeunw ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_FCC350eeunw_${process}_${diff}_${format})
-endforeach()
-endforeach()
-endforeach()
-
-
-inittest(FCC350eeunw)
-foreach ( process ${ee_procs} )
-foreach ( diff ${diffs_el} )
-sctestlhe(FCC350eeunw FCC350eeunw_${process}_${diff}_lhe ${diff} ${process})
-sctesthepmc(FCC350eeunw FCC350eeunw_${process}_${diff}_hepmc)
-# FIXME sctesthepmc(FCC350eeunw FCC350eeunw_${process}_${diff}_hepevt)
-endforeach()
-endforeach()
-foreach ( process ${ee_procs_dd} )
-foreach ( diff ${diffs_dd} )
-sctestlhe(FCC350eeunw FCC350eeunw_${process}_${diff}_lhe ${diff} ${process})
-endforeach()
-endforeach()
-
-
-
-
-
