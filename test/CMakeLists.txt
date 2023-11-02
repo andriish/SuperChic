@@ -19,7 +19,8 @@ set(STANDARDENVIRONMENT "SUPERCHIC_DATA_PATH=${PROJECT_SOURCE_DIR}/share/SuperCh
 
 if (SUPERCHIC_DOWNLOAD_PDFS)
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/PDFS)
-  file(DOWNLOAD https://superchic.hepforge.org/SF_MSHT20qed_nnlo.tar.gz ${CMAKE_CURRENT_BINARY_DIR}/PDFS/SF_MSHT20qed_nnlo.tar.gz)
+  #file(DOWNLOAD https://superchic.hepforge.org/SF_MSHT20qed_nnlo.tar.gz ${CMAKE_CURRENT_BINARY_DIR}/PDFS/SF_MSHT20qed_nnlo.tar.gz)
+  file(COPY ${PROJECT_SOURCE_DIR}/SF_MSHT20qed_nnlo.tar.gz DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/PDFS/)
   file(DOWNLOAD https://lhapdfsets.web.cern.ch/current/MSHT20qed_nnlo.tar.gz ${CMAKE_CURRENT_BINARY_DIR}/PDFS/MSHT20qed_nnlo.tar.gz)
   add_custom_target( UNZIPPDFS ALL)
   add_custom_command(TARGET UNZIPPDFS PRE_BUILD 
@@ -121,4 +122,51 @@ foreach ( diff ${diffs_dd} )
 sctestlhe(LHC13ppunw LHC13ppunw_${process}_${diff}_lhe ${diff} ${process})
 endforeach()
 endforeach()
+
+if (SUPERCHIC_ENABLE_ALL_TESTS)
+set(ee_procs  1 2 3 4 5 6 7 8 9  
+           10 11 12 13 14 15 16 17 18 19 
+           20 21 22 23 24 25 26 27 28 29
+           30 31 32 33 34 35 36 37 38 39
+           40 41 42 43 44 45 46 47 48 49
+           50 51 52 53 54 55 56 57 58 59
+           60 61                   68 69
+           70 71 72 73 74 75 76 77 78 79
+                 82 83 84 
+           )
+set(ee_procs_dd 54 55 56 57 58
+             68 )
+else()
+set(ee_procs 56 )
+set(ee_procs_dd 56 )
+endif()
+
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_FCC350eeunw ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_FCC350eeunw) # for init
+foreach ( diff ${diffs} )
+foreach ( process ${ee_procs} )
+foreach ( format ${fmts} )
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_FCC350eeunw ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_FCC350eeunw_${process}_${diff}_${format})
+endforeach()
+endforeach()
+endforeach()
+
+
+inittest(FCC350eeunw)
+foreach ( process ${ee_procs} )
+foreach ( diff ${diffs_el} )
+sctestlhe(FCC350eeunw FCC350eeunw_${process}_${diff}_lhe ${diff} ${process})
+sctesthepmc(FCC350eeunw FCC350eeunw_${process}_${diff}_hepmc)
+# FIXME sctesthepmc(FCC350eeunw FCC350eeunw_${process}_${diff}_hepevt)
+endforeach()
+endforeach()
+foreach ( process ${ee_procs_dd} )
+foreach ( diff ${diffs_dd} )
+sctestlhe(FCC350eeunw FCC350eeunw_${process}_${diff}_lhe ${diff} ${process})
+endforeach()
+endforeach()
+
+
+
+
 
