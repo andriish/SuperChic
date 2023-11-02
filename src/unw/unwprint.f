@@ -21,6 +21,7 @@ ccc   prints nev events to record
       include 'x.f'
       include 'rech.f'
       include 'ion.f'
+
       
       do i=1,evnum
          evfill(i)=1
@@ -40,8 +41,10 @@ ccc   prints nev events to record
 ccccccccccccccccccccccccccccccccccccccccccccccc
 ccccc HepMC
 ccccccccccccccccccccccccccccccccccccccccccccccc
+
          
          if(erech)then
+
 
             if(i.eq.1)then
                write(45,'(A)')'HepMC::Version 2.06.11'
@@ -90,7 +93,11 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
             
             goto 500
 
+
+            
          endif
+
+
 ccccccccccccccccccccccccccccccccccccccccccccccc
 ccccc Les Houches
 ccccccccccccccccccccccccccccccccccccccccccccccc
@@ -264,7 +271,6 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
             write(45,*)'</LesHouchesEvents>'
          endif
       endif
-
  201  format(A1,i8,1x,i8)
 
  200  format(i8,i8,i8,i8,i8,i8,E19.8,E19.8

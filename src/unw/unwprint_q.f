@@ -115,19 +115,6 @@
       if (prodv(i).ne.0) vert(prodv(i),4)=vert(prodv(i),4)+1
       end do
 
-!      do i=1,last
-!       write(45,*)mothup(1,i),mothup(2,i)
-!      end do
-!      write(45,*)'==========='
-!      do i=1,last
-!       write(45,*)mom(i,1),mom(i,2)
-!      end do
-
-
-
-!      do i=1,nvert
-!       write(45,*)vert(i,1),vert(i,2),vert(i,3),vert(i,4)
-!      end do
       write(45,151)'E',enr,0,scalup,aqcdup,aqedup,proc,
      &0,nvert,1,2,0,1,1d0
       write(45,155)'U GEV CM'
@@ -228,6 +215,8 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
                  idup(4)=92
               endif
            endif
+
+
            
            if(diff.eq.'dd')then
               
@@ -412,12 +401,19 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
                   enddo
                endif
             elseif(beam.eq.'ion'.or.beam.eq.'ionp')then
+c$$$               do m=3,nup+2
+c$$$                  write(45,203)idup(m),istup(m),mothup(1,m),
+c$$$     &                 mothup(2,m),icolup(1,m),icolup(2,m),pup(1,m)
+c$$$     &                 ,pup(2,m),pup(3,m),pup(4,m),pup(5,m),vtimup(m)
+c$$$     &                 ,spinup(m)
+c$$$               enddo
                do m=3,nup+1
                   write(45,203)idup(m),istup(m),mothup(1,m),
      &                 mothup(2,m),icolup(1,m),icolup(2,m),pup(1,m)
      &                 ,pup(2,m),pup(3,m),pup(4,m),pup(5,m),vtimup(m)
      &                 ,spinup(m)
                enddo
+               
             endif
             write(45,*)'</event>'
 

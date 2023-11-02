@@ -668,6 +668,7 @@ ccccccccc
          nup=5
       endif
 
+
       if(diff.eq.'sd')nup=nup-1
       if(diff.eq.'el')nup=nup-2
 
