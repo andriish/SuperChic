@@ -19,8 +19,6 @@ ccc   prints nev events to record
       include 'beam.f'
       include 'mion.f'
       include 'x.f'
-!      include 'vertex.f'
-      !include 'pvert.f'
       include 'rech.f'
       include 'ion.f'
       
@@ -78,7 +76,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
                pup(5,4)=dsqrt(dabs(pup(4,4)**2-pup(3,4)**2
      &              -pup(2,4)**2-pup(1,4)**2))
             endif
-        
+
             scalup=mx
             aqcdup=alphas(mx**2)
             aqedup=alpha
@@ -93,7 +91,6 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
             goto 500
 
          endif
-
 ccccccccccccccccccccccccccccccccccccccccccccccc
 ccccc Les Houches
 ccccccccccccccccccccccccccccccccccccccccccccccc
