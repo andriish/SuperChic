@@ -19,8 +19,8 @@ set(STANDARDENVIRONMENT "SUPERCHIC_DATA_PATH=${PROJECT_SOURCE_DIR}/share/SuperCh
 
 if (SUPERCHIC_DOWNLOAD_PDFS)
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/PDFS)
-  #file(DOWNLOAD https://superchic.hepforge.org/SF_MSHT20qed_nnlo.tar.gz ${CMAKE_CURRENT_BINARY_DIR}/PDFS/SF_MSHT20qed_nnlo.tar.gz)
-  file(COPY ${PROJECT_SOURCE_DIR}/SF_MSHT20qed_nnlo.tar.gz DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/PDFS/)
+  file(DOWNLOAD https://superchic.hepforge.org/SF_MSHT20qed_nnlo.tar.gz ${CMAKE_CURRENT_BINARY_DIR}/PDFS/SF_MSHT20qed_nnlo.tar.gz)
+  #file(COPY ${PROJECT_SOURCE_DIR}/SF_MSHT20qed_nnlo.tar.gz DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/PDFS/)
   file(DOWNLOAD https://lhapdfsets.web.cern.ch/current/MSHT20qed_nnlo.tar.gz ${CMAKE_CURRENT_BINARY_DIR}/PDFS/MSHT20qed_nnlo.tar.gz)
   add_custom_target( UNZIPPDFS ALL)
   add_custom_command(TARGET UNZIPPDFS PRE_BUILD 
