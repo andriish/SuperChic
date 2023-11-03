@@ -39,7 +39,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       double precision randum,ran2,t2
       double precision sd,sdo,sd1,chi2a,avgio,avgi1,avgi
       double precision mass,mup,ms,md,beta
-      integer i,j,k
+      integer i,j,k,itmx1
       integer nhistmax
       integer outl
       integer iinc,ncallu
@@ -936,6 +936,4 @@ cccccccccccccccc
 
       call cpu_time(t2)
       print*,'time elapsed = ', t2, ' s'
-
-      STOP 1, QUIET=.TRUE.
       end
