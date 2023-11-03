@@ -1,4 +1,4 @@
-ccc   initialises number of histograms
+!   initialises number of histograms
       subroutine inithist(nhist)
       implicit none
       integer nhist,i
@@ -10,7 +10,7 @@ ccc   initialises number of histograms
       return
       end
 
-ccc   binning subroutine
+!   binning subroutine
       subroutine binit(wt)
       implicit none
       double precision wt
@@ -31,7 +31,6 @@ ccc   binning subroutine
       include 'ewpars.f'
       include 'partonmom2.f'
 
-ccccccccc
 
       if(dps.eq.1)then
          call histo1(1,30,ymin,ymax,yx,wt,'yx')
@@ -44,7 +43,7 @@ ccccccccc
       end
 
 
-ccc   prints histograms
+      !   prints histograms
       subroutine histo1(ih,ib,x0,x1,x,w,labin)
       implicit real*8(a-h,o-z)
       integer ix,iz,iv,ic,ih,ib,il,i,ib1
@@ -72,7 +71,11 @@ ccc   prints histograms
       y1(ih)=x1
       ic(ih)=ib
       if(x.lt.x0) goto 11
+#if   defined(__NVCOMPILER)
+      if(x.gt.x1 ) goto 12
+#else
       if(x.gt.x1 .or. isnan(x) ) goto 12
+#endif
 
       ix=idint((x-x0)/(x1-x0)*dble(ib))+1
 

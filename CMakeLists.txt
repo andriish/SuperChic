@@ -12,6 +12,7 @@ find_package(LHAPDF REQUIRED)
 message(STATUS "SuperChic: LHAPDF_VERSION=${LHAPDF_VERSION} LHAPDF_LIBRARIES=${LHAPDF_LIBRARIES} LHAPDF_INCLUDE_DIRS=${LHAPDF_INCLUDE_DIRS}")
 find_package(APFEL REQUIRED)
 message(STATUS "SuperChic: APFEL_VERSION=${APFEL_VERSION} APFEL_LIBRARIES=${APFEL_LIBRARIES} APFEL_INCLUDE_DIRS=${APFEL_INCLUDE_DIRS}")
+#GNU
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,GNU>:-fbacktrace>")
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,GNU>:-fcheck=all>")
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,GNU>:-std=legacy>")
@@ -22,6 +23,7 @@ add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,GNU>:-fimplicit-none>")
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,GNU>:-Wno-unused-dummy-argument>")
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,GNU>:-Wno-compare-reals>")
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,GNU>:-Wno-do-subscript>")
+#Classical Intel
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,Intel>:-noauto>")
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,Intel>:-traceback>")
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,Intel>:-check>")
@@ -31,6 +33,7 @@ add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,Intel>:-diag-disable 6717>"
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,Intel>:-diag-disable 8291>")
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,Intel>:-diag-disable 7712>")
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,Intel>:-diag-disable 5194>") #truncation
+#Intel LLVM
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,IntelLLVM>:-noauto>")
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,IntelLLVM>:-traceback>")
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,IntelLLVM>:-check>")
@@ -40,7 +43,11 @@ add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,IntelLLVM>:-diag-disable 67
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,IntelLLVM>:-diag-disable 8291>")
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,IntelLLVM>:-diag-disable 7712>")
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,IntelLLVM>:-diag-disable 5194>") #truncation
+#NVHPC
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,NVHPC>:-Msave>")
+add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,NVHPC>:-Mbounds>")
+add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,NVHPC>:-traceback>")
+add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,NVHPC>:-Minform=inform>")
 #Tier 2 support compilers
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,PGI>:-Msave>")
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,XL>:-qsave>")
@@ -50,6 +57,7 @@ if (SUPERCHIC_ENABLE_FPES)
   add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,GNU>:-ffpe-trap=zero,overflow,underflow,invalid,denormal>")
   add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,Intel>:-fpe0>")
   add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,IntelLLVM>:-fpe0>")
+  add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,NVHPC>:-Ktrap=divz,denorm,fp,inexact,inv,none,ovf,unf>")
 endif()
 
 add_definitions("-DDATA_PATH=\'${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_DATADIR}/SuperChic\'")
@@ -186,10 +194,12 @@ else()
 endif()
 set_source_files_properties( ${CMAKE_CURRENT_SOURCE_DIR}/src/diss/Elastic.f ${CMAKE_CURRENT_SOURCE_DIR}/src/inition/gdrin.f 
                              PROPERTIES Fortran_PREPROCESS ON Fortran_FORMAT FREE)
+set_source_files_properties( ${CMAKE_CURRENT_SOURCE_DIR}/src/user/histo.f 
+                             PROPERTIES Fortran_PREPROCESS ON )
 
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-set_source_files_properties( ${CMAKE_CURRENT_SOURCE_DIR}/src/diss/Elastic.f ${CMAKE_CURRENT_SOURCE_DIR}/src/inition/gdrin.f 
+set_source_files_properties( ${CMAKE_CURRENT_SOURCE_DIR}/src/user/histo.f ${CMAKE_CURRENT_SOURCE_DIR}/src/diss/Elastic.f ${CMAKE_CURRENT_SOURCE_DIR}/src/inition/gdrin.f 
                              PROPERTIES COMPILE_FLAGS "-traditional -cpp" )  
 endif()
 
