@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.15.0 FATAL_ERROR)
 #----------------------------------------------------------------------------
 project(SuperChic LANGUAGES  Fortran)
 set(PROJECT_VERSION 4.2)
+option(SUPERCHIC_ENABLE_OMP        "Enables building with OMP." ON)
 option(SUPERCHIC_ENABLE_TESTS        "Enables building of tests." OFF)
 option(SUPERCHIC_ENABLE_FPES         "Enables FPEs." OFF)
 option(SUPERCHIC_ENABLE_ALL_TESTS    "Enables building of all tests." OFF)
@@ -12,6 +13,14 @@ find_package(LHAPDF REQUIRED)
 message(STATUS "SuperChic: LHAPDF_VERSION=${LHAPDF_VERSION} LHAPDF_LIBRARIES=${LHAPDF_LIBRARIES} LHAPDF_INCLUDE_DIRS=${LHAPDF_INCLUDE_DIRS}")
 find_package(APFEL REQUIRED)
 message(STATUS "SuperChic: APFEL_VERSION=${APFEL_VERSION} APFEL_LIBRARIES=${APFEL_LIBRARIES} APFEL_INCLUDE_DIRS=${APFEL_INCLUDE_DIRS}")
+
+if (SUPERCHIC_ENABLE_OMP)
+  find_package(OpenMP  COMPONENTS Fortran REQUIRED)
+  message(STATUS "SuperChic: OpenMP_VERSION=${OpenMP_VERSION} OpenMP_Fortran_HAVE_OMPLIB_HEADER=${OpenMP_Fortran_HAVE_OMPLIB_HEADER} OpenMP_Fortran_LIBRARIES=${OpenMP_Fortran_LIBRARIES}")
+endif()
+
+
+
 #GNU
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,GNU>:-fbacktrace>")
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,GNU>:-fcheck=all>")
@@ -68,6 +77,7 @@ message(STATUS "SuperChic: SUPERCHIC_ENABLE_ALL_TESTS=${SUPERCHIC_ENABLE_ALL_TES
 message(STATUS "SuperChic: SUPERCHIC_ENABLE_TESTS=${SUPERCHIC_ENABLE_TESTS}" )
 message(STATUS "SuperChic: SUPERCHIC_ENABLE_FPES=${SUPERCHIC_ENABLE_FPES}" )
 message(STATUS "SuperChic: SUPERCHIC_DOWNLOAD_PDFS=${SUPERCHIC_DOWNLOAD_PDFS}" )
+message(STATUS "SuperChic: SUPERCHIC_ENABLE_OMP=${SUPERCHIC_ENABLE_OMP}" )
 
 set(Dissf CLAS.f gd-fit-11.f CB.f Elastic.f F1F2.f F2ev.f rfit.f 
           alphaEM.f qinit.f apfelinit.f )
@@ -238,6 +248,13 @@ set_target_properties(init PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_
 install(TARGETS superchic init DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT bin)
 install(TARGETS superchicLib   DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libs)
 install(TARGETS superchicLibstatic   DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libs)
+
+if (SUPERCHIC_ENABLE_OMP)
+  target_link_libraries( superchic PUBLIC OpenMP::OpenMP_Fortran)
+  target_link_libraries( init PUBLIC OpenMP::OpenMP_Fortran)
+  target_link_libraries( superchicLib PUBLIC OpenMP::OpenMP_Fortran)
+  target_link_libraries( superchicLibstatic PUBLIC OpenMP::OpenMP_Fortran)
+endif()
 
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Cards/ DESTINATION  ${CMAKE_INSTALL_DOCDIR}/Cards COMPONENT doc)
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/doc/superchic4.2.pdf DESTINATION  ${CMAKE_INSTALL_DOCDIR}/ COMPONENT doc)
