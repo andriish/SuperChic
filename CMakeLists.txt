@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15.0 FATAL_ERROR)
 #----------------------------------------------------------------------------
 project(SuperChic LANGUAGES  Fortran)
 set(PROJECT_VERSION 4.2)
-option(SUPERCHIC_ENABLE_OMP        "Enables building with OMP." ON)
+option(SUPERCHIC_ENABLE_OMP        "Enables building with OMP." OFF)
 option(SUPERCHIC_ENABLE_TESTS        "Enables building of tests." OFF)
 option(SUPERCHIC_ENABLE_FPES         "Enables FPEs." OFF)
 option(SUPERCHIC_ENABLE_ALL_TESTS    "Enables building of all tests." OFF)
