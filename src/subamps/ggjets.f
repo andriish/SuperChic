@@ -12,6 +12,7 @@ ccc   gg --> gg subprocess amplitude
       phi=datan2(p1(2),p1(1))
       cphi=dcos(phi)
       sphi=dsin(phi)
+!      write(*,*)" mx u t",mx,u,t
 
       if(p.eq.1)then            ! ++ final state
          pp=3d0/dsqrt(8d0)*8d0*pi*alphas(mx**2)

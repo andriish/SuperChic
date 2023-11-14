@@ -821,7 +821,7 @@ c      write(40,*)7
 c      print*,'test'
 
 
- 777  if(dabs(sd/avgi).gt.prec)then
+ 777  if(dabs(sd).gt.dabs(avgi)*prec)then
 
 
 
@@ -906,7 +906,7 @@ c      ncall=ncall+nev
       endif
 
       if(readwt)then
-      elseif((sdo/avgio).lt.(sd/avgi))then
+      elseif((sdo*avgi).lt.(sd*avgio))then
          avgi=avgio
          sd=sdo
       endif

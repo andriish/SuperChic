@@ -453,7 +453,7 @@ cccccccc   Dissociation
          wtdiss2=1d0
 
       endif
-
+!      write(*,*)"->>>>mmin=",mmin
 cccccccccccc
 
       aa1=(1d0-x1)*rts/dsqrt(2d0)
