@@ -983,7 +983,12 @@
      &  + mw**2
 
 
-
+      write(*,*)"---->"
+      write(*,*)amp1,den1
+      write(*,*)amp2,den2
+      write(*,*)amp3,den3
+      write(*,*)amp4,den4
+      write(*,*)amp5,den5
       ampaxial_fun = amp1/den1+amp2/den2+amp3/den3+amp4/den4
      &     +amp5/den5
       return
