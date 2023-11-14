@@ -1,5 +1,5 @@
 ccc   evolution of flavour-octet meson wave function
-      subroutine wfoctet(q,n,a28,a28n)
+      subroutine wfoctet(q,n,xa28,xa28n)
       implicit double precision(a-y)
       integer n
 
@@ -18,7 +18,7 @@ ccc   evolution of flavour-octet meson wave function
       b0=(33d0-2d0*nf)/(12d0*pi)
       qs=q**2
       mu0=1d0
-      a28n=a28*(alphas(mu0**2)/alphas(qs*2d0))**(gamqq(n)/b0/4d0/pi)
+      xa28n=xa28*(alphas(mu0**2)/alphas(qs*2d0))**(gamqq(n)/b0/4d0/pi)
 
       return
       end
