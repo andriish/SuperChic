@@ -208,9 +208,7 @@ set_source_files_properties( ${CMAKE_CURRENT_SOURCE_DIR}/src/user/histo.f
                              PROPERTIES Fortran_PREPROCESS ON )
 
 
-if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" OR
-    (${CMAKE_Fortran_COMPILER_ID} MATCHES "GNU" AND  ${CMAKE_Fortran_COMPILER_VERSION} VERSION_LESS 5.0)
-    )
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" OR  ${CMAKE_VERSION} VERSION_LESS 3.18)
 set_source_files_properties( ${CMAKE_CURRENT_SOURCE_DIR}/src/user/histo.f ${CMAKE_CURRENT_SOURCE_DIR}/src/diss/Elastic.f ${CMAKE_CURRENT_SOURCE_DIR}/src/inition/gdrin.f 
                              PROPERTIES COMPILE_FLAGS "-traditional -cpp" )  
 endif()
