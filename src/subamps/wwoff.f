@@ -30,7 +30,7 @@ ccc   gamma gamma --> l+l- subprocess amplitude - off-shell axial gauge
       include 'wwpars.f'
 
       onshell=.false.
-
+      write(*,*)"WWOFF ",mw,mx
       beta=dsqrt(1d0-4d0*mw**2/mx**2)
 
 
@@ -40,7 +40,8 @@ ccc   gamma gamma --> l+l- subprocess amplitude - off-shell axial gauge
          pp(i)=q(i,6)
          pm(i)=q(i,7)
       enddo
-
+      write(*,*)"n=",n
+      write(*,*)"q2=",q2
       qsq1=(q(4,3)-q(4,1))**2-(q(3,3)-q(3,1))**2-(q(2,3)-q(2,1))**2
      &     -(q(1,3)-q(1,1))**2
       qsq1=-qsq1
@@ -136,6 +137,7 @@ c     endif
 
       n_q1 = n(4)*q1(4)-n(3)*q1(3)-n(2)*q1(2)-n(1)*q1(1)
       n_q2 = n(4)*q2(4)-n(3)*q2(3)-n(2)*q2(2)-n(1)*q2(1)
+      write(*,*)"n_q2 = ",n_q2
       n_pp = n(4)*pp(4)-n(3)*pp(3)-n(2)*pp(2)-n(1)*pp(1)
       n_pm = n(4)*pm(4)-n(3)*pm(3)-n(2)*pm(2)-n(1)*pm(1)
       n_n = n(4)*n(4) - n(3)*n(3) - n(2)*n(2) - n(1)*n(1)
@@ -163,7 +165,10 @@ cccc  Unitary (need to change pol vectors as well though)
             else
 
 cccc Axial
-
+      write(*,*)"1->",pp,pm,ep,em,q1,q2,ep_em,ep_q1,ep_q2
+      write(*,*)"2->",em_q1,em_q2,pp_q1,pp_q2
+      write(*,*)"3->",pm_q1,pm_q2,tl,ul,qsq1,qsq2
+      write(*,*)"4->",mw,d_,mu,nu,pp_em,pp_ep,n,n_q1,n_q2,n_pp,n_pm,n_n
             zout = ampaxial_fun(pp,pm,ep,em,q1,q2,ep_em,ep_q1,ep_q2,
      &           em_q1,em_q2,pp_q1,pp_q2,pm_q1,pm_q2,tl,ul,qsq1,qsq2,
      &           mw,d_,mu,nu,pp_em,pp_ep,n,n_q1,n_q2,n_pp,n_pm,n_n)
