@@ -65,9 +65,6 @@ ccc   gg --> rhorho subprocess amplitude
       out4a=out4a*(a48n/a48)
       out5a=out5a*(a48n/a48)*(a28n/a28)
       out6a=out6a*(a48n/a48)*(a28n/a28)
-      endif
-      endif
-      if(dabs(a48n).gt.1d-4)then
       out7a=out7a*(a48n/a48)**2
       endif
 
