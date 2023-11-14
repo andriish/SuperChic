@@ -147,7 +147,7 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build the superchic Docker image on the change of Dockerfile
-      if: steps.changed-docker-files.outputs.any_changed == 'true' 
+      if: steps.changed-dockerCentOS7-files.outputs.any_changed == 'true' 
       run: |
          mv DockerfileCentOS7 Dockerfile
          docker build . --tag ghcr.io/andriish/superchic:CentOS7
