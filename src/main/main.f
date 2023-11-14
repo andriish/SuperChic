@@ -453,7 +453,7 @@ cccccccc   Dissociation
          wtdiss2=1d0
 
       endif
-!      write(*,*)"->>>>mmin=",mmin
+
 cccccccccccc
 
       aa1=(1d0-x1)*rts/dsqrt(2d0)
@@ -679,11 +679,9 @@ ccccccccccccccccccccccccccccccccccccccccccc
                    wgauge='unitary'
                 endif
              if(wgauge.eq.'axial')then
-                write(*,*)"AXIAL GAUGE"
                 call genpolaxial1(6,ewp)
                 call genpolaxial1(7,ewm)
              endif
-
           endif
 
           if(proc.eq.40.or.proc.eq.43.or.proc.eq.45)then

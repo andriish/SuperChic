@@ -967,7 +967,7 @@
       amp4 = amp4 + n(nu)*n_q2*qsq1 * (  - 2*em(mu)*ep_q2*ul**2 )
       amp4 = amp4 + n(nu)*n_q2 * (  - 2*q1(mu)*ep_q2*em_q1*ul**2 )
 
-      write(*,*)"den4=f(", n_pp,n_q2,ul,mw
+
       den4 =
      &  + n_pp*n_q2 * (  - 2*ul**3 + 2*mw**2*ul**2 )
       den4 = den4 + n_pp**2 * ( ul**3 - mw**2*ul**2 )
@@ -983,12 +983,7 @@
      &  + mw**2
 
 
-      write(*,*)"---->"
-      write(*,*)amp1,den1
-      write(*,*)amp2,den2
-      write(*,*)amp3,den3
-      write(*,*)amp4,den4
-      write(*,*)amp5,den5
+
       ampaxial_fun = amp1/den1+amp2/den2+amp3/den3+amp4/den4
      &     +amp5/den5
       return
