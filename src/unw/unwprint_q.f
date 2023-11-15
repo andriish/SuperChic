@@ -289,9 +289,14 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
            endif
 
             if(i.eq.1)then
-               write(45,*)'<LesHouchesEvents version="1.0">'
+               write(45,'(A)')'<LesHouchesEvents version="3.0">'
                write(45,*)'<header>'
                call headerlhe
+               write(45,*)'<initrwgt>'                                                              
+               write(45,*)'<weightgroup type="scale_variation">'               
+               write(45,*)'<weight id="1001"> muR=1.0 muF=1.0 </weight>'             
+               write(45,*)'</weightgroup>'                                                        
+               write(45,*)'</initrwgt>'                 
                write(45,*)'</header>'
                write(45,*)'<init>'
                if(beam.eq.'el'.or.beam.eq.'prot')then
@@ -308,6 +313,13 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
      &                 ,idwtup,nprup
                endif
                write(45,312)xsecup(1),xerrup(1),xmaxup(1),1
+               write(45,*)'<xsecinfo totxsec="1.0"  neve="50"/>' !FIXME
+               write(45,*)'<weightinfo name="nominal" />'
+               write(45,*)'<initrwgt>'               
+               write(45,*)'<weightgroup type="scale_variation">'               
+               write(45,*)'<weight id="1001"> muR=1.0 muF=1.0 </weight>'             
+               write(45,*)'</weightgroup>'                
+               write(45,*)'</initrwgt>'
                write(45,*)'</init>'
             endif
 
@@ -415,6 +427,11 @@ c$$$               enddo
                enddo
                
             endif
+            write(45,*)'<weights> 1.0 </weights>'
+            write(45,*)'<rwgt>'
+            write(45,*)'<wgt id="1001"> 1.0</wgt>'
+            write(45,*)'</rwgt>'
+            write(45,*)'</event>'
             write(45,*)'</event>'
 
  304        format(i2,4x,i1,3x,F2.0,3x,E16.9,3x,E16.9,3x,E16.9)

@@ -15,10 +15,10 @@ int main (int argc, char** argv) {
             break;
         }
         events++;
-        if (evt.particles().size()==0) return 2;
+        if (evt.particles().size()==0) { printf("Too few particles\n"); return 2;}
         evt.clear();
     }
     inputA->close();
-    if (events==0) return 3;
+    if (events==0)  { printf("Too few events\n"); return 3;}
     return 0;
 }
