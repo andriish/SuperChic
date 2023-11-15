@@ -669,6 +669,7 @@ ccccccccccccccccccccccccccccccccccccccccccc
      &            31.or.proc.eq.34.or.proc.eq.37)then
              call genpol2
           elseif(proc.eq.54.or.proc.eq.55)then
+             !write(*,*)'wgauge=======',wgauge
              wgauge='axial'
              call genpol1(6,ewp)
              call genpol1(7,ewm)
