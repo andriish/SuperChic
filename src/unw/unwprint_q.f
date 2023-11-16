@@ -432,7 +432,6 @@ c$$$               enddo
             write(45,*)'<wgt id="1001"> 1.0</wgt>'
             write(45,*)'</rwgt>'
             write(45,*)'</event>'
-            write(45,*)'</event>'
 
  304        format(i2,4x,i1,3x,F2.0,3x,E16.9,3x,E16.9,3x,E16.9)
             
