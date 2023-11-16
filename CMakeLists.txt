@@ -8,6 +8,7 @@ option(SUPERCHIC_ENABLE_FPES         "Enables FPEs." OFF)
 option(SUPERCHIC_ENABLE_ALL_TESTS    "Enables building of all tests." OFF)
 option(SUPERCHIC_DOWNLOAD_PDFS       "Enables downloading of PDFs for tests." OFF)
 option(SUPERCHIC_ENABLE_DOCS         "Enables compilation of manual." OFF)
+option(SUPERCHIC_ENABLE_PROFILE         "Enables callgrind profiling." ON)
 include("GNUInstallDirs")
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules ${CMAKE_MODULE_PATH})
 find_package(LHAPDF REQUIRED)
@@ -198,7 +199,8 @@ set(scincludes ${CMAKE_CURRENT_SOURCE_DIR}/src/main ${CMAKE_CURRENT_SOURCE_DIR}/
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(sccompile_options )
 else()
-  set(sccompile_options "$<$<COMPILE_LANG_AND_ID:Fortran,GNU>:-mcmodel=large>" 
+  set(sccompile_options 
+   #"$<$<COMPILE_LANG_AND_ID:Fortran,GNU>:-mcmodel=large>" 
                         "$<$<COMPILE_LANG_AND_ID:Fortran,Intel>:-mcmodel=large>"
                         "$<$<COMPILE_LANG_AND_ID:Fortran,IntelLLVM>:-mcmodel=large>" 
                         "$<$<COMPILE_LANG_AND_ID:Fortran,NVHPC>:-mcmodel=medium>"
@@ -239,7 +241,9 @@ add_executable(superchic ${CMAKE_CURRENT_SOURCE_DIR}/src/main/superchic.f  ${Ini
 target_include_directories(superchic PRIVATE  ${scincludes})
 target_link_libraries(superchic PRIVATE LHAPDF::LHAPDF APFEL::APFEL APFEL::APFELevol superchicLibstatic)
 target_compile_options(superchic PRIVATE ${sccompile_options})
-set_target_properties(superchic PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}/$<0:>)
+set_target_properties(superchic PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}/$<0:> 
+#POSITION_INDEPENDENT_CODE OFF
+)
 
 add_executable(init ${CMAKE_CURRENT_SOURCE_DIR}/src/init/init.f ${InitfLHA})
 target_include_directories(init PRIVATE  ${scincludes})
