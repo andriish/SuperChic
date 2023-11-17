@@ -4,9 +4,7 @@ ccc   interpolator for Sudakov factor
       integer i,j
       double precision iqinc,iminc
 
-      include 'sudpars.f'
-      iqinc=1.0d0/qinc 
-      iminc=1.0d0/minc 
+      include 'sudpars.f' 
       mx=dlog(mxx)
       iqinc=1.0d0/qinc 
       iminc=1.0d0/minc 
