@@ -49,7 +49,7 @@ Pythia8::Pythia8ToHepMC topHepMC("1.hepmc");
 
   // Four possible contributions: double-dissociative = 1;
   // single-dissociative on side A (B) = 2 (3); elastic-elastic = 4.
-  int processType = 4;
+  int processType = 2;
 
   // Enable elastic photon beams according to processType above.
   // For dissociative beams photons from PDFs (NNPDF2.3 by default) are used.
@@ -63,9 +63,11 @@ Pythia8::Pythia8ToHepMC topHepMC("1.hepmc");
   pythia.readString("PDF:Proton2gammaSet = 2");
 
   // Set outgoing lepton-pair id and switch on relevant process.
-  int idLep = 13;
-  if      (idLep == 11) pythia.readString("PhotonCollision:gmgm2ee = on");
-  else if (idLep == 13) pythia.readString("PhotonCollision:gmgm2mumu = on");
+ // int idLep = 13;
+ // if      (idLep == 11) pythia.readString("PhotonCollision:gmgm2ee = on");
+ // else if (idLep == 13) pythia.readString("PhotonCollision:gmgm2mumu = on");
+
+ pythia.readString("WeakBosonAndParton:fgm2gmZf= on");
 
   // Need to prepare for MPIs only for double-dissociative production.
   if ( processType != 1 ) pythia.readString("PartonLevel:MPI = off");
@@ -100,8 +102,8 @@ Pythia8::Pythia8ToHepMC topHepMC("1.hepmc");
     // Find the final muons (last ones in the event record).
     int iPosPlus = 0, iPosMinus = 0;
     for (int i = 0; i < pythia.event.size();++i) {
-      if (pythia.event[i].id() == idLep) iPosPlus = i;
-      if (pythia.event[i].id() == -idLep) iPosMinus = i;
+   //   if (pythia.event[i].id() == idLep) iPosPlus = i;
+    //  if (pythia.event[i].id() == -idLep) iPosMinus = i;
     }
 
     // Derive 4-momenta of leptons.
