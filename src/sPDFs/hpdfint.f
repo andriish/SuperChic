@@ -2,6 +2,7 @@ ccc   interpolator for skewed pdf
       subroutine hpdfint(x,qtsq,tg,dtg)
       implicit double precision(a-y)
       integer i,j
+      double precision iqinc, ilxinc
 
       include 'hgpars.f'
       iqinc=1.0d0/qinc 
@@ -10,16 +11,6 @@ ccc   interpolator for skewed pdf
       i=max(1,ceiling((qtsq-qmin)*iqinc))
       j=max(1,ceiling((x-lxmin)*ilxinc))
 
-!      if(dble(i).lt.(qtsq-qmin)*iqinc)then
-!         i=i+1
-!      endif
-
-!      if(dble(j).lt.(x-lxmin)*ilxinc)then
-!         j=j+1
-!      endif
-
-!      if(i.eq.0)i=i+1
-!      if(j.eq.0)j=j+1
 
 cccccccccccc
 

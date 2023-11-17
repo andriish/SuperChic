@@ -2,25 +2,17 @@ ccc   interpolator for Sudakov factor
       subroutine sudint(qtsq,mxx,tg,dtg)
       implicit double precision(a-y)
       integer i,j
+      double precision iqinc,iminc
 
       include 'sudpars.f'
       iqinc=1.0d0/qinc 
       iminc=1.0d0/minc 
       mx=dlog(mxx)
-
+      iqinc=1.0d0/qinc 
+      iminc=1.0d0/minc 
       i=max(1,ceiling((qtsq-qmin)*iqinc))
       j=max(1,ceiling((mx-mmin)*iminc))
 
-!      if(dble(i).lt.(qtsq-qmin)*iqinc)then
-!         i=i+1
-!      endif
-
-!      if(dble(j).lt.(mx-mmin)*iminc)then
-!         j=j+1
-!      endif
-
-!      if(i.eq.0)i=i+1
-!      if(j.eq.0)j=j+1
 
 cccccccccccc
 
