@@ -136,7 +136,7 @@ public:
     // Add particles and vertices in topological order.
 //AV    evt->add_tree( beam_particles );
 
-    hepevt_particles[0]->end_vertex()->remove_particle_in(hepevt_particles[0]);
+    if(hepevt_particles[0]->end_vertex())hepevt_particles[0]->end_vertex()->remove_particle_in(hepevt_particles[0]);
     vertex_cache[0]->add_particle_in(hepevt_particles[1]);
     vertex_cache[0]->add_particle_in(hepevt_particles[2]);
     hepevt_particles[1]->set_status(4);

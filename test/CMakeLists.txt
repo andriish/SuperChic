@@ -15,6 +15,11 @@ target_compile_features(shower PRIVATE cxx_std_11)
 message(STATUS "SuperChic test: PYTHIA8_VERSION=${PYTHIA8_VERSION} PYTHIA8_LIBRARIES=${PYTHIA8_LIBRARIES} PYTHIA8_INCLUDE_DIRS=${PYTHIA8_INCLUDE_DIRS}")
 
 
+add_executable(main78 ${CMAKE_CURRENT_SOURCE_DIR}/main78.cc)
+target_link_libraries(main78 PRIVATE ${HEPMC3_LIBRARIES} Pythia8::Pythia8 )
+target_include_directories(main78 PRIVATE ${HEPMC3_INCLUDE_DIRS})
+target_compile_features(main78 PRIVATE cxx_std_11)
+
 set(STANDARDENVIRONMENT "SUPERCHIC_DATA_PATH=${PROJECT_SOURCE_DIR}/share/SuperChic;PYTHIA8_XMLDOC_DIR=${PYTHIA8_XMLDOC_DIR}")
 
 if (SUPERCHIC_DOWNLOAD_PDFS)
