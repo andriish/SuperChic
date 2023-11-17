@@ -414,14 +414,6 @@ cccccccccccc
       enddo
 
 cccccccccccccccccccccccccc
-      if(diff.eq.'sd'.or.diff.eq.'dd')then
-         if(offshell.eqv..false.)then
-            print*,'Dissociation not currently supported'//
-     &           ' for this process/beam - STOP'
-            STOP 1
-         endif
-      endif
-
 
 cccccccccccccccccccccccccc
       call inpdf
