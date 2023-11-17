@@ -34,13 +34,9 @@ cccccccc
       call mesint(p,1,cost,out1)
       call mesint(p,2,cost,out2)
       call mesint(p,3,cost,out3)
-      if(dabs(a28n).gt.1d-4)then
+
       out2=out2*(a28n/a28)
       out3=out3*(a28n/a28)**2
-      else
-      out2=0.d0
-      out3=0.d0      
-      endif
 
       qqn1=(1d0+a21n)
       ggn1=5d0/3d0*a2gn

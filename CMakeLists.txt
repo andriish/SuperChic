@@ -2,27 +2,23 @@ cmake_minimum_required(VERSION 3.15.0 FATAL_ERROR)
 #----------------------------------------------------------------------------
 project(SuperChic LANGUAGES  Fortran)
 set(PROJECT_VERSION 4.2)
-option(SUPERCHIC_ENABLE_OMP        "Enables building with OMP." OFF)
 option(SUPERCHIC_ENABLE_TESTS        "Enables building of tests." OFF)
 option(SUPERCHIC_ENABLE_FPES         "Enables FPEs." OFF)
 option(SUPERCHIC_ENABLE_ALL_TESTS    "Enables building of all tests." OFF)
 option(SUPERCHIC_DOWNLOAD_PDFS       "Enables downloading of PDFs for tests." OFF)
 option(SUPERCHIC_ENABLE_DOCS         "Enables compilation of manual." OFF)
 option(SUPERCHIC_ENABLE_PROFILE         "Enables callgrind profiling." OFF)
+option(SUPERCHIC_ENABLE_OMP        "Enables building with OMP." OFF)
 include("GNUInstallDirs")
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules ${CMAKE_MODULE_PATH})
 find_package(LHAPDF REQUIRED)
 message(STATUS "SuperChic: LHAPDF_VERSION=${LHAPDF_VERSION} LHAPDF_LIBRARIES=${LHAPDF_LIBRARIES} LHAPDF_INCLUDE_DIRS=${LHAPDF_INCLUDE_DIRS}")
 find_package(APFEL REQUIRED)
 message(STATUS "SuperChic: APFEL_VERSION=${APFEL_VERSION} APFEL_LIBRARIES=${APFEL_LIBRARIES} APFEL_INCLUDE_DIRS=${APFEL_INCLUDE_DIRS}")
-
 if (SUPERCHIC_ENABLE_OMP)
   find_package(OpenMP  COMPONENTS Fortran REQUIRED)
   message(STATUS "SuperChic: OpenMP_VERSION=${OpenMP_VERSION} OpenMP_Fortran_HAVE_OMPLIB_HEADER=${OpenMP_Fortran_HAVE_OMPLIB_HEADER} OpenMP_Fortran_LIBRARIES=${OpenMP_Fortran_LIBRARIES}")
 endif()
-
-
-
 #GNU
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,GNU>:-std=legacy;-fbacktrace;-fcheck=all;-fno-automatic;-fimplicit-none>")
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,GNU>:-Wall;-Wextra;-Wno-unused-dummy-argument;-Wno-compare-reals;-Wno-do-subscript>")
@@ -55,8 +51,9 @@ message(STATUS "SuperChic: SUPERCHIC_ENABLE_ALL_TESTS=${SUPERCHIC_ENABLE_ALL_TES
 message(STATUS "SuperChic: SUPERCHIC_ENABLE_TESTS=${SUPERCHIC_ENABLE_TESTS}" )
 message(STATUS "SuperChic: SUPERCHIC_ENABLE_FPES=${SUPERCHIC_ENABLE_FPES}" )
 message(STATUS "SuperChic: SUPERCHIC_DOWNLOAD_PDFS=${SUPERCHIC_DOWNLOAD_PDFS}" )
-message(STATUS "SuperChic: SUPERCHIC_ENABLE_OMP=${SUPERCHIC_ENABLE_OMP}" )
 message(STATUS "SuperChic: SUPERCHIC_ENABLE_DOCS=${SUPERCHIC_ENABLE_DOCS}" )
+message(STATUS "SuperChic: SUPERCHIC_ENABLE_OMP=${SUPERCHIC_ENABLE_OMP}" )
+message(STATUS "SuperChic: SUPERCHIC_ENABLE_PROFILE=${SUPERCHIC_ENABLE_PROFILE}" )
 
 set(Dissf CLAS.f gd-fit-11.f CB.f Elastic.f F1F2.f F2ev.f rfit.f 
           alphaEM.f qinit.f apfelinit.f )
