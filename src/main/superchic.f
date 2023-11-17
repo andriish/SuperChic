@@ -414,7 +414,16 @@ cccccccccccc
       enddo
 
 cccccccccccccccccccccccccc
+      if(diff.eq.'sd'.or.diff.eq.'dd')then
+         if(offshell.eqv..false.)then
+            print*,'Dissociation not currently supported'//
+     &           ' for this process/beam - STOP'
+            STOP 1
+         endif
+      endif
 
+
+cccccccccccccccccccccccccc
       call inpdf
       call supinit
 
@@ -678,7 +687,8 @@ ccccccccc
 ccccccccc
 
       surv=1d0
-      if(beam.eq.'prot'.or.ionqcd.eq.'coh'.or.ionqcd.eq.'incoh')then
+      if( (beam.eq.'prot'.or.ionqcd.eq.'coh'.or.ionqcd.eq.'incoh') .and.
+     &  (beam .ne. 'el') ) then
          call initparsr(isurv)
          call readscreen
          if(beam.eq.'prot'.or.ionqcd.eq.'incoh')surv=1d0/norm**2

@@ -48,11 +48,13 @@ message(STATUS "SuperChic test: STANDARDENVIRONMENT=${STANDARDENVIRONMENT}")
 macro(inittest NN)
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN})
 if (SUPERCHIC_ENABLE_PROFILE)
-  add_test(NAME INIT_${NN} COMMAND sh -c "valgrind --tool=callgrind  --callgrind-out-file=INIT_${NN}.log ${PROJECT_BINARY_DIR}/bin/init < ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_${NN}" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN})
+  add_test(NAME INIT_${NN} COMMAND sh -c "valgrind --tool=callgrind  --callgrind-out-file=CALLGRIND_INIT_${NN}.log ${PROJECT_BINARY_DIR}/bin/init < ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_${NN}" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN})
+  set_tests_properties( INIT_${NN} PROPERTIES TIMEOUT 5000 ENVIRONMENT "${STANDARDENVIRONMENT}" DEPENDS init)
 else()
   add_test(NAME INIT_${NN} COMMAND sh -c "${PROJECT_BINARY_DIR}/bin/init < ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_${NN}" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN})
-endif()
   set_tests_properties( INIT_${NN} PROPERTIES TIMEOUT 1000 ENVIRONMENT "${STANDARDENVIRONMENT}" DEPENDS init)
+endif()
+
 endmacro()
 
 macro(sctesthepmc NN MM)
@@ -64,13 +66,13 @@ endmacro()
 
 macro(sctestlhe NN MM df pr)
 if (SUPERCHIC_ENABLE_PROFILE)
-  add_test(NAME SUPERCHIC_${NN}_${MM} COMMAND sh -c "valgrind --tool=callgrind  --callgrind-out-file=SUPERCHIC_${NN}_${MM}.log ${PROJECT_BINARY_DIR}/bin/superchic < ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_${MM}" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN})
+  add_test(NAME SUPERCHIC_${NN}_${MM} COMMAND sh -c "valgrind --tool=callgrind  --callgrind-out-file=CALLGRIND_SUPERCHIC_${NN}_${MM}.log ${PROJECT_BINARY_DIR}/bin/superchic < ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_${MM}" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN})
+  set_tests_properties( SUPERCHIC_${NN}_${MM} PROPERTIES TIMEOUT 1500 ENVIRONMENT "${STANDARDENVIRONMENT}" DEPENDS INIT_${NN})
 else()
   add_test(NAME SUPERCHIC_${NN}_${MM} COMMAND sh -c "${PROJECT_BINARY_DIR}/bin/superchic < ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_${MM}" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN})
-endif()  
   set_tests_properties( SUPERCHIC_${NN}_${MM} PROPERTIES TIMEOUT 500 ENVIRONMENT "${STANDARDENVIRONMENT}" DEPENDS INIT_${NN})
+endif()  
 
-  
   add_test(NAME SHOWER_${NN}_${MM} COMMAND shower ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN}/evrecs/evrectest${MM}.dat ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN}/evrecs/showered${MM}.hepmc ${df} ${pr} real)
   #add_test(NAME SHOWER_${NN}_${MM} COMMAND shower ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN}/evrecs/evrectest${MM}.dat ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN}/evrecs/showered${MM}.hepmc ${df} ${pr} dummy)
   set_tests_properties( SHOWER_${NN}_${MM} PROPERTIES TIMEOUT 500 ENVIRONMENT "${STANDARDENVIRONMENT}" DEPENDS "shower;SUPERCHIC_${NN}_${MM}")
@@ -106,7 +108,55 @@ set(procs 56 )
 set(procs_dd 56 )
 endif()
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_LHC13ppunw ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_LHC13ppunw) # for init
+set(process 100)
+#configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_LHC13ppunw ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_LHC13ppunw) # for init
+#foreach ( diff ${diffs} )
+#foreach ( process ${procs} )
+#foreach ( format ${fmts} )
+#set (gencuts ".false.")
+#if (${process} EQUAL 3  OR  ${process} EQUAL 7 OR  ${process} EQUAL 8 OR  ${process} EQUAL 14 OR  ${process} EQUAL 15 OR  ${process} EQUAL 16 OR  ${process} EQUAL 70 OR  ${process} EQUAL 71 OR  ${process} EQUAL 72)
+#set (gencuts ".true.")
+#endif()
+#configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_LHC13ppunw ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_LHC13ppunw_${process}_${diff}_${format})
+#endforeach()
+#endforeach()
+#endforeach()
+
+
+#inittest(LHC13ppunw)
+#foreach ( process ${procs} )
+#foreach ( diff ${diffs_el} )
+#sctestlhe(LHC13ppunw LHC13ppunw_${process}_${diff}_lhe ${diff} ${process})
+#sctesthepmc(LHC13ppunw LHC13ppunw_${process}_${diff}_hepmc)
+## FIXME sctesthepmc(LHC13ppunw LHC13ppunw_${process}_${diff}_hepevt)
+#endforeach()
+#endforeach()
+#foreach ( process ${procs_dd} )
+#foreach ( diff ${diffs_dd} )
+#sctestlhe(LHC13ppunw LHC13ppunw_${process}_${diff}_lhe ${diff} ${process})
+#endforeach()
+#endforeach()
+
+
+unset(procs)
+unset(procs_dd)
+
+if (SUPERCHIC_ENABLE_ALL_TESTS)
+set(procs  
+                          55 56 57 58 59
+           60 61                   68 69
+           70 71 72 73 74 75 76 
+                 82 83 84 
+           )
+set(procs_dd  )
+else()
+set(procs 56 )
+set(procs_dd  )
+endif()
+
+
+set(process 100)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_FCC350eeunw ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_FCC350eeunw) # for init
 foreach ( diff ${diffs} )
 foreach ( process ${procs} )
 foreach ( format ${fmts} )
@@ -114,23 +164,25 @@ set (gencuts ".false.")
 if (${process} EQUAL 3  OR  ${process} EQUAL 7 OR  ${process} EQUAL 8 OR  ${process} EQUAL 14 OR  ${process} EQUAL 15 OR  ${process} EQUAL 16 OR  ${process} EQUAL 70 OR  ${process} EQUAL 71 OR  ${process} EQUAL 72)
 set (gencuts ".true.")
 endif()
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_LHC13ppunw ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_LHC13ppunw_${process}_${diff}_${format})
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_FCC350eeunw ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_FCC350eeunw_${process}_${diff}_${format})
 endforeach()
 endforeach()
 endforeach()
 
 
-inittest(LHC13ppunw)
+inittest(FCC350eeunw)
 foreach ( process ${procs} )
 foreach ( diff ${diffs_el} )
-sctestlhe(LHC13ppunw LHC13ppunw_${process}_${diff}_lhe ${diff} ${process})
-sctesthepmc(LHC13ppunw LHC13ppunw_${process}_${diff}_hepmc)
-# FIXME sctesthepmc(LHC13ppunw LHC13ppunw_${process}_${diff}_hepevt)
+sctestlhe(FCC350eeunw FCC350eeunw_${process}_${diff}_lhe ${diff} ${process})
+sctesthepmc(FCC350eeunw FCC350eeunw_${process}_${diff}_hepmc)
+# FIXME sctesthepmc(FCC350eeunw FCC350eeunw_${process}_${diff}_hepevt)
 endforeach()
 endforeach()
 foreach ( process ${procs_dd} )
 foreach ( diff ${diffs_dd} )
-sctestlhe(LHC13ppunw LHC13ppunw_${process}_${diff}_lhe ${diff} ${process})
+sctestlhe(FCC350eeunw FCC350eeunw_${process}_${diff}_lhe ${diff} ${process})
 endforeach()
 endforeach()
+
+
 
