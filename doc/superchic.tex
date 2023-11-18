@@ -51,14 +51,26 @@
 
 \section{Overview}
 
-\texttt{SuperChic@PROJECT_VERSION@} is a Fortran based Monte Carlo event generator for central exclusive and semi--exclusive production at parton level, for a range of Standard Model final states. User--defined histograms may be output, as well as unweighted events in HEPEVT and Les Houches formats. By default the program makes use of the LHAPDF library, but otherwise the code is completely stand--alone. Relevant references are listed in Section~\ref{sec:ref}.
+\texttt{SuperChic@PROJECT_VERSION@} is a Fortran based Monte Carlo event 
+generator for central exclusive and semi--exclusive production at parton 
+level, for a range of Standard Model final states. User--defined 
+histograms may be output, as well as unweighted events in HEPEVT and 
+Les Houches formats. By default the program makes use of the LHAPDF 
+library, but otherwise the code is completely stand--alone. Relevant 
+references are listed in Section~\ref{sec:ref}.
 
 \section{Installation}
 
-A compressed tar file containing all of the relevant code can be downloaded at \texttt{http://projects.hepforge.org/superchic/}. To extract it, simply execute \texttt{tar -xzvf superchicv@PROJECT_VERSION@.tar.gz} and the \texttt{superchicv@PROJECT_VERSION@} directory will be created. This consists of:
+A compressed tar file containing all of the relevant code can be 
+downloaded at \texttt{http://projects.hepforge.org/superchic/}. To 
+extract it, simply execute \texttt{tar -xzvf 
+superchicv@PROJECT_VERSION@.tar.gz} and the 
+\texttt{superchicv@PROJECT_VERSION@} directory will be created. 
+This consists of:
 %
 \begin{itemize}
-\item \texttt{bin}: the executables \texttt{superchic} and \texttt{init} and the input card \texttt{input.DAT}.
+\item \texttt{bin}: the executables \texttt{superchic} and \texttt{init} 
+and the input card \texttt{input.DAT}.
 %\item \texttt{bin/PDFsets}: the directory where the \texttt{LHAPDF} grid files must be placed.
 \item \texttt{doc}: the source for this document.
 \item \texttt{obj}: the object files produced by the compiler.
@@ -72,7 +84,10 @@ To compile simply run
 \texttt{> make}
 \newline
 \newline
-which will create the \texttt{superchic} and \texttt{init} executables in the \texttt{bin} directory as well as the object files in the \texttt{obj} directory. It is also possible to compile these executables separately with
+which will create the \texttt{superchic} and \texttt{init} executables 
+in the \texttt{bin} directory as well as the object files in the 
+\texttt{obj} directory. It is also possible to compile these 
+executables separately with
 \newline
 \newline
 \texttt{> make superchic}
@@ -84,17 +99,28 @@ and
 \texttt{> make init}
 \newline
 \newline
-To generate semi--exclusive lepton pair, $W$ pair and/or ALP production, you will need to download \texttt{SF\_MSHT20qed\_nnlo} from \texttt{http://projects.hepforge.org/superchic} and place this in the relevant directory for your \texttt{LHAPDF 6} installation, after extracting the tarball. This file corresponds to the proton structure functions (in lhapdf format), but is not a PDF set and is separate from that set in the input card via \texttt{PDFname}, which corresponds to the proton PDF set used in QCD--initiated CEP. It is therefore not available on the LHAPDF website list.
+To generate semi--exclusive lepton pair, $W$ pair and/or ALP production, 
+you will need to download \texttt{SF\_MSHT20qed\_nnlo} from 
+\texttt{http://projects.hepforge.org/superchic} and place this in the 
+relevant directory for your \texttt{LHAPDF 6} installation, after 
+extracting the tarball. This file corresponds to the proton structure 
+functions (in lhapdf format), but is not a PDF set and is separate from 
+that set in the input card via \texttt{PDFname}, which corresponds to 
+the proton PDF set used in QCD--initiated CEP. It is therefore not 
+available on the LHAPDF website list.
 
 \section{Running with LHAPDF}
 
-By default the program makes use of the LHAPDF library, however there may be some issues with correctly linking to this, depending on the particular system used. 
+By default the program makes use of the LHAPDF library, however there 
+may be some issues with correctly linking to this, depending on the 
+particular system used. 
 %If this is the case, please set \texttt{LHOPT=2} in the makefile and attempt to recompile. 
-If in the first instance of executing \texttt{init} (or \texttt{superchic}) the following error then appears:
+If in the first instance of executing \texttt{init} (or
+ \texttt{superchic}) the following error then appears:
 \newline
 \newline
-\texttt{error while loading shared libraries: libLHAPDF.so.0: cannot open
-shared object file: No such file or directory}
+\texttt{error while loading shared libraries: libLHAPDF.so.0: cannot 
+open shared object file: No such file or directory}
 \newline
 \newline
 please add the following lines to the shell (bash) login script:
@@ -109,13 +135,23 @@ please add the following lines to the shell (bash) login script:
 
 \section{Input parameters and runtime options}
 
-After compilation, the  \texttt{superchic} and \texttt{init} executables can then be run in the \texttt{bin} directory, using the \texttt{input.DAT} file to adjust the input parameters by
+After compilation, the  \texttt{superchic} and \texttt{init} executables
+ can then be run in the \texttt{bin} directory, using the 
+ \texttt{input.DAT} file to adjust the input parameters by
 \newline
 \newline
 \texttt{> ./init < input.DAT}
 \newline
 \newline
-This creates the \texttt{hg[intag]}, \texttt{screening[intag]} and \texttt{sudakov[intag]}\texttt{.dat} input files in the \texttt{bin/inputs} directory, which are used by the main \texttt{superchic} executable, where \texttt{[intag]} is specified in the input file (see below). This must be run in the first instance, and if any of the first five parameters in the input file, corresponding to the model of soft survival, the c.m.s. energy $\sqrt{s}$, the PDF set/member and the input \texttt{[intag]}, are changed. After this the main MC code may be run with
+This creates the \texttt{hg[intag]}, \texttt{screening[intag]} and 
+\texttt{sudakov[intag]}\texttt{.dat} input files in the 
+\texttt{bin/inputs} directory, which are used by the main 
+\texttt{superchic} executable, where \texttt{[intag]} is specified in 
+the input file (see below). This must be run in the first instance, and 
+if any of the first five parameters in the input file, corresponding to 
+the model of soft survival, the c.m.s. energy $\sqrt{s}$, the PDF 
+set/member and the input \texttt{[intag]}, are changed. After this the 
+main MC code may be run with
 \newline
 \newline
 \texttt{> ./superchic < input.DAT}
