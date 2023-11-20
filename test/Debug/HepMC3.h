@@ -105,7 +105,7 @@ public:
 
     // 3. Fill vertex information.
     std::vector<GenVertexPtr> vertex_cache;
-    for (int i = 1; i < pyev.size(); ++i) {
+    for (int i = 0; i < pyev.size(); ++i) {
       std::vector<int> mothers = pyev[i].motherList();
       if (mothers.size()) {
         GenVertexPtr prod_vtx = hepevt_particles[mothers[0]]->end_vertex();
@@ -141,7 +141,7 @@ public:
     vertex_cache[0]->add_particle_in(hepevt_particles[2]);
     hepevt_particles[1]->set_status(4);
     hepevt_particles[2]->set_status(4);
-    std::vector<GenParticlePtr> all(hepevt_particles.begin()+1,hepevt_particles.end());
+    std::vector<GenParticlePtr> all(hepevt_particles.begin(),hepevt_particles.end());
     evt->add_tree( all );
     evt->set_beam_particles(hepevt_particles[1],hepevt_particles[2]);
 
@@ -174,7 +174,7 @@ public:
       // Check for particles not added to the event.
       // NOTE: We have to check if this step makes any sense in
       // the HepMC event standard.
-      if ( !hepevt_particles[i] ) {
+      if ( !hepevt_particles[i] ) {//DFQ?
         std::cerr << "hanging particle " << i << std::endl;
         GenVertexPtr prod_vtx = make_shared<GenVertex>();
         prod_vtx->add_particle_out( hepevt_particles[i] );
