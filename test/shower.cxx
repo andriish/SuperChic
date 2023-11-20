@@ -73,6 +73,8 @@ StringPT:sigma = 0.30400
 StringZ:aExtraDiquark = 0.50000
 StringZ:aLund = 0.30000
 StringZ:bLund = 0.80000
+PhotonParton:all = on
+MultipartonInteractions:pT0Ref = 3.0
 )""";
 std::string config_dd = R"""(
 PartonLevel:MPI = off
