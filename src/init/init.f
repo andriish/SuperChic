@@ -32,7 +32,7 @@ ccccccc
       read(*,*)proc
       read(*,*)beam
       if (beam .eq. 'el') then 
-      write(*,*)'One needs no init for electron beams'
+      write(*,*)'Running the init program is not required for electron beams'
       goto 999
       end if
 
