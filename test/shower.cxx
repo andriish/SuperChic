@@ -75,9 +75,11 @@ StringPT:sigma = 0.30400
 StringZ:aExtraDiquark = 0.50000
 StringZ:aLund = 0.30000
 StringZ:bLund = 0.80000
-PhotonParton:all = on
-MultipartonInteractions:pT0Ref = 3.0
 )""";
+
+//PhotonParton:all = on
+//MultipartonInteractions:pT0Ref = 3.0
+
 std::string config_dd = R"""(
 PartonLevel:MPI = off
 SpaceShower:dipoleRecoil = on
@@ -152,11 +154,36 @@ int main(int argc, char ** argv) {
     printf("Running in %s mode\n",argv[3]);
   
   int processnumber = atoi(argv[4]);
+  std::string type=std::string(argv[3]);
     if (std::string(argv[3]) == "dd") for ( auto s: c_dd) pythia.readString(s);
     if (std::string(argv[3]) == "sdb") for ( auto s: c_ds) pythia.readString(s);
     if (std::string(argv[3]) == "sda" || std::string(argv[3]) == "sd") for ( auto s: c_sd) pythia.readString(s);
     if (std::string(argv[3]) == "el") for ( auto s: c_el) pythia.readString(s);
-  
+if ( 
+(
+ (processnumber == 54 || processnumber == 55 || processnumber == 56|| processnumber == 57 || processnumber == 58  || processnumber == 68) && 
+ (type=="sd"||type=="dd")
+ )
+ ||
+ 
+ (processnumber == 74 && type=="el")
+
+) {
+
+  pythia.readString("WeakBosonAndParton:fgm2gmZf= on");
+ pythia.readString("WeakBosonAndParton:fgm2Wf = on");
+  pythia.readString("PDF:Proton2gammaSet = 2");
+pythia.readString("PDF:beamB2gamma = on");
+topHepMC.set_free_parton_exception(false); 
+
+if ( processnumber == 56 || processnumber == 57 ) {
+    pythia.readString("PartonLevel:Remnants = on");
+     pythia.readString("PhotonParton:all = on");
+}
+
+}
+
+
 }
   
 //BeamRemnants:unresolvedHadron = 0 for double dissociation (dd), 1 for
