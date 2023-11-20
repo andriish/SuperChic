@@ -11,13 +11,8 @@
 // photon-initiated dilepton events in proton-proton collisions.
 
 
-#define DEBUGHEPMC
 #ifndef HEPMC2
-#ifdef DEBUGHEPMC
-#include "Debug/HepMC3.h"
-#else
 #include "Pythia8Plugins/HepMC3.h"
-#endif
 #else
 #include "Pythia8Plugins/HepMC2.h"
 #endif

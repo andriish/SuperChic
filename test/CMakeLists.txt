@@ -11,7 +11,7 @@ target_compile_features(validator PRIVATE cxx_std_11)
 find_package(HepMC2)
 find_package(Pythia8 8.3 REQUIRED)
 add_executable(shower ${CMAKE_CURRENT_SOURCE_DIR}/shower.cxx)
-target_link_libraries(shower PRIVATE HepMC2::HepMC2fio HepMC2::HepMC2 Pythia8::Pythia8 )
+target_link_libraries(shower PRIVATE  HepMC2::HepMC2 Pythia8::Pythia8 )
 target_compile_features(shower PRIVATE cxx_std_11)
 target_compile_definitions(shower PRIVATE -DHEPMC2=1)
 message(STATUS "SuperChic test: PYTHIA8_VERSION=${PYTHIA8_VERSION} PYTHIA8_LIBRARIES=${PYTHIA8_LIBRARIES} PYTHIA8_INCLUDE_DIRS=${PYTHIA8_INCLUDE_DIRS}")
@@ -145,51 +145,51 @@ endforeach()
 endforeach()
 
 
-#unset(procs)
-#unset(procs_dd)
+unset(procs)
+unset(procs_dd)
 
-#if (SUPERCHIC_ENABLE_ALL_TESTS)
-#set(procs  
-                          #55 56 57 58 59
-           #60 61                   68 69
-           #70 71 72 73 74 75 76 
-                 #82 83 84 
-           #)
-#set(procs_dd  )
-#else()
-#set(procs 56 )
-#set(procs_dd  )
-#endif()
-
-
-#set(process 100)
-#configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_FCC350eeunw ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_FCC350eeunw) # for init
-#foreach ( diff ${diffs} )
-#foreach ( process ${procs} )
-#foreach ( format ${fmts} )
-#set (gencuts ".false.")
-#if (${process} EQUAL 3  OR  ${process} EQUAL 7 OR  ${process} EQUAL 8 OR  ${process} EQUAL 14 OR  ${process} EQUAL 15 OR  ${process} EQUAL 16 OR  ${process} EQUAL 70 OR  ${process} EQUAL 71 OR  ${process} EQUAL 72)
-#set (gencuts ".true.")
-#endif()
-#configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_FCC350eeunw ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_FCC350eeunw_${process}_${diff}_${format})
-#endforeach()
-#endforeach()
-#endforeach()
+if (SUPERCHIC_ENABLE_ALL_TESTS)
+set(procs  
+                          55 56 57 58 59
+           60 61                   68 69
+           70 71 72 73 74 75 76 
+                 82 83 84 
+           )
+set(procs_dd  )
+else()
+set(procs 56 )
+set(procs_dd  )
+endif()
 
 
-#inittest(FCC350eeunw)
-#foreach ( process ${procs} )
-#foreach ( diff ${diffs_el} )
-#sctestlhe(FCC350eeunw FCC350eeunw_${process}_${diff}_lhe ${diff} ${process})
-#sctesthepmc(FCC350eeunw FCC350eeunw_${process}_${diff}_hepmc)
-## FIXME sctesthepmc(FCC350eeunw FCC350eeunw_${process}_${diff}_hepevt)
-#endforeach()
-#endforeach()
-#foreach ( process ${procs_dd} )
-#foreach ( diff ${diffs_dd} )
-#sctestlhe(FCC350eeunw FCC350eeunw_${process}_${diff}_lhe ${diff} ${process})
-#endforeach()
-#endforeach()
+set(process 100)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_FCC350eeunw ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_FCC350eeunw) # for init
+foreach ( diff ${diffs} )
+foreach ( process ${procs} )
+foreach ( format ${fmts} )
+set (gencuts ".false.")
+if (${process} EQUAL 3  OR  ${process} EQUAL 7 OR  ${process} EQUAL 8 OR  ${process} EQUAL 14 OR  ${process} EQUAL 15 OR  ${process} EQUAL 16 OR  ${process} EQUAL 70 OR  ${process} EQUAL 71 OR  ${process} EQUAL 72)
+set (gencuts ".true.")
+endif()
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_FCC350eeunw ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_FCC350eeunw_${process}_${diff}_${format})
+endforeach()
+endforeach()
+endforeach()
+
+
+inittest(FCC350eeunw)
+foreach ( process ${procs} )
+foreach ( diff ${diffs_el} )
+sctestlhe(FCC350eeunw FCC350eeunw_${process}_${diff}_lhe ${diff} ${process})
+sctesthepmc(FCC350eeunw FCC350eeunw_${process}_${diff}_hepmc)
+# FIXME sctesthepmc(FCC350eeunw FCC350eeunw_${process}_${diff}_hepevt)
+endforeach()
+endforeach()
+foreach ( process ${procs_dd} )
+foreach ( diff ${diffs_dd} )
+sctestlhe(FCC350eeunw FCC350eeunw_${process}_${diff}_lhe ${diff} ${process})
+endforeach()
+endforeach()
 
 
 

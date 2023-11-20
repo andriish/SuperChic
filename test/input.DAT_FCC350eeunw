@@ -1,7 +1,7 @@
 ****************************************************************************************
 ******  RE-RUN ./init IF FIRST FIVE PARAMETERS ARE CHANGED (and beam = 'prot'):  *******
 ****************************************************************************************
-3.5d2           !  [rts] : CMS collision energy (GeV)
+3.5d3           !  [rts] : CMS collision energy (GeV)
 4	       !  [isurv] : Model of soft survival (from 1 -> 4, corresponding to arXiv:1306.2149)
 'in350'         !  [intag] for input files 
 ****************************************************************************************
@@ -11,7 +11,7 @@
 ****************************************************************************************
 @process@      !  [proc] : Process number (see manual for labelling)
 'el'  ! [beam] : Beam type ('prot', 'ion', 'ionp' or 'el')
-'testFCC350unw_@process@_@diff@_@format@'          ! [outtg]
+'testFCC350eeunw_@process@_@diff@_@format@'          ! [outtg]
 .false.  !  [sfaci] : Include soft survival effects
 ****************************************************************************************
 ************************* Dissociation parameters for PI  ******************************
