@@ -38,7 +38,6 @@ c      complex*16 asf_store(2,4,2,2),awwnsf_store(2,4,2,2)
       include 'ewsf.f'
 
       pol=p
-      mz=91.1876d0
 
 cccc  qin gives initial state quark on diss side
 cccc  qin = 1 : up type

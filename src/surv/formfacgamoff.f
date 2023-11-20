@@ -60,7 +60,7 @@ ccccccccccc
 
             call MGcross(p,out)
 
-            out=out/(xb1*xb2)     ! normalize so consistent with above
+            out=out/xb1/xb2     ! normalize so consistent with above
             out=out*dsqrt(1d0-4d0*mw**2/mx**2) ! normalize so consistent with above
 
             zout=dsqrt(dabs(out))
@@ -78,7 +78,7 @@ ccccccccccc
                call SFcalc_SD(p,2,qin,outi)
                out=out+outi
             enddo
-            out=out/(xb1*xb2)     ! normalize so consistent with above
+            out=out/xb1/xb2     ! normalize so consistent with above
             out=out*dsqrt(1d0-4d0*mw**2/mx**2) ! normalize so consistent with above
             zout=dsqrt(dabs(out))
 
@@ -93,7 +93,7 @@ ccccccccccc
                call SFcalc_SD(p,1,qin,outi)
                out=out+outi
             enddo
-            out=out/(xb1*xb2)     ! normalize so consistent with above
+            out=out/xb1/xb2     ! normalize so consistent with above
             out=out*dsqrt(1d0-4d0*mw**2/mx**2) ! normalize so consistent with above
             zout=dsqrt(dabs(out))
 
@@ -114,7 +114,7 @@ ccccccccccc
                   call SFcalc_SD(p,2,qin,outi)
                   out=out+outi
                enddo
-               out=out/(xb1*xb2)  ! normalize so consistent with above
+               out=out/xb1/xb2  ! normalize so consistent with above
                out=out*dsqrt(1d0-4d0*mw**2/mx**2) ! normalize so consistent with above
                zout=dsqrt(dabs(out))
 
@@ -130,7 +130,7 @@ ccccccccccc
                   call SFcalc_SD(p,1,qin,outi)
                   out=out+outi
                enddo
-               out=out/(xb1*xb2)  ! normalize so consistent with above
+               out=out/xb1/xb2  ! normalize so consistent with above
                out=out*dsqrt(1d0-4d0*mw**2/mx**2) ! normalize so consistent with above
                zout=dsqrt(dabs(out))
 

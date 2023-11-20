@@ -2317,7 +2317,6 @@ cccccccccccccccc
          jdahep(2,6)=10
          nhep=10
       elseif(proc.eq.54)then
-         write(*,*)'This is a deprecated mode'
          ndim=6
          pol=9
 
