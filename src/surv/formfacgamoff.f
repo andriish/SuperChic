@@ -247,7 +247,7 @@ cccccccc
       mdiss=dsqrt(mdiss)
       call F1F2(diss,xb,qsq1,mdiss,f1,f2)
 
-
+      write(*,*)qsq1
       SF_g = dble(-(d_(mu,mup))*f1+(q1t(mu)+xt*p1t(mu))*
      &     (q1t(mup)+xt*p1t(mup))*2d0*xb*f2/qsq1/x**2)
 

@@ -492,7 +492,10 @@ c                   p2- + cc2/p1+ = aa2
       do i=1,4
          q(i,5)=q(i,1)+q(i,2)-q(i,3)-q(i,4)
       enddo
-
+      xb1=1d0
+      xb2=1d0
+      qsq1=1.0
+      qsq2=2.0
       if(beam.eq.'prot')then
 
          qsq1tt=(q(4,3)-q(4,1))**2-(q(3,3)-q(3,1))**2-(q(2,3)-q(2,1))**2
