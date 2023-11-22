@@ -78,7 +78,7 @@ c   calculates CEP cross section
       include 'p0Xn.f'
       include 'mxs.f'
       if(beam.eq.'el') then
-      epsil=0.0001d0
+      epsil=0.01d0
       else
       epsil=0.0d0
       endif
