@@ -233,7 +233,8 @@ int main(int argc, char ** argv) {
     // Sum up final charged multiplicity and fill in histogram.
     int nChg = 0;
     for (int i = 0; i < pythia.event.size(); ++i)
-    if (pythia.event[i].isFinal() && pythia.event[i].isCharged())  ++nChg;
+    if (pythia.event[i].isFinal() && pythia.event[i].isCharged())
+      ++nChg;
     nCharged.fill(nChg);
     topHepMC.writeNextEvent( pythia );
     events++;

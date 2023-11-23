@@ -910,7 +910,7 @@ c      ncall=ncall+nev
       endif
 
       if(readwt)then
-      elseif((sdo*avgi).lt.(sd*avgio))then
+      elseif((sdo/avgio).lt.(sd/avgi))then
          avgi=avgio
          sd=sdo
       endif

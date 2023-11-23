@@ -2,10 +2,9 @@ ccc   gg --> pipi subprocess amplitude (x,y dependent)
       subroutine pipixy(x,y,cost,out)
       implicit none
       double precision x,y,out,cost,a,b
-      double precision b2,c2 
-       
-      a= 1d0-x-y+2*x*y
+      double precision b2,c2
       b= 1d0-x-y
+      a= b + 2*x*y
       b2 = b**2
       c2 = cost**2
 
