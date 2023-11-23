@@ -132,12 +132,6 @@ int main(int argc, char ** argv) {
   pythia.readString("Beams:frameType = 4");
   pythia.readString(std::string("Beams:LHEF = ")+argv[1]);
   if ( std::string(argv[5]) != "dummy" ) {
-    for ( auto s: c_c) pythia.readString(s);
-    pythia.readString("PartonLevel:ISR = off");
-    pythia.readString("PartonLevel:MPI = off");
-    pythia.readString("PartonLevel:Remnants = off");
-    pythia.readString("Check:event = off");
-    pythia.readString("LesHouches:matchInOut = off");
 
     std::string type = std::string(argv[3]);
     int processnumber = atoi(argv[4]);
@@ -147,11 +141,21 @@ int main(int argc, char ** argv) {
     ) { printf("Bad argument->%s<-\n",argv[3]); return 7;}
       printf("Running in %s mode\n",argv[3]);
   
+    if (type == "dd_pp" || type == "sdb_pp" || type == "sda_pp" ||  type == "sd_pp" || type == "el_pp") {
+    for ( auto s: c_c) pythia.readString(s);
+    pythia.readString("PartonLevel:ISR = off");
+    pythia.readString("PartonLevel:MPI = off");
+    pythia.readString("PartonLevel:Remnants = off");
+    pythia.readString("Check:event = off");
+    pythia.readString("LesHouches:matchInOut = off");
+
 
     if (type == "dd_pp") for ( auto s: c_dd_pp) pythia.readString(s);
     if (type == "sdb_pp") for ( auto s: c_ds_pp) pythia.readString(s);
     if (type == "sda_pp" || type == "sd_pp") for ( auto s: c_sd_pp) pythia.readString(s);
     if (type == "el_pp") for ( auto s: c_el_pp) pythia.readString(s);
+    }
+  
   
     if ( 
       (
@@ -162,6 +166,12 @@ int main(int argc, char ** argv) {
       (processnumber == 74 && type=="el_pp")
       ) 
     {
+      for ( auto s: c_c) pythia.readString(s);
+      pythia.readString("PartonLevel:ISR = off");
+      pythia.readString("PartonLevel:MPI = off");
+      pythia.readString("PartonLevel:Remnants = off");
+      pythia.readString("Check:event = off");
+      pythia.readString("LesHouches:matchInOut = off");
       pythia.readString("WeakBosonAndParton:fgm2gmZf= on");
       pythia.readString("WeakBosonAndParton:fgm2Wf = on");
       pythia.readString("PDF:Proton2gammaSet = 2");
@@ -172,6 +182,17 @@ int main(int argc, char ** argv) {
         pythia.readString("PhotonParton:all = on");
       }
     }
+
+    if (  type=="el_ee"  || type=="dd_ee" ||type=="sda_ee"||type=="sdb_ee" ||type=="sd_ee") {
+		      for ( auto s: c_c) pythia.readString(s);
+      pythia.readString("PartonLevel:ISR = off");
+      pythia.readString("PartonLevel:MPI = off");
+      pythia.readString("PartonLevel:Remnants = off");
+      pythia.readString("Check:event = off");
+      pythia.readString("LesHouches:matchInOut = off");
+		
+		
+	}  
     
   }
   
