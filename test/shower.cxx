@@ -184,15 +184,25 @@ int main(int argc, char ** argv) {
     }
 
     if (  type=="el_ee"  || type=="dd_ee" ||type=="sda_ee"||type=="sdb_ee" ||type=="sd_ee") {
-		      for ( auto s: c_c) pythia.readString(s);
+      if ( processnumber == 74 ) {
+///NOTWORKING
+      pythia.readString("Tune:ee = 3");
+      pythia.readString("PartonLevel:ISR = off");
+      pythia.readString("PartonLevel:MPI = off");
+      pythia.readString("PartonLevel:Remnants = off");
+      pythia.readString("Check:event = off");
+      pythia.readString("LesHouches:matchInOut = off");	  
+      }   
+      if ( processnumber != 74 ) {
+      for ( auto s: c_c) pythia.readString(s);
       pythia.readString("PartonLevel:ISR = off");
       pythia.readString("PartonLevel:MPI = off");
       pythia.readString("PartonLevel:Remnants = off");
       pythia.readString("Check:event = off");
       pythia.readString("LesHouches:matchInOut = off");
-		
-		
-	}  
+  }
+    
+    }  
     
   }
   
