@@ -90,6 +90,10 @@ endif()
 
 endmacro()
 
+##NUMBER OF EVENTS
+if (NOT NEV)
+  set(NEV 10)
+endif()
 
 set(diffs  el sd dd)
 set(diffs_dd   sd dd)
