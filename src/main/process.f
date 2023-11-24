@@ -2809,12 +2809,6 @@ cccccccccccccccc
          istup(5)=2
          istup(6)=1
          istup(7)=1
-C         mothup(1,3)=1
-C         mothup(2,3)=2
-C         mothup(1,4)=1
-C         mothup(2,4)=2         
-C         mothup(1,5)=1
-C         mothup(2,5)=2
          mothup(1,6)=3
          mothup(2,6)=0
          mothup(1,7)=3
