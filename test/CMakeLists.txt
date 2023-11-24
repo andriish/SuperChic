@@ -1,3 +1,11 @@
+option(SUPERCHIC_ENABLE_ALL_TESTS    "Enables building of all tests." OFF)
+option(SUPERCHIC_DOWNLOAD_PDFS       "Enables downloading of PDFs for tests." OFF)
+option(SUPERCHIC_ENABLE_RIVET        "Enables ctesting with Rivet." OFF)
+
+message(STATUS "SuperChic test: SUPERCHIC_ENABLE_ALL_TESTS=${SUPERCHIC_ENABLE_ALL_TESTS}" )
+message(STATUS "SuperChic test: SUPERCHIC_DOWNLOAD_PDFS=${SUPERCHIC_DOWNLOAD_PDFS}" )
+message(STATUS "SuperChic test: SUPERCHIC_ENABLE_RIVET=${SUPERCHIC_ENABLE_RIVET}" )
+
 
 enable_language(CXX)
 find_package(HepMC3 3.1.0 REQUIRED)
@@ -107,7 +115,7 @@ string(REPLACE " " ";" D ${DD})
   foreach( diff ${D})
     set(MM ${NN}_${process}_${diff}_lhe)
     set(out ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN}/evrecs/showered${MM}.yoda)
-    add_test(NAME RIVET_LHEF_${NN}_${MM} COMMAND ${Python_EXECUTABLE} ${RIVET_EXE} -a MC_XS ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN}/evrecs/showered${MM}.hepmc -o  ${out})
+    add_test(NAME RIVET_LHEF_${NN}_${MM} COMMAND ${Python_EXECUTABLE} ${RIVET_EXE} --ignore-beams -a MC_XS ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN}/evrecs/showered${MM}.hepmc -o  ${out})
     set_tests_properties( RIVET_LHEF_${NN}_${MM} PROPERTIES ENVIRONMENT "${STANDARDENVIRONMENT}" TIMEOUT 500 DEPENDS "SUPERCHIC_${NN}_${MM}")
     list(APPEND fo ${out})
   endforeach()
@@ -124,9 +132,13 @@ endmacro()
 if (NOT NEV)
   set(NEV 10)
 endif()
+##
+set(PP TRUE)
+set(EE FALSE)
 
 
 set(fmts  hepevt lhe hepmc)
+if (PP)
 
 foreach( i RANGE 1 100)
 set( proc${i} "")
@@ -177,10 +189,9 @@ foreach( process RANGE 1 100)
   sctestrivet(LHC13ppunw ${process} ${X})
   endif()
 endforeach()
+endif()
 
-
-
-
+if (EE)
 foreach( i RANGE 1 100)
 set( proc${i} "")
 endforeach()
@@ -194,7 +205,6 @@ foreach( i IN  ITEMS
     list(APPEND proc${i} "el")
 endforeach()                
 else()
-#set(proc56 "el")
 set(proc68 "el")
 endif()
 
@@ -221,4 +231,4 @@ foreach( process RANGE 1 100)
   sctestrivet(FCC350eeunw ${process} ${X})
   endif()
 endforeach()
-
+endif()
