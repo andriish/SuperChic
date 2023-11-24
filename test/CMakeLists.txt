@@ -1,12 +1,16 @@
 option(SUPERCHIC_ENABLE_PROFILE      "Enables callgrind profiling." OFF)
 option(SUPERCHIC_ENABLE_ALL_TESTS    "Enables building of all tests." OFF)
 option(SUPERCHIC_DOWNLOAD_PDFS       "Enables downloading of PDFs for tests." OFF)
-option(SUPERCHIC_ENABLE_RIVET        "Enables ctesting with Rivet." OFF)
+option(SUPERCHIC_ENABLE_RIVET        "Enables testing with Rivet." OFF)
+option(SUPERCHIC_ENABLE_PP           "Enables testing with pp beams." ON)
+option(SUPERCHIC_ENABLE_EE           "Enables testing with ee beams." OFF)
 
 message(STATUS "SuperChic test: SUPERCHIC_ENABLE_ALL_TESTS=${SUPERCHIC_ENABLE_ALL_TESTS}" )
 message(STATUS "SuperChic test: SUPERCHIC_DOWNLOAD_PDFS=${SUPERCHIC_DOWNLOAD_PDFS}" )
 message(STATUS "SuperChic test: SUPERCHIC_ENABLE_RIVET=${SUPERCHIC_ENABLE_RIVET}" )
 message(STATUS "SuperChic test: SUPERCHIC_ENABLE_PROFILE=${SUPERCHIC_ENABLE_PROFILE}" )
+message(STATUS "SuperChic test: SUPERCHIC_ENABLE_PP=${SUPERCHIC_ENABLE_PP}" )
+message(STATUS "SuperChic test: SUPERCHIC_ENABLE_EE=${SUPERCHIC_ENABLE_EE}" )
 
 enable_language(CXX)
 find_package(HepMC3 3.1.0 REQUIRED)
@@ -134,12 +138,10 @@ if (NOT NEV)
   set(NEV 10)
 endif()
 ##
-set(PP TRUE)
-set(EE FALSE)
 
 
 set(fmts  hepevt lhe hepmc)
-if (PP)
+if (SUPERCHIC_ENABLE_PP)
 
 foreach( i RANGE 1 100)
 set( proc${i} "")
@@ -192,7 +194,7 @@ foreach( process RANGE 1 100)
 endforeach()
 endif()
 
-if (EE)
+if (SUPERCHIC_ENABLE_EE)
 foreach( i RANGE 1 100)
 set( proc${i} "")
 endforeach()

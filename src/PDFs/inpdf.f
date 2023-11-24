@@ -1,7 +1,6 @@
       subroutine inpdf
 
       include 'pdfinf.f'
-      
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccc
 ccccccccc   Init LHAPDF
