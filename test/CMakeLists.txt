@@ -1,3 +1,4 @@
+option(SUPERCHIC_ENABLE_PROFILE      "Enables callgrind profiling." OFF)
 option(SUPERCHIC_ENABLE_ALL_TESTS    "Enables building of all tests." OFF)
 option(SUPERCHIC_DOWNLOAD_PDFS       "Enables downloading of PDFs for tests." OFF)
 option(SUPERCHIC_ENABLE_RIVET        "Enables ctesting with Rivet." OFF)
@@ -5,7 +6,7 @@ option(SUPERCHIC_ENABLE_RIVET        "Enables ctesting with Rivet." OFF)
 message(STATUS "SuperChic test: SUPERCHIC_ENABLE_ALL_TESTS=${SUPERCHIC_ENABLE_ALL_TESTS}" )
 message(STATUS "SuperChic test: SUPERCHIC_DOWNLOAD_PDFS=${SUPERCHIC_DOWNLOAD_PDFS}" )
 message(STATUS "SuperChic test: SUPERCHIC_ENABLE_RIVET=${SUPERCHIC_ENABLE_RIVET}" )
-
+message(STATUS "SuperChic test: SUPERCHIC_ENABLE_PROFILE=${SUPERCHIC_ENABLE_PROFILE}" )
 
 enable_language(CXX)
 find_package(HepMC3 3.1.0 REQUIRED)
