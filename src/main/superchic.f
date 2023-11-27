@@ -439,7 +439,7 @@ cccccccccccccccccccccccccc
          if(offshell.eqv..false.)then
             print*,'Dissociation not currently supported'//
      &           ' for this process/beam - STOP'
-            STOP 1, QUIET=.TRUE.
+            STOP 1
          endif
          if(erec.eq.'hepevt'.or.erec.eq.'hepmc')then
             print*,'Dissociation currently only supported with LHE'
@@ -481,7 +481,7 @@ ccccccccccccccccccccccccc
          if(sfaci)then
             print*,'Error : must have sfaci = .false. for initial-state
      &electrons'
-            STOP 1, QUIET=.TRUE.
+            STOP 1
          endif
       endif
 
@@ -658,7 +658,7 @@ ccccccccc
          endif
       elseif(decay6)then
          nup=11
-      elseif(dps.eq.2.or.decay2)then
+      elseif(dps.eq.2.or.decay2.or.dps.eq.12)then
          nup=7
       elseif(dps.eq.3)then
          nup=8
@@ -675,7 +675,8 @@ ccccccccc
 ccccccccc
 
       surv=1d0
-      if(beam.eq.'prot'.or.ionqcd.eq.'coh'.or.ionqcd.eq.'incoh')then
+      if( (beam.eq.'prot'.or.ionqcd.eq.'coh'.or.ionqcd.eq.'incoh') .and.
+     &  (beam .ne. 'el') ) then
          call initparsr(isurv)
          call readscreen
          if(beam.eq.'prot'.or.ionqcd.eq.'incoh')surv=1d0/norm**2
@@ -821,7 +822,7 @@ c      write(40,*)7
 c      print*,'test'
 
 
- 777  if(dabs(sd/avgi).gt.prec)then
+ 777  if(dabs(sd).gt.dabs(avgi)*prec)then
 
 
 

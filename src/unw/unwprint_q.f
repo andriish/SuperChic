@@ -266,11 +266,11 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
 
          if(erec.eq.'lhe')then
             
-            do k=1,nup+2
+            do k=1,nup+1
                idup(k)=pdgid(k)
             enddo
             
-           do k=3,nup+2
+           do k=3,nup+1
                do l=1,4
                   pup(l,k)=evrec(j,k,l)
                enddo
@@ -289,7 +289,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
            endif
 
             if(i.eq.1)then
-               write(45,*)'<LesHouchesEvents version="1.0">'
+               write(45,'(A)')'<LesHouchesEvents version="1.0">'
                write(45,*)'<header>'
                call headerlhe
                write(45,*)'</header>'
