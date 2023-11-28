@@ -344,8 +344,12 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
      &              -(pup(2,5)-pup(2,4))**2-(pup(1,5)-pup(1,4))**2
                qsq=-qsq
                
+               if (qsq.lt. 0.0d0) then
+               write(*,*)'qsq=',qsq
+               scalup=1.0d0
+               else
                scalup=dsqrt(qsq)
-
+               endif
             elseif(diff.eq.'el')then
 
               scalup=dsqrt((pup(4,5)+pup(4,6))**2-(pup(3,5)+pup(3,6))**2
