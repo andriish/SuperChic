@@ -241,7 +241,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
      &             -(pup(2,5)-pup(2,4))**2-(pup(1,5)-pup(1,4))**2
               qsq=-qsq
                
-              scalup=dsqrt(qsq)
+              scalup=dsqrt(dabs(qsq))
               
            elseif(diff.eq.'el')then
 
