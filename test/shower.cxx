@@ -159,29 +159,22 @@ int main(int argc, char ** argv) {
 
     if (type == "dd_pp") for ( auto s: c_dd_pp) pythia.readString(s);
     if (type == "sdb_pp") for ( auto s: c_ds_pp) pythia.readString(s);
-    if (type == "sda_pp" || type == "sd_pp") for ( auto s: c_sd_pp) pythia.readString(s);
+    if (type == "sda_pp" ) for ( auto s: c_sd_pp) pythia.readString(s);
     if (type == "el_pp") for ( auto s: c_el_pp) pythia.readString(s);
     showerconfigured=true;
     }
   
   
 
-    if ( 
-      (
-      (processnumber == 54 || processnumber == 55 || processnumber == 56|| processnumber == 57 || processnumber == 58  || processnumber == 68) && 
-      (type=="sd_pp"||type=="dd_pp")
+    if (
+
+      ((processnumber == 54 || processnumber == 55 || processnumber == 56|| processnumber == 57 || processnumber == 58  || processnumber == 68) && 
+      (type=="sda_pp"|| type=="sd_pp"||type=="dd_pp")
       )
       ||
       (processnumber == 74 && type=="el_pp")
-      && !showerconfigured
       ) 
     {
-      for ( auto s: c_c) pythia.readString(s);
-      pythia.readString("PartonLevel:ISR = off");
-      pythia.readString("PartonLevel:MPI = off");
-      pythia.readString("PartonLevel:Remnants = off");
-      pythia.readString("Check:event = off");
-      pythia.readString("LesHouches:matchInOut = off");
       pythia.readString("WeakBosonAndParton:fgm2gmZf= on");
       pythia.readString("WeakBosonAndParton:fgm2Wf = on");
       pythia.readString("PDF:Proton2gammaSet = 2");
@@ -191,22 +184,23 @@ int main(int argc, char ** argv) {
         pythia.readString("PartonLevel:Remnants = on");
         pythia.readString("PhotonParton:all = on");
       }
-    showerconfigured=true;
     }
 
-    if (  type=="el_ee"  || type=="dd_ee" ||type=="sda_ee"||type=="sdb_ee" ||type=="sd_ee"&& !showerconfigured) {
+
+
+    if (!showerconfigured && (type=="el_ee"  || type=="dd_ee" ||type=="sda_ee"||type=="sdb_ee" ||type=="sd_ee")) {
       for ( auto s: c_c) pythia.readString(s);
       pythia.readString("PartonLevel:ISR = off");
       pythia.readString("PartonLevel:MPI = off");
       pythia.readString("PartonLevel:Remnants = off");
       pythia.readString("Check:event = off");
       pythia.readString("LesHouches:matchInOut = off");
-         showerconfigured=true;
       if ( processnumber == 74 ) {
       pythia.readString("WeakBosonAndParton:fgm2gmZf= on");
       pythia.readString("WeakBosonAndParton:fgm2Wf = on");
       }
-    }  
+      showerconfigured=true;
+    }
     
   }
   
