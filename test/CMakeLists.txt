@@ -1,3 +1,4 @@
+cmake_policy(SET CMP0135 OLD)
 option(SUPERCHIC_ENABLE_PROFILE      "Enables callgrind profiling." OFF)
 option(SUPERCHIC_ENABLE_ALL_TESTS    "Enables building of all tests." OFF)
 option(SUPERCHIC_DOWNLOAD_PDFS       "Enables downloading of PDFs for tests." OFF)
@@ -66,7 +67,7 @@ if (SUPERCHIC_DOWNLOAD_PDFS)
     file(CREATE_LINK ${msht20qed_nnlo_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/PDFS/MSHT20qed_nnlo SYMBOLIC)
   endif()
 
-  FetchContent_Declare(cteq6l1 URL https://lhapdfsets.web.cern.ch/current/cteq6l1.tar.gz URL_HASH   MD5=5611f1e9235151d9f67254aeb13bb65f)
+  FetchContent_Declare(cteq6l1 URL https://lhapdfsets.web.cern.ch/current/cteq6l1.tar.gz URL_HASH   MD5=5611f1e9235151d9f67254aeb13bb65f )
   FetchContent_GetProperties(cteq6l1)
   if (NOT cteq6l1_POPULATED)
     FetchContent_Populate(cteq6l1)
@@ -165,11 +166,11 @@ foreach( i IN ITEMS 1 2 3 4 5 6 7 8 9
 endforeach()           
 foreach( i IN ITEMS 54 55 56 57 58
              68 )
-    list(APPEND proc${i} "sd")
+    list(APPEND proc${i} "sda")
     list(APPEND proc${i} "dd")
 endforeach()  
 else()
-  set(proc68 "el;sd;dd")
+  set(proc68 "el;sda;dd")
 endif()
 
 
@@ -252,8 +253,8 @@ foreach( i IN ITEMS 1 2 3 4 5 6 7 8 9
            10 11 12 13 14 15 16 17 18 19 
            20 21 22 23 24 25 26 27 28 29
            30 31 32 33 34 35 36 37 38 39
-           40 41 42 43 44 45 46 47 48 49
-           50 51 52 53 54 55 56 57 58 59
+           40 41 42 43 44 45 46 47      
+                       54 55 56 57 58 59
            60 61                   68 69
            70 71 72 73 74 75 76 77 78 79
                  82 83 84 
@@ -262,11 +263,11 @@ foreach( i IN ITEMS 1 2 3 4 5 6 7 8 9
 endforeach()           
 foreach( i IN ITEMS 54 55 56 57 58
              68 )
-    list(APPEND proc${i} "sd")
+    list(APPEND proc${i} "sda")
     list(APPEND proc${i} "dd")
 endforeach()  
 else()
-  set(proc68 "el;sd;dd")
+  set(proc68 "el;sda;dd")
 endif()
 
 
@@ -317,11 +318,11 @@ foreach( i IN ITEMS 1 2 3 4 5 6 7 8 9
 endforeach()           
 foreach( i IN ITEMS 54 55 56 57 58
              68 )
-    list(APPEND proc${i} "sd")
+    list(APPEND proc${i} "sda")
     list(APPEND proc${i} "dd")
 endforeach()  
 else()
-  set(proc68 "el;sd;dd")
+  set(proc68 "el;sda;dd")
 endif()
 
 
