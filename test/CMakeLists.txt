@@ -265,8 +265,8 @@ endif()
 
 
 set(process 100)
-# configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_LHC13AAunw ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_LHC13AAunw) # for init
-# inittest(LHC13AAunw)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_LHC13AAunw ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_LHC13AAunw) # for init
+inittest(LHC13AAunw)
 foreach( process RANGE 1 100)
   LIST(LENGTH proc${process} LISTCOUNT)
   if (${LISTCOUNT}  GREATER 0)
