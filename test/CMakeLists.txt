@@ -341,3 +341,6 @@ foreach( process RANGE 1 100)
   endif()
 endforeach()
 endif()
+
+
+#cat doc/superchic.tex | grep ^[1-9].*  | cut -f 1,2 -d'&' --output-delimiter='";"' | tr -s ' ' | sed 's/$/\";\" \")/g' | sed 's/^/set(TABLE_/g' | sed 's/\";/ /1'
