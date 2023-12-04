@@ -407,11 +407,7 @@ inittest(LHC13pAunw)
 foreach( process RANGE 1 100)
   LIST(LENGTH proc${process} LISTCOUNT)
   if (${LISTCOUNT}  GREATER 0)
-<<<<<<< HEAD
-  foreach(diff ${proc${process}})
-=======
   foreach(diff ${proc${process}}) 
->>>>>>> upstream/main
     list(TRANSFORM TABLE_${process} PREPEND " $pA$-${diff} " AT 1)
     foreach ( format ${fmts} )
       set (gencuts ".false.")
