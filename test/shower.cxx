@@ -149,6 +149,12 @@ int main(int argc, char ** argv) {
 		  pythia.readString("Check:beams = off");
     }
       printf("Running in %s mode\n",argv[3]);
+      std::string beam ="pp";
+      beam[0]=type[type.size()-2];
+      beam[1]=type[type.size()-1];
+      if (beam=="AA" || beam=="pA") { 
+		  pythia.readString("Check:beams = off");
+    }      
     if (type[type.size()-1] == 'A' ) type[type.size()-1] ='p';
     if (type[type.size()-2] == 'A' ) type[type.size()-2] ='p';
     bool showerconfigured=false;
