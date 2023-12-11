@@ -700,7 +700,6 @@ ccccccccc
                 call schimcphotionp(pt1x,pt1y,pt2x,pt2y,wt)
              elseif(beam.eq.'ion')then
                 print*,'Photoproduction not currently available for AA'
-                print*,'proc=',proc,'diff=',diff
                 STOP 1
              endif
           elseif(gamma)then
