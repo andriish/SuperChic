@@ -681,6 +681,7 @@ ccccccccccccccccccccccccccccccccccccccccccc
                 call genpolaxial1(6,ewp)
                 call genpolaxial1(7,ewm)
              endif
+             wgauge='axial'
           endif
 
           if(proc.eq.40.or.proc.eq.43.or.proc.eq.45)then
