@@ -19,10 +19,6 @@
       bq=-2d0*q0*qsq/rts
       cq=4d0*mq**2*q3**2/s+qsq**2/s
       rootq=bq**2-4d0*aq*cq
-      if (rootq.lt.0.0d0) then
-      
-      write(*,*)root,bq,aq,cq,q0,qsq,rts
-      endif
 
       xit=-bq-dsqrt(rootq)
       xit=xit/2d0/aq
