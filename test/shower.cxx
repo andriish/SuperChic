@@ -77,6 +77,7 @@ SpaceShower:QEDshowerByQ = on
 BeamRemnants:primordialKT = off
 BeamRemnants:unresolvedHadron = 0
 SpaceShower:pTdampMatch=1
+PDF:pSet = LHAPDF6:MSHT20qed_nnlo
 )""";
 
 std::string config_el_pp = R"""(
@@ -87,6 +88,7 @@ BeamRemnants:unresolvedHadron = 3
 SpaceShower:pTdampMatch=1
 PartonLevel:ISR = off
 LesHouches:matchInOut = off
+PartonLevel:Remnants = off
 )""";
 
 std::string config_ds_pp = R"""(
@@ -97,6 +99,7 @@ BeamRemnants:primordialKT = off
 SpaceShower:QEDshowerByQ = off
 BeamRemnants:unresolvedHadron = 1
 SpaceShower:pTdampMatch = 1
+PDF:pSet = LHAPDF6:MSHT20qed_nnlo
 )""";
 
 std::string config_sd_pp = R"""(
@@ -107,6 +110,7 @@ BeamRemnants:primordialKT = off
 SpaceShower:QEDshowerByQ = off
 BeamRemnants:unresolvedHadron = 2
 SpaceShower:pTdampMatch = 1
+PDF:pSet = LHAPDF6:MSHT20qed_nnlo
 )""";
 
 /*
@@ -142,13 +146,13 @@ int main(int argc, char ** argv) {
      && type != "dd_pA" && type != "sda_pA" && type != "sdb_pA" && type != "sd_pA" && type != "el_pA"
       && type != "dd_ee" && type != "sda_ee" && type != "sdb_ee" && type != "sd_ee" && type != "el_ee"
     ) { printf("Bad argument->%s<-\n",argv[3]); return 7;}
+      printf("Running in %s mode\n",argv[3]);
       std::string beam ="pp";
       beam[0]=type[type.size()-2];
       beam[1]=type[type.size()-1];
       if (beam=="AA" || beam=="pA") { 
 		  pythia.readString("Check:beams = off");
-    }
-      printf("Running in %s mode\n",argv[3]); 
+    }      
     if (type[type.size()-1] == 'A' ) type[type.size()-1] ='p';
     if (type[type.size()-2] == 'A' ) type[type.size()-2] ='p';
     bool showerconfigured=false;
@@ -156,9 +160,7 @@ int main(int argc, char ** argv) {
     if (!showerconfigured  && (type == "dd_pp" || type == "sdb_pp" || type == "sda_pp" ||  type == "sd_pp" || type == "el_pp" ) )
     {
     for ( auto s: c_c) pythia.readString(s);
-    pythia.readString("PartonLevel:ISR = off");
     pythia.readString("PartonLevel:MPI = off");
-    pythia.readString("PartonLevel:Remnants = off");
     pythia.readString("Check:event = off");
     pythia.readString("LesHouches:matchInOut = off");
 
@@ -170,26 +172,16 @@ int main(int argc, char ** argv) {
     showerconfigured=true;
     }
   
-
     if (
-
-      ((processnumber == 54 || processnumber == 55 || processnumber == 56|| processnumber == 57 || processnumber == 58  || processnumber == 68) && 
-      (type=="sda_pp"|| type=="sd_pp"||type=="dd_pp")
-      )
-      ||
       (processnumber == 74 && type=="el_pp")
-      ) 
     {
       pythia.readString("WeakBosonAndParton:fgm2gmZf= on");
       pythia.readString("WeakBosonAndParton:fgm2Wf = on");
       pythia.readString("PDF:Proton2gammaSet = 2");
       pythia.readString("PDF:beamB2gamma = on");
       topHepMC.set_free_parton_exception(false); 
-      if ( processnumber == 56 || processnumber == 57 ) {
-        pythia.readString("PartonLevel:Remnants = on");
-        pythia.readString("PhotonParton:all = on");
-      }
     }
+  
 
     if (!showerconfigured && (type=="el_ee"  || type=="dd_ee" ||type=="sda_ee"||type=="sdb_ee" ||type=="sd_ee")) {
       for ( auto s: c_c) pythia.readString(s);
