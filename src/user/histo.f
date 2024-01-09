@@ -73,7 +73,7 @@
       y1(ih)=x1
       ic(ih)=ib
       if(x.lt.x0) goto 11
-#if defined(__NVCOMPILER)
+#if defined(__NVCOMPILER) || defined(NAGFOR)
       if(x.gt.x1 .or. ( x .ne. x) ) goto 12
 #else
       if(x.gt.x1 .or. isnan(x) ) goto 12
@@ -96,7 +96,7 @@
 
       call length(outtag,outl)
       fname='outputs/output'//outtag(1:outl)//'.dat'
-      open(10,file=trim(fname),Access='append',Status='old')
+      open(10,file=trim(fname),POSITION='append',Status='old')
 
        call length(lab(ih),outl)
 

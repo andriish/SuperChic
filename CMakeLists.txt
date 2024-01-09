@@ -163,7 +163,7 @@ set( sCODELHA ${Mainf} ${Mesf} ${EW} ${PDFsfLHA} ${Intf} ${Phasef}
               ${Subampsf} ${Survf} ${Userf} ${sPDFsf} ${Unwf} ${Varf} 
               ${LbyLf} ${InitfION} ${Dissf} ${Helas} ${Model} ${MG})
 
-set(scincludes ${CMAKE_CURRENT_SOURCE_DIR}/src/main ${CMAKE_CURRENT_SOURCE_DIR}/src/inc)
+set(scincludes ${CMAKE_CURRENT_SOURCE_DIR}/src/main ${CMAKE_CURRENT_SOURCE_DIR}/src/inc ${CMAKE_CURRENT_SOURCE_DIR}/src/MODEL)
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(sccompile_options )
 else()
