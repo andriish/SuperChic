@@ -218,9 +218,10 @@ c------------------------------------------------------------------------
             dsigmatot=dsigmatot+sigmatotfac*dfd(i)*dfd(j)*cov(i,j)
          enddo
       enddo
-
+      if (df2 .lt. 0.0d0) df2=0.0d0
       df2=sqrt(df2)
 
+      if (dsigmatot .lt. 0.0d0) dsigmatot=0.0d0
       dsigmatot=sqrt(dsigmatot)*hbarc2
       goto 10
       endif
