@@ -178,22 +178,11 @@ int main(int argc, char ** argv) {
     pythiaconfig.readString("LesHouches:matchInOut = off");
 
 
-
     if (type == "dd_pp") for ( auto s: c_dd_pp) pythiaconfig.readString(s);
     if (type == "sdb_pp") for ( auto s: c_ds_pp) pythiaconfig.readString(s);
     if (type == "sda_pp" ) for ( auto s: c_sd_pp) pythiaconfig.readString(s);
     if (type == "el_pp") for ( auto s: c_el_pp) pythiaconfig.readString(s);
     showerconfigured=true;
-    }
-  
-    if (
-      (processnumber == 74 && type=="el_pp")
-    {
-      pythia.readString("WeakBosonAndParton:fgm2gmZf= on");
-      pythia.readString("WeakBosonAndParton:fgm2Wf = on");
-      pythia.readString("PDF:Proton2gammaSet = 2");
-      pythia.readString("PDF:beamB2gamma = on");
-      topHepMC.set_free_parton_exception(false); 
     }
   
 
