@@ -185,7 +185,6 @@ int main(int argc, char ** argv) {
     showerconfigured=true;
     }
   
-  
 
     if (!showerconfigured && (type=="el_ee"  || type=="dd_ee" ||type=="sda_ee"||type=="sdb_ee" ||type=="sd_ee")) {
       for ( auto s: c_c) pythiaconfig.readString(s);
