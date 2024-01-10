@@ -8,14 +8,14 @@
       PI=4D0*DATAN(1D0)
 * Map the x on the unit circle.
 * But so that x is not in the neighbourhood of (1,0)
-* ABS(Z)=-CDLOG(1D0-X) is always smaller than 1.10
+* ABS(Z)=-LOG(1D0-X) is always smaller than 1.10
 * But (1.10)^19/(19!)*bernoulli(19)=2.7D-15
       IF (CDABS(1D0-X).LT.1D-13) THEN
         XSPENZ=PI*PI/6D0
       ELSE IF (CDABS(1D0-X).LT.0.5D0) THEN
-        XSPENZ=PI*PI/6D0-CDLOG(1D0-X)*CDLOG(X)-SPENC(1D0-X)
+        XSPENZ=PI*PI/6D0-LOG(1D0-X)*LOG(X)-SPENC(1D0-X)
       ELSE IF (CDABS(X).GT.1D0) THEN
-        XSPENZ=-PI*PI/6D0-0.5D0*CDLOG(-X)*CDLOG(-X)-SPENC(1D0/X)
+        XSPENZ=-PI*PI/6D0-0.5D0*LOG(-X)*LOG(-X)-SPENC(1D0/X)
       ELSE
         XSPENZ = SPENC(X)
       END IF
@@ -23,7 +23,7 @@
 
       FUNCTION SPENC(X)
       COMPLEX*16 X,SUM,Z,Z2,SPENC
-      Z=-CDLOG(1D0-X)
+      Z=-LOG(1D0-X)
       Z2=Z*Z
 * Horner's rule for the powers z^3 through z^19
       SUM=43867D0/798D0
@@ -86,7 +86,7 @@ c      II = 9
       IF((DABS(RZ-1D0).LE.1D-15).AND.(dabs(DIMAG(Z)).le.1D-15))GOTO 40
       IF(RZ.GT.5D-1) GOTO 20
       IF(AZ.GT.1D0) GOTO 10
-      W=-CDLOG(1D0-Z)
+      W=-LOG(1D0-Z)
       SUM=W-0.25D0*W*W
       U=W
       DO 1 K=1,II
@@ -95,26 +95,26 @@ c      II = 9
  1    CONTINUE
       CSPEN=SUM
       RETURN
-10    W=-CDLOG(1D0-1D0/Z)
+10    W=-LOG(1D0-1D0/Z)
       SUM=W-0.25D0*W*W
       U=W
       DO 11 K=1,II
       U=U*W*W/DBLE(2*K*(2*K+1))
       SUM=SUM+U*B(K)
 11    CONTINUE
-      CSPEN=-SUM-1.64493406684822643D0-.5D0*CDLOG(-Z)**2
+      CSPEN=-SUM-1.64493406684822643D0-.5D0*LOG(-Z)**2
       RETURN
 20    IF(A1.GT.1D0) GOTO 30
-      W=-CDLOG(Z)
+      W=-LOG(Z)
       SUM=W-0.25D0*W*W
       U=W
       DO 21 K=1,II
       U=U*W*W/DBLE(2*K*(2*K+1))
       SUM=SUM+U*B(K)
 21    CONTINUE
-      CSPEN=-SUM+1.64493406684822643D0-CDLOG(Z)*CDLOG(1D0-Z)
+      CSPEN=-SUM+1.64493406684822643D0-LOG(Z)*LOG(1D0-Z)
       RETURN
-30    W=CDLOG(1D0-1D0/Z)
+30    W=LOG(1D0-1D0/Z)
       SUM=W-0.25D0*W*W
       U=W
       DO 31 K=1,II
@@ -122,7 +122,7 @@ c      II = 9
       SUM=SUM+U*B(K)
 31    CONTINUE
       CSPEN=SUM+3.28986813369645287D0
-     *               +.5D0*CDLOG(Z-1D0)**2-CDLOG(Z)*CDLOG(1D0-Z)
+     *               +.5D0*LOG(Z-1D0)**2-LOG(Z)*LOG(1D0-Z)
       RETURN
 40    CSPEN=DCMPLX(1.64493406684822643D0,0D0)
         RETURN

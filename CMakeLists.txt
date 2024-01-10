@@ -30,7 +30,7 @@ add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,XL>:-qsave>")
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,LLVMFlang>:-Msave>")
 add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,Flang>:-Msave>")
 #Tier 3 support compilers (will not compile,probably)
-add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,NAG>:-dcfuns;-dusty>")
+add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,NAG>:-dcfuns;-dusty;-C=all;-g;-gline>")
 if (SUPERCHIC_ENABLE_FPES)
   add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,GNU>:-ffpe-trap=zero,overflow,underflow,invalid,denormal>")
   add_compile_options("$<$<COMPILE_LANG_AND_ID:Fortran,Intel>:-fpe0>")
@@ -163,7 +163,7 @@ set( sCODELHA ${Mainf} ${Mesf} ${EW} ${PDFsfLHA} ${Intf} ${Phasef}
               ${Subampsf} ${Survf} ${Userf} ${sPDFsf} ${Unwf} ${Varf} 
               ${LbyLf} ${InitfION} ${Dissf} ${Helas} ${Model} ${MG})
 
-set(scincludes ${CMAKE_CURRENT_SOURCE_DIR}/src/main ${CMAKE_CURRENT_SOURCE_DIR}/src/inc)
+set(scincludes ${CMAKE_CURRENT_SOURCE_DIR}/src/main ${CMAKE_CURRENT_SOURCE_DIR}/src/inc ${CMAKE_CURRENT_SOURCE_DIR}/src/MODEL)
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(sccompile_options )
 else()
