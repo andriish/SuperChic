@@ -96,12 +96,7 @@
 
       call length(outtag,outl)
       fname='outputs/output'//outtag(1:outl)//'.dat'
-<<<<<<< HEAD
       open(10,file=trim(fname),POSITION='append',Status='old')
-=======
-      open(10,file=trim(fname),Access='append',Status='old')
->>>>>>> origin/main
-
        call length(lab(ih),outl)
 
 
