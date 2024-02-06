@@ -190,7 +190,9 @@ endif()
 if (SUPERCHIC_ENABLE_SHARED)
   add_library(superchicLib SHARED ${sCODELHA})
   target_include_directories(superchicLib PRIVATE  ${scincludes})
-  target_link_libraries(superchicLib PRIVATE LHAPDF::LHAPDF APFEL::APFEL APFEL::APFELevol)
+  target_link_libraries(superchicLib PRIVATE LHAPDF::LHAPDF 
+  #APFEL::APFEL APFEL::APFELevol
+  )
   target_compile_options(superchicLib PRIVATE ${sccompile_options})
   set_target_properties(superchicLib PROPERTIES 
     ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}/$<0:>
@@ -204,7 +206,9 @@ endif()
 
 add_library(superchicLibstatic STATIC ${sCODELHA})
 target_include_directories(superchicLibstatic PRIVATE  ${scincludes})
-target_link_libraries(superchicLibstatic PRIVATE LHAPDF::LHAPDF APFEL::APFEL APFEL::APFELevol)
+target_link_libraries(superchicLibstatic PRIVATE LHAPDF::LHAPDF 
+#APFEL::APFEL APFEL::APFELevol
+)
 target_compile_options(superchicLibstatic PRIVATE ${sccompile_options})
 set_target_properties(superchicLibstatic PROPERTIES  OUTPUT_NAME superchicLib-static
   ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}/$<0:>
@@ -214,13 +218,17 @@ set_target_properties(superchicLibstatic PROPERTIES  OUTPUT_NAME superchicLib-st
   
 add_executable(superchic ${CMAKE_CURRENT_SOURCE_DIR}/src/main/superchic.f  ${InitfLHA} )
 target_include_directories(superchic PRIVATE  ${scincludes})
-target_link_libraries(superchic PRIVATE LHAPDF::LHAPDF APFEL::APFEL APFEL::APFELevol superchicLibstatic)
+target_link_libraries(superchic PRIVATE LHAPDF::LHAPDF 
+#APFEL::APFEL APFEL::APFELevol 
+superchicLibstatic)
 target_compile_options(superchic PRIVATE ${sccompile_options})
 set_target_properties(superchic PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}/$<0:>)
 
 add_executable(init ${CMAKE_CURRENT_SOURCE_DIR}/src/init/init.f ${InitfLHA})
 target_include_directories(init PRIVATE  ${scincludes})
-target_link_libraries(init PRIVATE LHAPDF::LHAPDF APFEL::APFEL  APFEL::APFELevol )
+target_link_libraries(init PRIVATE LHAPDF::LHAPDF 
+#APFEL::APFEL  APFEL::APFELevol 
+)
 target_compile_options(init PRIVATE ${sccompile_options})
 set_target_properties(init PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}/$<0:>)
 

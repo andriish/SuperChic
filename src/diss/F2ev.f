@@ -25,8 +25,8 @@ c      f1=0d0
       subroutine F1F2ap_old(x,q2,f2,fl)
       implicit double precision(a-y)
 
-      f2=StructureFunctionxQ("EM","F2","total",x,dsqrt(q2))
-      fl=StructureFunctionxQ("EM","FL","total",x,dsqrt(q2))
+CAV      f2=StructureFunctionxQ("EM","F2","total",x,dsqrt(q2))
+CAV      fl=StructureFunctionxQ("EM","FL","total",x,dsqrt(q2))
 
       return
       end
