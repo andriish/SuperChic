@@ -27,6 +27,37 @@ jobs:
           cmake --install BUILD
           ctest --test-dir BUILD -j 2 --output-on-failure
 
+  Rocky9aarch64_GNU:
+    name: Rocky9aarch64_GNU
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: QEMU
+      run: |
+           set -x
+           sudo apt update
+           sudo  apt install --yes binfmt-support qemu-user-static wget
+    - name: Compile_with_arm
+      continue-on-error: true     
+      uses: addnab/docker-run-action@v3
+      with:
+        image: arm64v8/rockylinux:9
+        options: -v ${{ github.workspace }}:/work --platform=linux/arm64/v8
+        run: |
+              cd work
+              dnf -y install epel-release
+              dnf -y install  gcc gcc-c++ gcc-gfortran make wget which cmake cmake-data cmake-filesystem lhapdf lhapdf-devel pythia8 pythia8-devel pythia8-lhapdf HepMC3-devel HepMC-devel
+              dnf -y install wget rpm-build
+              wget https://download.copr.fedorainfracloud.org/results/averbyts/HEPrpms/epel-9-x86_64/06812862-apfel/apfel-3.1.1-1.el9.src.rpm
+              rpmbuild --rebuild apfel-3.1.1-1.el9.src.rpm
+              rpm -Uvh ~/rpmbuild/RPMS/*/*rpm
+              cmake -S . -B BUILD -DCMAKE_INSTALL_PREFIX=$(pwd)/../INSTALL  -DCMAKE_Fortran_FLAGS=-O2 -DSUPERCHIC_ENABLE_TESTS=ON -DSUPERCHIC_DOWNLOAD_PDFS=ON
+              cmake --build BUILD -j --verbose
+              cmake --install BUILD
+              #ctest --test-dir BUILD -j 2 --output-on-failure
+
+
   Rocky8x86_64_NVHPC:
     name: SC_on_Rocky8x86_64_NVHPC
     runs-on: ubuntu-latest
