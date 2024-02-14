@@ -27,7 +27,7 @@ jobs:
     - name: Compile
       run: |
           cmake -S . -B BUILD -DCMAKE_INSTALL_PREFIX=$(pwd)/../INSTALL  -DCMAKE_Fortran_FLAGS=-O2 -DSUPERCHIC_ENABLE_TESTS=ON -DSUPERCHIC_DOWNLOAD_PDFS=ON
-          cmake --build BUILD -j
+          cmake --build BUILD -j --verbose
           cmake --install BUILD
           ctest --test-dir BUILD -j 2 --output-on-failure
 
@@ -57,7 +57,7 @@ jobs:
               wget https://download.copr.fedorainfracloud.org/results/averbyts/HEPrpms/epel-9-x86_64/06812862-apfel/apfel-3.1.1-1.el9.src.rpm
               rpmbuild --rebuild apfel-3.1.1-1.el9.src.rpm
               rpm -Uvh ~/rpmbuild/RPMS/*/*rpm
-              cmake -S . -B BUILD -DCMAKE_INSTALL_PREFIX=$(pwd)/../INSTALL  -DCMAKE_Fortran_FLAGS=-O2 -DSUPERCHIC_ENABLE_TESTS=ON -DSUPERCHIC_DOWNLOAD_PDFS=ON
+              cmake -S . -B BUILD -DCMAKE_POSITION_INDEPENDENT_CODE=OFF -DCMAKE_INSTALL_PREFIX=$(pwd)/../INSTALL  -DCMAKE_Fortran_FLAGS=-O2 -DSUPERCHIC_ENABLE_TESTS=ON -DSUPERCHIC_DOWNLOAD_PDFS=ON
               cmake --build BUILD -j --verbose
               cmake --install BUILD
               #ctest --test-dir BUILD -j 2 --output-on-failure
