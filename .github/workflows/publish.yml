@@ -7,19 +7,23 @@ on:
     - cron:  "0 0 1/600 * *"
 
 jobs:
-  Fedora37x86_64_GNU:
-    name: SC_on_Fedora37x86_64_GNU
+  Rocky9x86_64_GNU:
+    name: Rocky9x86_64_GNU
     runs-on: ubuntu-latest
     container:
-        image: fedora:37
+        image: rockylinux:9
     steps:
     - name: Checkout
       uses: actions/checkout@v3
     - name: Install 
       run: |
-           dnf -y install 'dnf-command(copr)'
-           dnf -y copr enable averbyts/HEPrpms 
-           dnf -y install  gcc gcc-c++ gcc-gfortran make wget which cmake cmake-data cmake-filesystem lhapdf lhapdf-devel  apfel apfel-devel pythia8 pythia8-devel pythia8-lhapdf HepMC3-devel HepMC-devel Rivet Rivet-devel
+              dnf -y install epel-release
+              dnf config-manager --set-enabled crb
+              dnf -y install  gcc gcc-c++ gcc-gfortran make wget which cmake cmake-data cmake-filesystem lhapdf lhapdf-devel pythia8 pythia8-devel pythia8-lhapdf HepMC3-devel HepMC-devel
+              dnf -y install wget rpm-build python3-devel platform-python-devel swig
+              wget https://download.copr.fedorainfracloud.org/results/averbyts/HEPrpms/epel-9-x86_64/06812862-apfel/apfel-3.1.1-1.el9.src.rpm
+              rpmbuild --rebuild apfel-3.1.1-1.el9.src.rpm
+              rpm -Uvh ~/rpmbuild/RPMS/*/*rpm
     - name: Compile
       run: |
           cmake -S . -B BUILD -DCMAKE_INSTALL_PREFIX=$(pwd)/../INSTALL  -DCMAKE_Fortran_FLAGS=-O2 -DSUPERCHIC_ENABLE_TESTS=ON -DSUPERCHIC_DOWNLOAD_PDFS=ON
@@ -47,6 +51,7 @@ jobs:
         run: |
               cd work
               dnf -y install epel-release
+              dnf config-manager --set-enabled crb
               dnf -y install  gcc gcc-c++ gcc-gfortran make wget which cmake cmake-data cmake-filesystem lhapdf lhapdf-devel pythia8 pythia8-devel pythia8-lhapdf HepMC3-devel HepMC-devel
               dnf -y install wget rpm-build python3-devel platform-python-devel swig
               wget https://download.copr.fedorainfracloud.org/results/averbyts/HEPrpms/epel-9-x86_64/06812862-apfel/apfel-3.1.1-1.el9.src.rpm
@@ -58,70 +63,3 @@ jobs:
               #ctest --test-dir BUILD -j 2 --output-on-failure
 
 
-  Rocky8x86_64_NVHPC:
-    name: SC_on_Rocky8x86_64_NVHPC
-    runs-on: ubuntu-latest
-    container:
-        image: nvcr.io/nvidia/nvhpc:23.11-devel-cuda12.3-rockylinux8
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Install 
-      run: |
-           yum -y install epel-release
-           dnf -y install 'dnf-command(copr)'
-           dnf -y copr enable averbyts/HEPrpms 
-           dnf config-manager --set-enabled powertools
-           yum -y install  gcc gcc-c++ make wget which cmake cmake-data cmake-filesystem lhapdf lhapdf-devel  apfel apfel-devel pythia8 pythia8-devel pythia8-lhapdf HepMC3-devel HepMC-devel Rivet Rivet-devel
-    - name: Compile   
-      run: |
-          cmake -S . -B BUILD  -DCMAKE_Fortran_COMPILER=nvfortran -DCMAKE_CXX_COMPILER=nvc++ -DCMAKE_C_COMPILER=nvc -DCMAKE_INSTALL_PREFIX=$(pwd)/../INSTALL  -DCMAKE_Fortran_FLAGS=-O2 -DSUPERCHIC_ENABLE_TESTS=ON -DSUPERCHIC_DOWNLOAD_PDFS=ON
-          cmake --build BUILD -j
-          cmake --install BUILD
-#          ctest --test-dir BUILD -j 2 --output-on-failure
-
-  Rocky9x86_64_HPCKIT:
-    name: SC_on_Rocky9x86_64_HPCKIT
-    runs-on: ubuntu-latest
-    container:
-        image: intel/oneapi-hpckit:2024.0.1-devel-rockylinux9
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Install 
-      run: |
-           yum -y install epel-release
-           dnf config-manager --set-enabled crb           
-           dnf -y install 'dnf-command(copr)'
-           dnf -y copr enable averbyts/HEPrpms 
-           yum -y install  gcc gcc-c++ make wget which cmake cmake-data cmake-filesystem lhapdf lhapdf-devel  apfel apfel-devel pythia8 pythia8-devel pythia8-lhapdf HepMC3-devel HepMC-devel Rivet Rivet-devel
-    - name: Compile_with_ifort   
-      run: |
-          cmake -S . -B BUILDifort -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_INSTALL_PREFIX=$(pwd)/../INSTALLifort  -DCMAKE_Fortran_FLAGS=-O2 -DSUPERCHIC_ENABLE_TESTS=ON -DSUPERCHIC_DOWNLOAD_PDFS=ON
-          cmake --build BUILDifort -j
-          cmake --install BUILDifort
-#          ctest --test-dir BUILDifort -j 2 --output-on-failure
-
-  OSXx86_64_GNU:
-    runs-on: macos-latest
-    name: SC_on_OSXx86_64_GNU
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Install 
-      run: |
-          brew install wget coreutils gcc gsed make
-          brew tap davidchall/hep
-          brew install lhapdf apfel pythia8 hepmc3 hepmc2 rivet yoda
-    - name: Compile_with_make
-      run: |
-           mkdir -p obj lib
-           gsed -i 's/gfortran/gfortran-13/g' makefile.make
-           gsed -i '4s/.*/APFELLIB=\`apfel-config --libdir\`/' makefile.make
-           cat makefile.make
-           make -f makefile.make -j 2
-    - name: Compile_with_cmake
-      run: |
-           cmake -S . -B BUILD -DCMAKE_INSTALL_PREFIX=$(pwd)/INSTALL -DCMAKE_Fortran_FLAGS=-O2 -DSUPERCHIC_ENABLE_TESTS=OFF -DCMAKE_Fortran_COMPILER=gfortran-13 -DSUPERCHIC_DOWNLOAD_PDFS=ON
-           cmake --build BUILD -j 2 --verbose
-           cmake --install BUILD 
