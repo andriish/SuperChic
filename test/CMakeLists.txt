@@ -29,10 +29,23 @@ target_compile_features(validator PRIVATE cxx_std_11)
 
 find_package(HepMC2)
 find_package(Pythia8 8.3 REQUIRED)
+
 add_executable(shower ${CMAKE_CURRENT_SOURCE_DIR}/shower.cxx)
 target_link_libraries(shower PRIVATE HepMC2::HepMC2 Pythia8::Pythia8 )
 target_compile_features(shower PRIVATE cxx_std_11)
 target_compile_definitions(shower PRIVATE -DHEPMC2=1)
+
+add_executable(shower_hm3 ${CMAKE_CURRENT_SOURCE_DIR}/shower.cxx)
+target_link_libraries(shower_hm3 PRIVATE HepMC3::HepMC3 Pythia8::Pythia8 )
+target_compile_features(shower_hm3 PRIVATE cxx_std_11)
+target_compile_definitions(shower_hm3 PRIVATE NATIVEFIXED)
+
+add_executable(shower_control ${CMAKE_CURRENT_SOURCE_DIR}/shower.cxx)
+target_link_libraries(shower_control PRIVATE HepMC3::HepMC3 Pythia8::Pythia8 )
+target_compile_features(shower_control PRIVATE cxx_std_11)
+
+
+
 message(STATUS "SuperChic test: PYTHIA8_VERSION=${PYTHIA8_VERSION} PYTHIA8_LIBRARIES=${PYTHIA8_LIBRARIES} PYTHIA8_INCLUDE_DIRS=${PYTHIA8_INCLUDE_DIRS}")
 
 
@@ -108,10 +121,20 @@ endif()
   add_test(NAME SHOWER_${NN}_${MM} COMMAND shower ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN}/evrecs/evrectest${MM}.dat ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN}/evrecs/showered${MM}.hepmc ${df} ${pr} real)
   #add_test(NAME SHOWER_${NN}_${MM} COMMAND shower ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN}/evrecs/evrectest${MM}.dat ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN}/evrecs/showered${MM}.hepmc ${df} ${pr} dummy)
   set_tests_properties( SHOWER_${NN}_${MM} PROPERTIES TIMEOUT 500 ENVIRONMENT "${STANDARDENVIRONMENT}" DEPENDS "shower;SUPERCHIC_${NN}_${MM}")
+  
   add_test(NAME VALIDATE_SHOWERED_HEPMC_${NN}_${MM} COMMAND validator ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN}/evrecs/showered${MM}.hepmc)
   set_tests_properties( VALIDATE_SHOWERED_HEPMC_${NN}_${MM} PROPERTIES TIMEOUT 500 DEPENDS "validator;SHOWER_${NN}_${MM}")
   add_test(NAME VALIDATE_LHEF_${NN}_${MM} COMMAND validator ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN}/evrecs/evrectest${MM}.dat)
   set_tests_properties( VALIDATE_LHEF_${NN}_${MM} PROPERTIES TIMEOUT 500 DEPENDS "validator;SUPERCHIC_${NN}_${MM}")
+
+
+  add_test(NAME SHOWER_HM3_${NN}_${MM} COMMAND shower_hm3 ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN}/evrecs/evrectest${MM}.dat ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN}/evrecs/showered_hm3${MM}.hepmc ${df} ${pr} real)
+  set_tests_properties( SHOWER_HM3_${NN}_${MM} PROPERTIES TIMEOUT 500 ENVIRONMENT "${STANDARDENVIRONMENT}" DEPENDS "shower_hm3;SUPERCHIC_${NN}_${MM}")
+
+  add_test(NAME SHOWER_CONTROL_${NN}_${MM} COMMAND shower_control ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN}/evrecs/evrectest${MM}.dat ${CMAKE_CURRENT_BINARY_DIR}/RUN_${NN}/evrecs/showered_control${MM}.hepmc ${df} ${pr} real)
+  set_tests_properties( SHOWER_CONTROL_${NN}_${MM} PROPERTIES TIMEOUT 500 ENVIRONMENT "${STANDARDENVIRONMENT}" DEPENDS "shower_control;SUPERCHIC_${NN}_${MM}")
+
+
 
 endmacro()
 
@@ -251,7 +274,7 @@ else()
   set(proc68 "el;sda;dd")
 endif()
 
-
+set(proc76 "el")
 
 set(process 100)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.DAT_LHC13ppunw ${CMAKE_CURRENT_BINARY_DIR}/input.DAT_LHC13ppunw) # for init

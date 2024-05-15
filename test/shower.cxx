@@ -13,9 +13,14 @@
 
 // Modified for Superchic
 #ifndef HEPMC2
-#include "Pythia8Plugins/HepMC3.h"
+#ifdef  NATIVEFIXED 
+#include "Pythia8PluginsFIXED/HepMC3.h"
 #else
-#include "Pythia8Plugins/HepMC2.h"
+#include "Pythia8PluginsFIXED/Pythia8ToHepMC3.h"
+#include <HepMC3/WriterAsciiHepMC2.h>
+#endif
+#else
+#include "Pythia8PluginsFIXED/HepMC2.h"
 #endif
 #include "Pythia8/Pythia.h"
 using namespace Pythia8;
@@ -139,8 +144,17 @@ int main(int argc, char ** argv) {
   std::vector<std::string> c_ds_pp = split(config_ds_pp);
   std::vector<std::string> c_el_pp = split(config_el_pp);
   std::vector<std::string> c_dd_pp = split(config_dd_pp);
-  
+#ifndef HEPMC2
+#ifdef  NATIVEFIXED 
+ Pythia8::Pythia8ToHepMC topHepMC(argv[2],Pythia8::Pythia8ToHepMC::ascii2);
+#else 
+std::shared_ptr<HepMC3::GenRunInfo> run = std::make_shared<HepMC3::GenRunInfo>();
+ HepMC3::Pythia8ToHepMC3 topHepMC;
+  HepMC3::WriterAsciiHepMC2 file(argv[2],run);
+#endif
+#else 
  Pythia8::Pythia8ToHepMC topHepMC(argv[2]);
+#endif
   // Generator. We here stick with default values, but changes
   // could be inserted with readString or readFile.
   Pythia pythia;
@@ -224,14 +238,24 @@ int main(int argc, char ** argv) {
       ++iAbort;
       continue;
     }
-
+     
     // Sum up final charged multiplicity and fill in histogram.
     int nChg = 0;
     for (int i = 0; i < pythia.event.size(); ++i)
     if (pythia.event[i].isFinal() && pythia.event[i].isCharged())
       ++nChg;
     nCharged.fill(nChg);
+    printf("-pythia.event.size()=%i\n", pythia.event.size());
+    pythia.event.list();
+#if !defined(NATIVEFIXED) && !defined(HEPMC2)   
+    HepMC3::GenEvent hepmc( HepMC3::Units::GEV, HepMC3::Units::MM );
+    if (run->weight_names().size() == 0)
+      run->set_weight_names(pythia.info.weightNameVector());
+    topHepMC.fill_next_event(pythia.event, &hepmc, -1, &pythia.info);
+    file.write_event( hepmc );
+#else
     topHepMC.writeNextEvent( pythia );
+#endif
     events++;
   // End of event loop.
   }
