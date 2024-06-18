@@ -29,7 +29,10 @@ target_compile_features(validator PRIVATE cxx_std_11)
 
 
 find_package(Pythia8 8.3 REQUIRED)
-add_executable(shower ${CMAKE_CURRENT_SOURCE_DIR}/shower.cxx ${CMAKE_CURRENT_SOURCE_DIR}/shower_all2.cxx ${CMAKE_CURRENT_SOURCE_DIR}/shower_all3.cxx ${CMAKE_CURRENT_SOURCE_DIR}/shower_allfix.cxx)
+add_executable(shower ${CMAKE_CURRENT_SOURCE_DIR}/shower.cxx 
+                      ${CMAKE_CURRENT_SOURCE_DIR}/shower_all2.cxx 
+                      ${CMAKE_CURRENT_SOURCE_DIR}/shower_all3.cxx 
+                      ${CMAKE_CURRENT_SOURCE_DIR}/shower_allfix.cxx fix/HepMC3.h)
 target_link_libraries(shower PRIVATE HepMC3::HepMC3 HepMC2::HepMC2 Pythia8::Pythia8 )
 target_compile_features(shower PRIVATE cxx_std_11)
 message(STATUS "SuperChic test: PYTHIA8_VERSION=${PYTHIA8_VERSION} PYTHIA8_LIBRARIES=${PYTHIA8_LIBRARIES} PYTHIA8_INCLUDE_DIRS=${PYTHIA8_INCLUDE_DIRS}")

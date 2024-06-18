@@ -105,7 +105,7 @@ public:
 
     // 3. Fill vertex information.
     std::vector<GenVertexPtr> vertex_cache;
-    for (int i = 3; i < pyev.size(); ++i) {
+    for (int i = 0; i < pyev.size(); ++i) {
       std::vector<int> mothers = pyev[i].motherList();
       if (mothers.size()) {
         GenVertexPtr prod_vtx = hepevt_particles[mothers[0]]->end_vertex();
@@ -132,9 +132,10 @@ public:
     vector<GenParticlePtr> beam_particles;
     beam_particles.push_back(hepevt_particles[1]);
     beam_particles.push_back(hepevt_particles[2]);
-
+    vector<GenParticlePtr> all_particles(hepevt_particles.begin()+1,hepevt_particles.end());
+    printf("all_particles %i\n",all_particles.size());
     // Add particles and vertices in topological order.
-    evt->add_tree( beam_particles );
+    evt->add_tree( all_particles );
     // Attributes should be set after adding the particles to event.
     for (int i = 0; i < pyev.size(); ++i) {
       /* TODO: Set polarization */
@@ -163,7 +164,7 @@ public:
       // Check for particles not added to the event.
       // NOTE: We have to check if this step makes any sense in
       // the HepMC event standard.
-      if ( !hepevt_particles[i] ) {
+      if ( !hepevt_particles[i]->in_event() ) {
         std::cerr << "hanging particle " << i << std::endl;
         GenVertexPtr prod_vtx = make_shared<GenVertex>();
         prod_vtx->add_particle_out( hepevt_particles[i] );

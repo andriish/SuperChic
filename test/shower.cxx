@@ -137,6 +137,7 @@ int main(int argc, char ** argv) {
   std::vector<std::string> c_el_pp = split(config_el_pp);
   std::vector<std::string> c_dd_pp = split(config_dd_pp);
   
+ //myvall::Holderall topHepMC{std::string(argv[2]),"_2",""};
  myvall::Holderall topHepMC{std::string(argv[2]),"_2",""};
   // Generator. We here stick with default values, but changes
   // could be inserted with readString or readFile.
@@ -228,7 +229,7 @@ int main(int argc, char ** argv) {
     if (pythia.event[i].isFinal() && pythia.event[i].isCharged())
       ++nChg;
     nCharged.fill(nChg);
-    topHepMC.fill_next_event( pythia.event);
+    topHepMC.fill_next_event( pythia.event,&pythia.info);
     events++;
   // End of event loop.
   }
