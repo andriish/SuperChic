@@ -20,14 +20,14 @@ message(STATUS "SuperChic test: SUPERCHIC_ENABLE_AA=${SUPERCHIC_ENABLE_AA}" )
 message(STATUS "SuperChic test: SUPERCHIC_ENABLE_PA=${SUPERCHIC_ENABLE_PA}" )
 
 enable_language(CXX)
-find_package(HepMC2 REQUIRED)
 find_package(HepMC3 3.1.0 REQUIRED)
 message(STATUS "SuperChic test: HEPMC3_VERSION=${HEPMC3_VERSION} HEPMC3_LIBRARIES=${HEPMC3_LIBRARIES} HEPMC3_INCLUDE_DIR=${HEPMC3_INCLUDE_DIR}")
 add_executable(validator ${CMAKE_CURRENT_SOURCE_DIR}/validator.cxx)
-target_link_libraries(validator PRIVATE HepMC3::HepMC3 HepMC2::HepMC2)
+target_link_libraries(validator PRIVATE HepMC3::HepMC3)
 target_compile_features(validator PRIVATE cxx_std_11)
 
 
+find_package(HepMC2)
 find_package(Pythia8 8.3 REQUIRED)
 add_executable(shower ${CMAKE_CURRENT_SOURCE_DIR}/shower.cxx 
                       ${CMAKE_CURRENT_SOURCE_DIR}/shower_all2.cxx 

@@ -12,7 +12,6 @@
 // It uses the ttsample.lhe(.gz) input file, the latter only with 100 events.
 
 // Modified for Superchic
-
 #include "Pythia8/Pythia.h"
 #include "shower_all.h"
 using namespace Pythia8;
@@ -29,7 +28,7 @@ std::vector<std::string> split(const std::string& str) {
     return tokens;
 }
 std::string config_common =
-    R"""(Tune:pp = 5
+R"""(Tune:pp = 5
 Tune:ee = 3
 TimeShower:pTminChgQ = 0.40000
 TimeShower:pTmin = 0.40000
@@ -137,8 +136,7 @@ int main(int argc, char ** argv) {
   std::vector<std::string> c_el_pp = split(config_el_pp);
   std::vector<std::string> c_dd_pp = split(config_dd_pp);
   
- //myvall::Holderall topHepMC{std::string(argv[2]),"_2",""};
- myvall::Holderall topHepMC{std::string(argv[2]),"_2",""};
+  myvall::Holderall topHepMC{std::string(argv[2]),"_2",""};
   // Generator. We here stick with default values, but changes
   // could be inserted with readString or readFile.
   Pythia pythia;
