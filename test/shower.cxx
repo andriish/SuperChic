@@ -12,12 +12,10 @@
 // It uses the ttsample.lhe(.gz) input file, the latter only with 100 events.
 
 // Modified for Superchic
-#ifndef HEPMC2
-#include "Pythia8Plugins/HepMC3.h"
-#else
-#include "Pythia8Plugins/HepMC2.h"
-#endif
+
 #include "Pythia8/Pythia.h"
+#include "shower_2.h"
+#include "shower_3.h"
 using namespace Pythia8;
 
 std::vector<std::string> split(const std::string& str) {
@@ -140,7 +138,8 @@ int main(int argc, char ** argv) {
   std::vector<std::string> c_el_pp = split(config_el_pp);
   std::vector<std::string> c_dd_pp = split(config_dd_pp);
   
- Pythia8::Pythia8ToHepMC topHepMC(argv[2]);
+ myv3::Holder3 topHepMC3(std::string(argv[2])+"_3");
+ myv2::Holder topHepMC2(std::string(argv[2])+"_2");
   // Generator. We here stick with default values, but changes
   // could be inserted with readString or readFile.
   Pythia pythia;
@@ -231,7 +230,8 @@ int main(int argc, char ** argv) {
     if (pythia.event[i].isFinal() && pythia.event[i].isCharged())
       ++nChg;
     nCharged.fill(nChg);
-    topHepMC.writeNextEvent( pythia );
+    topHepMC3.writeNextEvent( pythia );
+    topHepMC2.writeNextEvent( pythia );
     events++;
   // End of event loop.
   }
