@@ -14,8 +14,7 @@
 // Modified for Superchic
 
 #include "Pythia8/Pythia.h"
-#include "shower_2.h"
-#include "shower_3.h"
+#include "shower_all.h"
 using namespace Pythia8;
 
 std::vector<std::string> split(const std::string& str) {
@@ -30,7 +29,7 @@ std::vector<std::string> split(const std::string& str) {
     return tokens;
 }
 std::string config_common =
-R"""(Tune:pp = 5
+    R"""(Tune:pp = 5
 Tune:ee = 3
 TimeShower:pTminChgQ = 0.40000
 TimeShower:pTmin = 0.40000
@@ -138,8 +137,7 @@ int main(int argc, char ** argv) {
   std::vector<std::string> c_el_pp = split(config_el_pp);
   std::vector<std::string> c_dd_pp = split(config_dd_pp);
   
- myv3::Holder3 topHepMC3(std::string(argv[2])+"_3");
- myv2::Holder topHepMC2(std::string(argv[2])+"_2");
+ myvall::Holderall topHepMC{std::string(argv[2]),"_2",""};
   // Generator. We here stick with default values, but changes
   // could be inserted with readString or readFile.
   Pythia pythia;
@@ -230,8 +228,7 @@ int main(int argc, char ** argv) {
     if (pythia.event[i].isFinal() && pythia.event[i].isCharged())
       ++nChg;
     nCharged.fill(nChg);
-    topHepMC3.writeNextEvent( pythia );
-    topHepMC2.writeNextEvent( pythia );
+    topHepMC.fill_next_event( pythia.event);
     events++;
   // End of event loop.
   }

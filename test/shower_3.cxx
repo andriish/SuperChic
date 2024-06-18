@@ -1,16 +1,14 @@
 #include "shower_3.h"
-#include "HepMC3/Print.h"
 #include "Pythia8Plugins/HepMC3.h"
-
+#include "HepMC3/WriterAsciiHepMC2.h"
 namespace myv3 {
-  Holder3::Holder3(std::string a){  m_impl = new Pythia8:: Pythia8ToHepMC(a,Pythia8::Pythia8ToHepMC::OutputType::ascii3); }
-  void Holder3::writeNextEvent(Pythia8::Pythia & pythia) {
-	  printf("fill\n");
-	  auto *x = ((Pythia8:: Pythia8ToHepMC*)m_impl);
-	  HepMC3::GenEvent evt;
-	  x->fill_next_event(pythia,evt);
-	  HepMC3::Print::content(evt);
-	  //->writeNextEvent(pythia);
-	  } 
-  Holder3::~Holder3(){ auto* x = (Pythia8:: Pythia8ToHepMC*)m_impl; delete x;}
+void  Holder3::fill_next_event(Pythia8::Event& pyev) {
+    system(("mkdir -p "+m_dir).c_str());
+    auto  m_out = std::make_shared<HepMC3::WriterAsciiHepMC2>(m_dir+"/"+std::to_string(m_counter)+".hepmc");
+    HepMC3::GenEvent m_evt;
+    auto m_converter = std::make_shared<Pythia8::Pythia8ToHepMC>();
+    m_converter->fill_next_event(pyev,m_evt);
+    m_out->write_event(m_evt);
+    m_counter++;
+}
 }
