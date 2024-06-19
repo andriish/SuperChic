@@ -166,7 +166,6 @@ ccccccccccccccccccccccccccccccccccccccccccccccc
             aqcdup=alphas(mx**2)
             write(45,*)'<event>'
             strt=3
-<<<<<<< HEAD
             if(diff.eq.'el'.and. idup(1).eq. idup(3) 
 C     &      .and. proc.ne.1      
      &      )then            
