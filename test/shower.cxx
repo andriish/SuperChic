@@ -13,7 +13,11 @@
 
 // Modified for Superchic
 #include "Pythia8/Pythia.h"
+#ifdef DBG
 #include "shower_all.h"
+#else
+#include "Pythia8Plugins/HepMC3.h"
+#endif
 using namespace Pythia8;
 
 std::vector<std::string> split(const std::string& str) {
@@ -135,8 +139,13 @@ int main(int argc, char ** argv) {
   std::vector<std::string> c_ds_pp = split(config_ds_pp);
   std::vector<std::string> c_el_pp = split(config_el_pp);
   std::vector<std::string> c_dd_pp = split(config_dd_pp);
-  
+
+#ifdef DBG  
   myvall::Holderall topHepMC{std::string(argv[2]),"_2",""};
+#else
+ Pythia8::Pythia8ToHepMC topHepMC(argv[2]);
+#endif
+
   // Generator. We here stick with default values, but changes
   // could be inserted with readString or readFile.
   Pythia pythia;
@@ -227,7 +236,11 @@ int main(int argc, char ** argv) {
     if (pythia.event[i].isFinal() && pythia.event[i].isCharged())
       ++nChg;
     nCharged.fill(nChg);
+#ifdef DBG    
     topHepMC.fill_next_event( pythia.event,&pythia.info);
+#else
+    topHepMC.writeNextEvent( pythia );
+#endif    
     events++;
   // End of event loop.
   }
