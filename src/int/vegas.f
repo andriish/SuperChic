@@ -36,7 +36,7 @@ C         - NO INITIALIZATION
       ND=NDMX
       NG=1
       IF(MDS.EQ.0) GO TO 2
-      NG=(NCALL/2.)**(1./NDIM)
+      NG=int((NCALL/2.)**(1./NDIM))
       MDS=1
       IF((2*NG-NDMX).LT.0) GO TO 2
       MDS=-1
@@ -80,7 +80,7 @@ C
 7     XI(ND,J)=ONE
       NDO=ND
 C
-c8     IF(NPRN.NE.0) WRITE(6,200) NDIM,CALLS,IT,ITMX,ACC,MDS,ND
+c8     IF(NPRN.NE.0) WRITE(6,209) NDIM,CALLS,IT,ITMX,ACC,MDS,ND
 c     1                           ,(XL(J),XU(J),J=1,NDIM)
 8     IF(NPRN.NE.0)THEN
 c         WRITE(6,300) NDIM,CALLS,IT
@@ -107,7 +107,7 @@ C
       WGT=XJAC
       DO 15 J=1,NDIM
       XN=(KG(J)-QRAN(J))*DXG+ONE
-      IA(J)=XN
+      IA(J)=INT(XN)
       IF(IA(J).GT.1) GO TO 13
       XO=XI(IA(J),J)
       RC=(XN-IA(J))*XO
